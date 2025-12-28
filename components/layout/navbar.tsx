@@ -2,8 +2,8 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Menu, ChevronDown } from "lucide-react";
-
+import { Menu, Sun, Moon, Terminal, Box } from "lucide-react";
+import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,12 +13,10 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import {
   Sheet,
   SheetContent,
-  SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
@@ -29,40 +27,44 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useTheme } from "next-themes";
+import Image from "next/image";
 
 const menuGroups = [
   {
     title: "Text & String",
+    icon: <Terminal size={14} />,
     items: [
       {
         title: "Regex Validator",
         href: "/text-string/regex",
-        description: "Test patterns against text.",
+        description: "Pattern matching engine.",
       },
       {
         title: "Case Converter",
         href: "/text-string/case-converter",
-        description: "Convert to UPPER, lower, etc.",
+        description: "String casing utility.",
       },
       {
         title: "Encoder/Decoder",
         href: "/text-string/encoder",
-        description: "Base64, URL, and HTML.",
+        description: "Base64 & URL processing.",
       },
     ],
   },
   {
     title: "JSON & Data",
+    icon: <Box size={14} />,
     items: [
       {
-        title: "JSON Validator",
-        href: "/json-data/json-validator",
-        description: "Validate JSON structure.",
+        title: "JSON Formatter",
+        href: "/json-data/formatter",
+        description: "Beautify structured data.",
       },
       {
         title: "JSON to CSV",
         href: "/json-data/json-csv",
-        description: "Convert data formats.",
+        description: "Flatten data structures.",
       },
     ],
   },
@@ -70,30 +72,36 @@ const menuGroups = [
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = React.useState(false);
+  const { theme, setTheme } = useTheme();
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
-      <div className="container flex h-14 items-center justify-between">
-        <div className="flex items-center gap-4">
-          <Link href="/" className="font-bold text-xl px-4">
-            DevKit
+    <header className="sticky top-0 z-50 w-full border-b border-zinc-100 dark:border-zinc-800 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md">
+      <div className="max-w-7xl mx-auto flex h-14 items-center justify-between px-6">
+        <div className="flex items-center gap-8">
+          {/* LOGO */}
+          <Link href="/" className="flex items-center gap-2 group">
+            <Image
+              src="/dev-logo.png"
+              alt="DevKit Logo"
+              className="object-cover rounded-4xl"
+              width={30}
+              height={30}
+            />
+            <span className="font-bold tracking-tighter text-lg uppercase italic">
+              DevKit
+            </span>
           </Link>
 
+          {/* DESKTOP NAV */}
           <div className="hidden md:flex">
             <NavigationMenu>
-              <NavigationMenuList>
-                <NavigationMenuItem>
-                  <NavigationMenuLink
-                    asChild
-                    className={navigationMenuTriggerStyle()}
-                  >
-                    <Link href="/">Home</Link>
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
-
+              <NavigationMenuList className="gap-1">
                 {menuGroups.map((group) => (
                   <NavigationMenuItem key={group.title}>
-                    <NavigationMenuTrigger>{group.title}</NavigationMenuTrigger>
+                    {/* TRIGGER: Removed standard shadcn hover styles to prevent gradients */}
+                    <NavigationMenuTrigger className="h-9 px-4 text-[11px] font-bold uppercase tracking-widest hover:bg-zinc-50 dark:hover:bg-zinc-900 focus:bg-transparent data-[state=open]:bg-zinc-50 dark:data-[state=open]:bg-zinc-900 transition-colors border-none">
+                      {group.title}
+                    </NavigationMenuTrigger>
                     <NavigationMenuContent>
                       <ul className="grid w-100 gap-1 p-2 md:w-125 md:grid-cols-2 lg:w-150">
                         {group.items.map((item) => (
@@ -114,60 +122,65 @@ export default function Navbar() {
           </div>
         </div>
 
-        <div className="md:hidden px-4">
-          <Sheet open={isOpen} onOpenChange={setIsOpen}>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon">
-                <Menu className="h-5 w-5" />
-                <span className="sr-only">Toggle Menu</span>
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="left" className="w-75 sm:w-100">
-              <SheetHeader>
-                <SheetTitle className="text-left">Menu</SheetTitle>
-              </SheetHeader>
-              <ScrollArea className="my-4 h-[calc(100vh-8rem)] pb-10">
-                <div className="flex flex-col space-y-3">
-                  <Link
-                    href="/"
-                    onClick={() => setIsOpen(false)}
-                    className="text-sm font-medium px-2"
-                  >
-                    Home
-                  </Link>
+        {/* ... (Theme Toggle & Mobile Menu remains the same) */}
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            className="p-2 rounded-lg text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+          >
+            <Sun className="h-4 w-4 scale-100 dark:scale-0 transition-all" />
+            <Moon className="absolute h-4 w-4 scale-0 dark:scale-100 transition-all top-5" />
+            <span className="sr-only">Toggle theme</span>
+          </button>
 
-                  {/* Mobile Accordion Dropdowns */}
-                  <Accordion type="single" collapsible className="w-full">
+          <div className="md:hidden">
+            <Sheet open={isOpen} onOpenChange={setIsOpen}>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon" className="h-8 w-8">
+                  <Menu className="h-4 w-4" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent
+                side="right"
+                className="border-l border-zinc-100 dark:border-zinc-800"
+              >
+                <VisuallyHidden.Root>
+                  <SheetTitle>Navigation Menu</SheetTitle>
+                </VisuallyHidden.Root>
+
+                <ScrollArea className="h-full py-6">
+                  <div className="space-y-4">
+                    <Link
+                      href="/"
+                      onClick={() => setIsOpen(false)}
+                      className="text-xl font-bold tracking-tighter"
+                    >
+                      Home
+                    </Link>
                     {menuGroups.map((group) => (
-                      <AccordionItem
-                        value={group.title}
-                        key={group.title}
-                        className="border-none"
-                      >
-                        <AccordionTrigger className="p-2 hover:no-underline">
+                      <div key={group.title} className="space-y-2">
+                        <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-400">
                           {group.title}
-                        </AccordionTrigger>
-                        <AccordionContent>
-                          <div className="flex flex-col space-y-1 ml-4 ">
-                            {group.items.map((item) => (
-                              <Link
-                                key={item.title}
-                                href={item.href}
-                                onClick={() => setIsOpen(false)}
-                                className="block py-2 text-sm  transition-colors"
-                              >
-                                {item.title}
-                              </Link>
-                            ))}
-                          </div>
-                        </AccordionContent>
-                      </AccordionItem>
+                        </h4>
+                        <div className="flex flex-col gap-2 ml-2 border-l border-zinc-100 dark:border-zinc-800 pl-4">
+                          {group.items.map((item) => (
+                            <Link
+                              key={item.title}
+                              href={item.href}
+                              onClick={() => setIsOpen(false)}
+                              className="text-sm font-medium hover:text-zinc-500"
+                            >
+                              {item.title}
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
                     ))}
-                  </Accordion>
-                </div>
-              </ScrollArea>
-            </SheetContent>
-          </Sheet>
+                  </div>
+                </ScrollArea>
+              </SheetContent>
+            </Sheet>
+          </div>
         </div>
       </div>
     </header>
@@ -184,13 +197,17 @@ const ListItem = React.forwardRef<
         <a
           ref={ref}
           className={cn(
-            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+            "group block select-none space-y-1 rounded-lg p-3 leading-none no-underline outline-none transition-all",
+            "hover:bg-zinc-50 dark:hover:bg-zinc-900", // Solid hover background (No Gradient)
+            "border border-transparent hover:border-zinc-100 dark:hover:border-zinc-800", // Subtle border on hover
             className
           )}
           {...props}
         >
-          <div className="text-sm font-medium leading-none">{title}</div>
-          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+          <div className="text-[11px] font-bold uppercase tracking-tight text-zinc-900 dark:text-zinc-100 italic">
+            {title}
+          </div>
+          <p className="line-clamp-1 text-[10px] font-mono leading-snug text-zinc-400">
             {children}
           </p>
         </a>

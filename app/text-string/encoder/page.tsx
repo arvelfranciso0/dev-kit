@@ -7,8 +7,7 @@ import {
   urlEncode,
   urlDecode,
 } from "@/lib/string-utils";
-import { Textarea } from "@/components/ui/textarea";
-import { Copy } from "lucide-react";
+import { ArrowRightLeft, Sparkles, Terminal } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -16,15 +15,22 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+
+import { ToolHeader } from "@/components/shared/tool-header";
+import { ActionPanel } from "@/components/shared/action-panel";
+
+type Mode = "Base64 Encode" | "Base64 Decode" | "URL Encode" | "URL Decode";
 
 export default function EncoderTool() {
   const [text, setText] = useState("");
   const [copied, setCopied] = useState(false);
-  const [mode, setMode] = useState<
-    "Base64 Encode" | "Base64 Decode" | "URL Encode" | "URL Decode"
-  >("Base64 Encode");
+  const [mode, setMode] = useState<Mode>("Base64 Encode");
 
   const getResult = () => {
+    if (!text) return "";
     try {
       switch (mode) {
         case "Base64 Encode":
@@ -39,69 +45,129 @@ export default function EncoderTool() {
           return text;
       }
     } catch {
-      return "Invalid input for decoding";
+      return "Error: Invalid input for decoding";
     }
   };
 
   const result = getResult();
 
   const handleCopy = () => {
+    if (!result || result.startsWith("Error")) return;
     navigator.clipboard.writeText(result);
     setCopied(true);
-    setTimeout(() => setCopied(false), 1500);
+    setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleSelectMode = (value: any) => {
-    setText("");
-    setMode(value);
+  const toggleDirection = () => {
+    setMode((prev) => {
+      if (prev === "Base64 Encode") return "Base64 Decode";
+      if (prev === "Base64 Decode") return "Base64 Encode";
+      if (prev === "URL Encode") return "URL Decode";
+      return "URL Encode";
+    });
   };
 
   return (
-    <div className="p-6 max-w-3xl mx-auto space-y-6">
-      <h1 className="text-xl font-semibold">Encoder / Decoder</h1>
+    <div className="p-4 md:p-8 max-w-5xl mx-auto space-y-8 text-zinc-900 dark:text-zinc-100">
+      {/* REUSABLE HEADER */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <ToolHeader
+          title="Encoder / Decoder"
+          subtitle="Protocol Transformation Engine"
+          icon={Terminal}
+        />
 
-      {/* Mode selection with ShadCN Select */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-          Select Mode:
-        </label>
-        <Select
-          value={mode}
-          onValueChange={(value) => handleSelectMode(value as any)}
-        >
-          <SelectTrigger className="w-full border rounded p-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
-            <SelectValue placeholder="Select Mode" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="Base64 Encode">Base64 Encode</SelectItem>
-            <SelectItem value="Base64 Decode">Base64 Decode</SelectItem>
-            <SelectItem value="URL Encode">URL Encode</SelectItem>
-            <SelectItem value="URL Decode">URL Decode</SelectItem>
-          </SelectContent>
-        </Select>
+        <div className="flex flex-col gap-2.5">
+          <Label className="text-xs uppercase font-black tracking-[0.15em] text-zinc-400">
+            Transformation Method
+          </Label>
+          <div className="flex gap-2">
+            <Select
+              value={mode}
+              onValueChange={(value) => setMode(value as Mode)}
+            >
+              <SelectTrigger className="w-50 h-11 rounded-lg border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 shadow-sm font-bold text-xs uppercase tracking-wider">
+                <SelectValue placeholder="Select Mode" />
+              </SelectTrigger>
+              <SelectContent className="rounded-xl border-zinc-200 dark:border-zinc-800">
+                <SelectItem
+                  value="Base64 Encode"
+                  className="text-xs font-bold uppercase"
+                >
+                  Base64 Encode
+                </SelectItem>
+                <SelectItem
+                  value="Base64 Decode"
+                  className="text-xs font-bold uppercase"
+                >
+                  Base64 Decode
+                </SelectItem>
+                <SelectItem
+                  value="URL Encode"
+                  className="text-xs font-bold uppercase"
+                >
+                  URL Encode
+                </SelectItem>
+                <SelectItem
+                  value="URL Decode"
+                  className="text-xs font-bold uppercase"
+                >
+                  URL Decode
+                </SelectItem>
+              </SelectContent>
+            </Select>
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={toggleDirection}
+              className="h-11 w-11 rounded-lg border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-all active:scale-95"
+            >
+              <ArrowRightLeft className="w-4 h-4" />
+            </Button>
+          </div>
+        </div>
       </div>
 
-      {/* Input */}
-      <Textarea
-        className="border p-2 w-full h-32"
-        placeholder="Type here..."
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-      />
-
-      {/* Output */}
-      <div className="relative border rounded p-4 bg-gray-50 dark:bg-gray-800">
-        <span className="absolute -top-3 left-3 bg-gray-50 dark:bg-gray-800 px-2 text-sm font-medium text-gray-600 dark:text-gray-300">
-          Result
-        </span>
-        <pre className="whitespace-pre-wrap break-words p-2">{result}</pre>
-        <div
-          onClick={handleCopy}
-          className="absolute top-2 right-2 cursor-pointer text-xs text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 select-none"
-          title="Copy"
+      {/* WORKSPACE AREA */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* REUSABLE INPUT PANEL */}
+        <ActionPanel
+          label="Raw Input"
+          count={text.length}
+          onReset={() => setText("")}
+          variant="input"
         >
-          {copied ? "✓ Copied" : <Copy className="w-4 h-4 inline" />}
-        </div>
+          <textarea
+            className="h-80 md:h-112.5 w-full p-6 bg-transparent resize-none focus:outline-none font-mono text-base leading-relaxed placeholder:text-zinc-300 dark:placeholder:text-zinc-800"
+            placeholder="Enter raw text here..."
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+          />
+        </ActionPanel>
+
+        {/* REUSABLE OUTPUT PANEL */}
+        <ActionPanel
+          label="Output Result"
+          icon={<Sparkles size={14} />}
+          onCopy={handleCopy}
+          isCopied={copied}
+          variant="output"
+        >
+          <div
+            className={cn(
+              "h-80 md:h-112.5 p-6 font-mono text-base break-all overflow-auto leading-relaxed",
+              result.startsWith("Error")
+                ? "text-destructive/80"
+                : "text-zinc-700 dark:text-zinc-300"
+            )}
+          >
+            {result || (
+              <span className="text-zinc-400 dark:text-zinc-800 italic font-sans select-none">
+                Waiting for input...
+              </span>
+            )}
+          </div>
+        </ActionPanel>
       </div>
     </div>
   );

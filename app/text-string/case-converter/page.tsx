@@ -2,64 +2,84 @@
 
 import { useState } from "react";
 import { toUpper, toLower, toCamelCase, toSnakeCase } from "@/lib/string-utils";
-import { Textarea } from "@/components/ui/textarea";
-import { Copy } from "lucide-react";
+import {
+  Copy,
+  Check,
+  Type,
+  RotateCcw,
+  Hash,
+  CaseUpper,
+  CaseLower,
+  Codepen,
+  Terminal,
+} from "lucide-react";
+import { cn } from "@/lib/utils";
+import { ToolHeader } from "@/components/shared/tool-header";
+import { ActionPanel } from "@/components/shared/action-panel";
 
 export default function CaseConverter() {
   const [text, setText] = useState("");
   const [copiedLabel, setCopiedLabel] = useState<string | null>(null);
 
-  const conversions = {
-    UPPERCASE: toUpper(text),
-    lowercase: toLower(text),
-    camelCase: toCamelCase(text),
-    snake_case: toSnakeCase(text),
-  };
+  const conversions = [
+    { label: "UPPERCASE", value: toUpper(text), icon: <CaseUpper size={16} /> },
+    { label: "lowercase", value: toLower(text), icon: <CaseLower size={16} /> },
+    {
+      label: "camelCase",
+      value: toCamelCase(text),
+      icon: <Codepen size={16} />,
+    },
+    {
+      label: "snake_case",
+      value: toSnakeCase(text),
+      icon: <Terminal size={16} />,
+    },
+  ];
 
   const handleCopy = (value: string, label: string) => {
+    if (!value) return;
     navigator.clipboard.writeText(value);
     setCopiedLabel(label);
-    setTimeout(() => setCopiedLabel(null), 1500); // revert back after 1.5s
+    setTimeout(() => setCopiedLabel(null), 1500);
   };
 
   return (
-    <div className="p-6 max-w-3xl mx-auto space-y-6">
-      <h1 className="text-xl font-semibold">Case Converter</h1>
-
-      <p className="text-sm text-gray-500 dark:text-gray-400">
-        Note: Please separate each word with a space for camelCase and
-        snake_case conversions.
-      </p>
-
-      <Textarea
-        className="border p-2 w-full h-32"
-        placeholder="Type here..."
-        value={text}
-        onChange={(e) => setText(e.target.value)}
+    <div className="p-4 md:p-8 max-w-5xl mx-auto space-y-8 text-zinc-900 dark:text-zinc-100">
+      <ToolHeader
+        title="Case Converter"
+        subtitle="String Transformation Utility"
+        icon={Type}
       />
 
-      <div className="space-y-4">
-        {Object.entries(conversions).map(([label, value]) => (
-          <div
+      <ActionPanel
+        label="Raw Input"
+        count={text.length}
+        onReset={() => setText("")}
+      >
+        <textarea
+          className="w-full h-40 p-6 bg-transparent resize-none focus:outline-none font-mono text-base md:text-lg leading-relaxed"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          placeholder="Paste text..."
+        />
+      </ActionPanel>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {conversions.map(({ label, value, icon }) => (
+          <ActionPanel
             key={label}
-            className="relative border rounded p-4 bg-gray-50 dark:bg-gray-800"
+            label={label}
+            icon={icon}
+            variant="output"
+            onCopy={() => handleCopy(value, label)}
+            isCopied={copiedLabel === label}
           >
-            <span className="absolute -top-3 left-3 bg-gray-50 dark:bg-gray-800 px-2 text-sm font-medium text-gray-600 dark:text-gray-300">
-              {label}
-            </span>
-            <pre className="whitespace-pre-wrap break-words">{value}</pre>
-            <div
-              onClick={() => handleCopy(value, label)}
-              className="absolute top-2 text-xs right-2 cursor-pointer text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
-              title="Copy"
-            >
-              {copiedLabel === label ? (
-                "✓ Copied"
-              ) : (
-                <Copy className="w-4 h-4 inline" />
+            <div className="p-6 font-mono text-base break-all min-h-20 flex items-center">
+              {value || (
+                <span className="text-zinc-300 italic text-sm">Waiting...</span>
               )}
             </div>
-          </div>
+          </ActionPanel>
         ))}
       </div>
     </div>
