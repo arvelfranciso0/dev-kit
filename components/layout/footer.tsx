@@ -1,12 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { Github, Cpu, ExternalLink } from "lucide-react";
+import { Github, Cpu, ExternalLink, Heart } from "lucide-react";
 import Image from "next/image";
 import { menuGroups } from "@/configs/navigation";
 import { cn } from "@/lib/utils";
 
 export default function Footer() {
+  const currentYear = new Date().getFullYear();
+
   return (
     <footer className="border-t border-zinc-100 dark:border-zinc-800 bg-white dark:bg-zinc-950 mt-20 transition-colors">
       <div className="mx-auto max-w-7xl px-6 py-12">
@@ -18,11 +20,11 @@ export default function Footer() {
               <Image
                 src="/dev-logo.png"
                 alt="DevKit Logo"
-                className="object-cover rounded-4xl"
-                width={40}
-                height={40}
+                className="object-cover rounded-xl grayscale group-hover:grayscale-0 transition-all duration-500"
+                width={32}
+                height={32}
               />
-              <span className="font-bold tracking-tighter text-md uppercase italic">
+              <span className="font-bold tracking-tighter text-lg uppercase italic text-zinc-900 dark:text-zinc-100">
                 DevKit
               </span>
             </Link>
@@ -33,7 +35,7 @@ export default function Footer() {
           </div>
 
           {/* QUICK LINKS GRID */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-12">
+          <div className="grid grid-cols-2 gap-12">
             <div className="space-y-3">
               <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">
                 Tool Categories
@@ -47,7 +49,7 @@ export default function Footer() {
                       className="text-[10px] font-bold uppercase tracking-widest text-zinc-300 dark:text-zinc-700 cursor-not-allowed flex items-center gap-2"
                     >
                       {group.title}
-                      <span className="text-[8px] px-1 border border-zinc-200 dark:border-zinc-800 rounded">
+                      <span className="text-[7px] px-1 border border-zinc-200 dark:border-zinc-800 rounded">
                         Soon
                       </span>
                     </div>
@@ -63,37 +65,25 @@ export default function Footer() {
                 })}
               </nav>
             </div>
+          </div>
+        </div>
 
-            {/* <div className="space-y-3">
-              <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">
-                Popular Tools
-              </h4>
-              <nav className="flex flex-col gap-2.5">
-                {menuGroups[3].items.slice(0, 4).map((item) => {
-                  const isSoon = item.status === "soon";
+        {/* BOTTOM SECTION - Creator Credit */}
+        <div className="mt-16 pt-8 border-t border-zinc-50 dark:border-zinc-900/50 flex flex-col sm:flex-row justify-between items-center gap-4">
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400">
+              © {currentYear} DevKit
+            </span>
+          </div>
 
-                  return isSoon ? (
-                    <div
-                      key={item.title}
-                      className="text-[10px] font-bold uppercase tracking-widest text-zinc-300 dark:text-zinc-700 cursor-not-allowed flex items-center gap-2"
-                    >
-                      {item.title}
-                      <span className="text-[8px] px-1 border border-zinc-200 dark:border-zinc-800 rounded">
-                        Soon
-                      </span>
-                    </div>
-                  ) : (
-                    <Link
-                      key={item.title}
-                      href={`${menuGroups[3].href}${item.href}`}
-                      className="text-[10px] font-bold uppercase tracking-widest text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
-                    >
-                      {item.title}
-                    </Link>
-                  );
-                })}
-              </nav>
-            </div> */}
+          <div className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500">
+            <span>Built with</span>
+            <Heart
+              size={10}
+              className="text-zinc-300 dark:text-zinc-700 mx-0.5 fill-current"
+            />
+            <span>by</span>
+            Arvel Francisco
           </div>
         </div>
       </div>
