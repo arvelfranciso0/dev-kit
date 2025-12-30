@@ -26,7 +26,6 @@ type Mode = "Base64 Encode" | "Base64 Decode" | "URL Encode" | "URL Decode";
 
 export default function EncoderTool() {
   const [text, setText] = useState("");
-  const [copied, setCopied] = useState(false);
   const [mode, setMode] = useState<Mode>("Base64 Encode");
 
   const getResult = () => {
@@ -51,13 +50,6 @@ export default function EncoderTool() {
 
   const result = getResult();
 
-  const handleCopy = () => {
-    if (!result || result.startsWith("Error")) return;
-    navigator.clipboard.writeText(result);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
   const toggleDirection = () => {
     setMode((prev) => {
       if (prev === "Base64 Encode") return "Base64 Decode";
@@ -74,7 +66,7 @@ export default function EncoderTool() {
         <ToolHeader
           title="Encoder / Decoder"
           subtitle="Protocol Transformation Engine"
-          icon={Terminal}
+          icon={<Terminal />}
         />
 
         <div className="flex flex-col gap-2.5">
@@ -149,8 +141,7 @@ export default function EncoderTool() {
         <ActionPanel
           label="Output Result"
           icon={<Sparkles size={14} />}
-          onCopy={handleCopy}
-          isCopied={copied}
+          copyValue={result}
           variant="output"
         >
           <div

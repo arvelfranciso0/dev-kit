@@ -14,6 +14,7 @@ import { cn } from "@/lib/utils";
 // Reusable Components
 import { ToolHeader } from "@/components/shared/tool-header";
 import { ActionPanel } from "@/components/shared/action-panel";
+import { Textarea } from "@/components/ui/textarea";
 
 const AVAILABLE_FLAGS = [
   { char: "g", label: "Global", desc: "Find all occurrences." },
@@ -105,7 +106,7 @@ export default function RegexTester() {
       <ToolHeader
         title="Regex Debugger"
         subtitle="Pattern Validation Engine"
-        icon={Bug}
+        icon={<Bug />}
       />
 
       {/* EXPRESSION CARD (Unique Layout) */}
@@ -122,7 +123,7 @@ export default function RegexTester() {
         </div>
 
         <div className="flex flex-col md:flex-row items-stretch md:items-center gap-4">
-          <div className="flex-1 flex items-center gap-4 px-5 h-10 rounded-xl border border-zinc-200 dark:border-zinc-800 focus-within:ring-4 focus-within:ring-zinc-400/10 transition-all bg-zinc-50/30 dark:bg-zinc-900/10">
+          <div className="flex-1 flex items-center gap-4 px-5 min-h-10 max-h-16 rounded-xl border border-zinc-200 dark:border-zinc-800 focus-within:ring-4 focus-within:ring-zinc-400/10 transition-all bg-zinc-50/30 dark:bg-zinc-900/10">
             <span className="text-zinc-300 dark:text-zinc-700 font-mono text-sm select-none">
               /
             </span>
@@ -175,7 +176,7 @@ export default function RegexTester() {
               >
                 {renderHighlightedText()}
               </div>
-              <textarea
+              <Textarea
                 className="relative w-full h-full p-6 bg-transparent border-none focus:ring-0 focus:outline-none resize-none whitespace-pre-wrap break-all font-mono leading-relaxed"
                 placeholder="Paste content to test against..."
                 value={text}

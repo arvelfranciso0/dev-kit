@@ -38,7 +38,7 @@ export default function ComingSoon({
           <ToolHeader
             title={title}
             subtitle={subtitle}
-            icon={LayoutPanelLeft}
+            icon={<LayoutPanelLeft />}
           />
           <p className="text-zinc-500 dark:text-zinc-400 text-sm md:text-base leading-relaxed max-w-md mx-auto font-medium">
             {description}

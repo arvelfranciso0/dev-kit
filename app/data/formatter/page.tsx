@@ -50,7 +50,7 @@ export default function Formatter() {
         <ToolHeader
           title="JSON Formatter"
           subtitle="Data Structure Beautifier"
-          icon={Braces}
+          icon={<Braces />}
         />
 
         <div className="flex gap-2">

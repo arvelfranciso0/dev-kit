@@ -19,7 +19,6 @@ import { ActionPanel } from "@/components/shared/action-panel";
 
 export default function CaseConverter() {
   const [text, setText] = useState("");
-  const [copiedLabel, setCopiedLabel] = useState<string | null>(null);
 
   const conversions = [
     { label: "UPPERCASE", value: toUpper(text), icon: <CaseUpper size={16} /> },
@@ -36,19 +35,12 @@ export default function CaseConverter() {
     },
   ];
 
-  const handleCopy = (value: string, label: string) => {
-    if (!value) return;
-    navigator.clipboard.writeText(value);
-    setCopiedLabel(label);
-    setTimeout(() => setCopiedLabel(null), 1500);
-  };
-
   return (
     <div className="p-4 md:p-8 max-w-5xl mx-auto space-y-8 text-zinc-900 dark:text-zinc-100">
       <ToolHeader
         title="Case Converter"
         subtitle="String Transformation Utility"
-        icon={Type}
+        icon={<Type />}
       />
 
       <ActionPanel
@@ -71,8 +63,7 @@ export default function CaseConverter() {
             label={label}
             icon={icon}
             variant="output"
-            onCopy={() => handleCopy(value, label)}
-            isCopied={copiedLabel === label}
+            copyValue={value}
           >
             <div className="p-6 font-mono text-base break-all min-h-20 flex items-center">
               {value || (

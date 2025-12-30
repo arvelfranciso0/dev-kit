@@ -1,12 +1,15 @@
-import { Hash, RotateCcw, Copy, Check, LucideIcon } from "lucide-react";
+"use client";
+
+import { Hash, RotateCcw, Copy, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useCopy } from "@/hooks/use-copy";
+import CopiedStatus from "./copied-status";
 
 interface ActionPanelProps {
   label: string;
   count?: number;
   onReset?: () => void;
-  onCopy?: () => void;
-  isCopied?: boolean;
+  copyValue?: string; // Passing this enables the copy button
   icon?: React.ReactNode;
   variant?: "input" | "output";
   children: React.ReactNode;
@@ -16,8 +19,7 @@ export function ActionPanel({
   label,
   count,
   onReset,
-  onCopy,
-  isCopied,
+  copyValue,
   icon,
   variant = "input",
   children,
@@ -31,46 +33,34 @@ export function ActionPanel({
           : "border-zinc-200 dark:border-zinc-800 bg-zinc-50/30 dark:bg-zinc-900/10"
       )}
     >
-      <div className="flex items-center justify-between px-5 py-3.5 bg-zinc-50/50 dark:bg-zinc-900/50 border-b border-zinc-100 dark:border-zinc-800">
-        <span className="text-xs font-bold uppercase tracking-widest text-zinc-500 flex items-center gap-2">
+      {/* HEADER BAR */}
+      <div className="flex items-center justify-between px-5 py-3 bg-zinc-50/50 dark:bg-zinc-900/50 border-b border-zinc-100 dark:border-zinc-800">
+        <span className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 flex items-center gap-2">
           {icon} {label}
         </span>
 
-        <div className="flex items-center gap-4 text-xs font-mono">
+        <div className="flex items-center gap-4 text-[10px] font-mono">
           {typeof count === "number" && (
             <span className="flex items-center gap-1.5 text-zinc-400">
-              <Hash size={14} /> {count}
+              <Hash size={12} /> {count}
             </span>
           )}
+
           {onReset && (
             <button
               onClick={onReset}
-              className="hover:text-zinc-900 dark:hover:text-zinc-100 text-zinc-400 transition-colors flex items-center gap-1.5 font-bold uppercase"
+              className="hover:text-zinc-900 dark:hover:text-zinc-100 text-zinc-400 transition-colors flex items-center gap-1.5 font-bold uppercase tracking-widest"
             >
-              <RotateCcw size={14} />{" "}
+              <RotateCcw size={12} />
               <span className="hidden sm:inline">Reset</span>
             </button>
           )}
-          {onCopy && (
-            <button
-              onClick={onCopy}
-              className="flex items-center gap-2 font-bold uppercase tracking-widest text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-all"
-            >
-              {isCopied ? (
-                <>
-                  <Check size={14} className="text-emerald-500" />
-                  <span className="text-emerald-500">Copied</span>
-                </>
-              ) : (
-                <>
-                  <Copy size={14} />
-                  <span>Copy</span>
-                </>
-              )}
-            </button>
-          )}
+
+          <CopiedStatus copyValue={copyValue} />
         </div>
       </div>
+
+      {/* CONTENT AREA */}
       <div className="flex-1">{children}</div>
     </div>
   );
