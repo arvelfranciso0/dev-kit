@@ -69,7 +69,7 @@ export default function JsonCsv() {
           count={input.length}
           onReset={() => setInput("")}
         >
-          <div className="relative h-[500px]">
+          <div className="relative h-125">
             <textarea
               className="w-full h-full p-6 bg-transparent resize-none focus:outline-none text-sm leading-relaxed"
               placeholder='[{"name": "John", "age": 30}, {"name": "Jane", "age": 25}]'
@@ -92,15 +92,10 @@ export default function JsonCsv() {
         <ActionPanel
           label="CSV Result"
           icon={<FileSpreadsheet size={14} />}
-          onCopy={() => {
-            navigator.clipboard.writeText(csvResult);
-            setCopied(true);
-            setTimeout(() => setCopied(false), 2000);
-          }}
-          isCopied={copied}
+          copyValue={csvResult}
           variant="output"
         >
-          <div className="h-[500px] overflow-auto">
+          <div className="h-125 overflow-auto">
             {csvResult ? (
               <pre className="p-6 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
                 {csvResult}

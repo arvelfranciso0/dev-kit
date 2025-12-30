@@ -11,7 +11,6 @@ import { formatJSON, minifyJSON } from "@/lib/json-utils";
 export default function Formatter() {
   const [input, setInput] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const [copied, setCopied] = useState(false);
 
   const formattedResult = useMemo(() => {
     if (!input) {
@@ -35,13 +34,6 @@ export default function Formatter() {
     } catch (e: any) {
       setError("Cannot minify: " + e.message);
     }
-  };
-
-  const handleCopy = () => {
-    if (!formattedResult) return;
-    navigator.clipboard.writeText(formattedResult);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
   };
 
   return (
@@ -93,8 +85,7 @@ export default function Formatter() {
         <ActionPanel
           label="Beautified"
           icon={<FileJson size={14} />}
-          onCopy={handleCopy}
-          isCopied={copied}
+          copyValue={formattedResult}
           variant="output"
         >
           <div className="h-125 md:h-150 overflow-auto bg-zinc-50/50 dark:bg-zinc-900/30">

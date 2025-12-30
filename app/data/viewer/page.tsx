@@ -66,7 +66,7 @@ export default function DataViewer() {
         <div className="lg:col-span-1">
           <ActionPanel label="Raw JSON Source" onReset={() => setInput("")}>
             <textarea
-              className="w-full h-[600px] p-4 bg-transparent resize-none focus:outline-none text-xs font-mono leading-relaxed"
+              className="w-full h-150 p-4 bg-transparent resize-none focus:outline-none text-xs font-mono leading-relaxed"
               placeholder="Paste your JSON array or object here..."
               value={input}
               onChange={(e) => setInput(e.target.value)}
@@ -150,7 +150,7 @@ function DataTable({ data }: { data: any[] }) {
               className="border-b border-zinc-100 dark:border-zinc-900 hover:bg-zinc-50 dark:hover:bg-zinc-900/50"
             >
               {headers.map((h) => (
-                <td key={h} className="py-2 px-4 truncate max-w-[200px]">
+                <td key={h} className="py-2 px-4 truncate max-w-50">
                   {typeof row[h] === "object" ? "{...}" : String(row[h])}
                 </td>
               ))}

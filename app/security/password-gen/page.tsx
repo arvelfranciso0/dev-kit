@@ -4,15 +4,7 @@ import { useState, useEffect, useCallback, useMemo } from "react";
 import { ToolHeader } from "@/components/shared/tool-header";
 import { ActionPanel } from "@/components/shared/action-panel";
 import { MetadataCard } from "@/components/shared/meta-card";
-import {
-  Key,
-  RefreshCw,
-  Copy,
-  Check,
-  Ruler,
-  AlertCircle,
-  ShieldCheck,
-} from "lucide-react";
+import { Key, RefreshCw, Ruler, AlertCircle, ShieldCheck } from "lucide-react";
 import {
   generateSecurePassword,
   checkPasswordStrength,

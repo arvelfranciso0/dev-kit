@@ -1,6 +1,6 @@
 "use client";
 
-import { ShieldCheck, Key, Lock, Fingerprint } from "lucide-react";
+import { ShieldCheck, Key, Lock } from "lucide-react";
 
 import { ToolGrid } from "@/components/shared/tool-grid";
 import { Tool } from "@/types/tools";
