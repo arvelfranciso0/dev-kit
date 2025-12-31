@@ -69,7 +69,7 @@ export default function Footer() {
         </div>
 
         {/* BOTTOM SECTION - Creator Credit */}
-        <div className="mt-16 pt-8 border-t border-zinc-50 dark:border-zinc-900/50 flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div className="mt-10 border-t border-zinc-50 dark:border-zinc-900/50 flex flex-col sm:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-2">
             <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400">
               © {currentYear} DevKit

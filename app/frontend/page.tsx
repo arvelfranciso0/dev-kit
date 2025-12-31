@@ -7,8 +7,6 @@ import {
   Type,
   Maximize,
   Image as ImageIcon,
-  Framer,
-  Code2,
   ShieldCheck,
 } from "lucide-react";
 import { ToolGrid } from "@/components/shared/tool-grid";
@@ -40,15 +38,15 @@ const tools: Tool[] = [
     title: "Contrast Checker",
     desc: "Validate WCAG 2.1 compliance with real-time contrast ratios and accessibility scoring.",
     href: "/frontend/contrast-checker",
-    icon: <ShieldCheck size={18} />, // Changed from Palette to avoid duplication
-    status: "soon",
+    icon: <ShieldCheck size={18} />,
+    status: "ready",
   },
   {
     title: "Fluid Type Scale",
     desc: "Create responsive clamp() typography that scales smoothly between mobile and desktop.",
     href: "/frontend/fluid-type",
     icon: <Type size={18} />,
-    status: "soon",
+    status: "ready",
   },
 
   {
@@ -56,7 +54,7 @@ const tools: Tool[] = [
     desc: "Calculate modern CSS aspect-ratio properties and legacy padding-top container hacks.",
     href: "/frontend/aspect-ratio",
     icon: <Maximize size={18} />,
-    status: "soon",
+    status: "ready",
   },
   {
     title: "SVG Optimizer",
@@ -91,7 +89,6 @@ export default function FrontendDesignHome() {
         </div>
       </div>
 
-      {/* TOOLS GRID */}
       <ToolGrid tools={tools} columns={3} />
     </div>
   );

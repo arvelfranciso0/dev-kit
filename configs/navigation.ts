@@ -119,20 +119,20 @@ export const menuGroups = [
         title: "Contrast Checker",
         href: "/contrast-checker",
         description: "WCAG contrast validation tool.",
-        status: "soon",
+        status: "ready",
       },
       {
         title: "Fluid Type Scale",
         href: "/fluid-type",
         description: "Responsive clamp() typography.",
-        status: "soon",
+        status: "ready",
       },
 
       {
         title: "Aspect Ratio",
         href: "/aspect-ratio",
         description: "CSS aspect-ratio calculator.",
-        status: "soon",
+        status: "ready",
       },
       {
         title: "SVG Optimizer",

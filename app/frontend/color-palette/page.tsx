@@ -4,24 +4,25 @@ import { useState, useMemo } from "react";
 import chroma from "chroma-js";
 import { ToolHeader } from "@/components/shared/tool-header";
 import { ActionPanel } from "@/components/shared/action-panel";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Palette, RotateCcw, Info, Sparkles } from "lucide-react";
+import { useDebounce } from "@/hooks/use-debounce";
 
 import { cn } from "@/lib/utils";
 import { ConversionCard } from "@/components/shared/conversion-grid";
 import CopiedStatus from "@/components/shared/copied-status";
+import { ColorPicker } from "@/components/shared/color-picker";
 
 export default function ColorPalette() {
   const [seedColor, setSeedColor] = useState("#3B82F6");
+  const debouncedSeed = useDebounce(seedColor, 100);
 
-  // Generate a scale from 50 (light) to 950 (dark)
   const palette = useMemo(() => {
     try {
       const scale = chroma
-        .scale(["#fff", seedColor, "#000"])
+        .scale(["#fff", debouncedSeed, "#000"])
         .mode("lch")
-        .colors(13); // Generate slightly more to crop the extreme white/black
+        .colors(13);
 
       return [
         { name: "50", hex: scale[1] },
@@ -29,7 +30,7 @@ export default function ColorPalette() {
         { name: "200", hex: scale[3] },
         { name: "300", hex: scale[4] },
         { name: "400", hex: scale[5] },
-        { name: "500", hex: seedColor },
+        { name: "500", hex: debouncedSeed },
         { name: "600", hex: scale[7] },
         { name: "700", hex: scale[8] },
         { name: "800", hex: scale[9] },
@@ -39,19 +40,12 @@ export default function ColorPalette() {
     } catch (e) {
       return [];
     }
-  }, [seedColor]);
-
-  // NEW: Create a string of all colors for "Copy All"
-  const fullPaletteString = useMemo(() => {
-    return palette
-      .map((s) => `--color-primary-${s.name}: ${s.hex.toUpperCase()};`)
-      .join("\n");
-  }, [palette]);
+  }, [debouncedSeed]);
 
   const mainConversions = useMemo(() => {
-    const c = chroma(seedColor);
+    const c = chroma(debouncedSeed);
     return [
-      { label: "Hex", value: seedColor.toUpperCase(), unit: "" },
+      { label: "Hex", value: debouncedSeed.toUpperCase(), unit: "" },
       { label: "RGB", value: c.css(), unit: "" },
       {
         label: "HSL",
@@ -62,7 +56,13 @@ export default function ColorPalette() {
         unit: "",
       },
     ];
-  }, [seedColor]);
+  }, [debouncedSeed]);
+
+  const fullPaletteString = useMemo(() => {
+    return palette
+      .map((s) => `--color-primary-${s.name}: ${s.hex.toUpperCase()};`)
+      .join("\n");
+  }, [palette]);
 
   const generateRandom = () => {
     setSeedColor(chroma.random().hex());
@@ -84,17 +84,7 @@ export default function ColorPalette() {
                 <label className="text-[10px] font-black uppercase tracking-widest text-zinc-400">
                   Seed Color
                 </label>
-                <div className="flex gap-2">
-                  <div
-                    className="w-12 h-12 rounded-xl border border-zinc-200 shadow-inner shrink-0 transition-colors duration-500"
-                    style={{ backgroundColor: seedColor }}
-                  />
-                  <Input
-                    value={seedColor}
-                    onChange={(e) => setSeedColor(e.target.value)}
-                    className="font-mono uppercase h-12"
-                  />
-                </div>
+                <ColorPicker value={seedColor} onChange={setSeedColor} />
               </div>
 
               <div className="grid grid-cols-2 gap-2">
@@ -126,7 +116,6 @@ export default function ColorPalette() {
         </div>
 
         <div className="lg:col-span-2 space-y-6">
-          {/* Passing fullPaletteString to copyValue enables "Copy All" */}
           <ActionPanel
             label="Generated Scale (50 - 950)"
             copyValue={fullPaletteString}
@@ -155,7 +144,6 @@ export default function ColorPalette() {
     </div>
   );
 }
-
 function PaletteRow({
   name,
   hex,
@@ -195,14 +183,6 @@ function PaletteRow({
           </span>
         </div>
       </div>
-
-      {/* <div className="pr-2 opacity-0 group-hover:opacity-100 transition-opacity">
-        {isCopied ? (
-          <Check size={14} className="text-emerald-500" />
-        ) : (
-          <Copy size={14} className="text-zinc-300" />
-        )}
-      </div> */}
       <CopiedStatus copyValue={hex} />
     </div>
   );

@@ -15,6 +15,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import CopiedStatus from "@/components/shared/copied-status";
+import { PreviewContainer } from "@/components/shared/preview-container";
+import { CodePanel } from "@/components/shared/code-panel";
+import { InfoSection } from "@/components/shared/info-section";
 
 const SHADOW_PRESETS = [
   {
@@ -171,27 +174,43 @@ export default function ShadowGenerator() {
             </ActionPanel>
 
             <div className="space-y-4">
-              <ResultArea
-                label="CSS Property"
-                value={`box-shadow: ${shadowStyles};`}
+              <CodePanel
+                options={[
+                  {
+                    id: "css",
+                    label: "CSS",
+                    value: `box-shadow: ${shadowStyles};`,
+                  },
+                  {
+                    id: "tailwind",
+                    label: "Tailwind",
+                    value: `shadow-[${shadowStyles.replace(/\s+/g, "_")}]`,
+                  },
+                ]}
               />
-              <ResultArea label="Tailwind Class" value={tailwindClass} />
             </div>
           </div>
 
-          <div className="lg:col-span-8">
-            <div className="h-full min-h-100 lg:min-h-full rounded-3xl bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-100 dark:border-zinc-800 flex items-center justify-center relative overflow-hidden p-12">
+          <PreviewContainer
+            statusLabel="Elevation Preview"
+            // We remove the default center-alignment constraints to give shadow room
+            className="items-center justify-center overflow-visible"
+          >
+            <div className="relative p-20">
               <div
-                className="w-64 h-64 bg-white dark:bg-zinc-950 rounded-3xl flex flex-col items-center justify-center gap-4 transition-all duration-500 ease-out"
-                style={{ boxShadow: shadowStyles }}
+                className="w-64 h-64 bg-white dark:bg-zinc-950 rounded-[2.5rem] flex flex-col items-center justify-center gap-4 transition-all duration-500 ease-out border border-black/3 dark:border-white/3"
+                style={{
+                  boxShadow: shadowStyles,
+                  zIndex: 10,
+                }}
               >
-                <Box className="text-zinc-200 dark:text-zinc-800" size={64} />
-                <span className="text-[12px] font-bold text-zinc-400 uppercase tracking-widest">
-                  Preview Area
+                <Box className="text-zinc-100 dark:text-zinc-800" size={64} />
+                <span className="text-[11px] font-black text-zinc-400 uppercase tracking-[0.2em]">
+                  Preview Object
                 </span>
               </div>
             </div>
-          </div>
+          </PreviewContainer>
         </div>
 
         {/* BOTTOM SECTION: Large Presets */}
@@ -214,6 +233,19 @@ export default function ShadowGenerator() {
               />
             ))}
           </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-12 border-t pt-12">
+          <InfoSection
+            title="What is Box Shadow?"
+            icon={Box}
+            description="Box shadows add depth to your UI by simulating light hitting an object. It consists of horizontal/vertical offsets, blur radius, and spread."
+          />
+          <InfoSection
+            title="Layering Technique"
+            icon={Layers}
+            description="Professional designers often layer 2-3 shadows with low opacity instead of one heavy shadow to create a more realistic, 'diffused' look."
+          />
         </div>
       </div>
     </div>
@@ -282,24 +314,6 @@ function PresetCard({
         <p className="text-[9px] text-zinc-500 uppercase tracking-widest leading-relaxed font-medium">
           {preset.desc}
         </p>
-      </div>
-    </div>
-  );
-}
-
-function ResultArea({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="space-y-2">
-      <div className="flex items-center justify-between px-1">
-        <span className="text-[10px] font-black uppercase tracking-widest text-zinc-400">
-          {label}
-        </span>
-        <CopiedStatus copyValue={value} className="text-[10px]" />
-      </div>
-      <div className="w-full p-4 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 max-h-32 overflow-y-auto scrollbar-hide">
-        <code className="text-[10px] font-mono text-zinc-600 dark:text-zinc-400 whitespace-pre-wrap break-all leading-relaxed">
-          {value}
-        </code>
       </div>
     </div>
   );
