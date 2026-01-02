@@ -26,14 +26,15 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useTheme } from "next-themes";
 import Image from "next/image";
 import { menuGroups } from "@/configs/navigation";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = React.useState(false);
   const { theme, setTheme } = useTheme();
-
+  const isMobile = useIsMobile();
   return (
     <header className="sticky top-0 z-50 w-full border-b border-zinc-100 dark:border-zinc-800 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md">
-      <div className="max-w-7xl mx-auto flex h-14 items-center justify-between px-6">
+      <div className="flex h-14 items-center justify-between px-6">
         <div className="flex items-center gap-8">
           <Link href="/" className="flex items-center gap-2 group">
             <Image
@@ -49,11 +50,11 @@ export default function Navbar() {
           </Link>
 
           <div className="hidden md:flex">
-            <NavigationMenu>
-              <NavigationMenuList className="gap-1">
+            <NavigationMenu viewport={isMobile}>
+              <NavigationMenuList className=" flex-wrap  ">
                 {menuGroups.map((group) => (
                   <NavigationMenuItem key={group.title}>
-                    <NavigationMenuTrigger className="h-9 px-4 text-[11px] font-bold uppercase tracking-widest hover:bg-zinc-50 dark:hover:bg-zinc-900 focus:bg-transparent data-[state=open]:bg-zinc-50 dark:data-[state=open]:bg-zinc-900 transition-colors border-none">
+                    <NavigationMenuTrigger className="h-9  px-4 text-[11px] font-bold uppercase  hover:bg-zinc-50 dark:hover:bg-zinc-900 focus:bg-transparent data-[state=open]:bg-zinc-50 dark:data-[state=open]:bg-zinc-900 transition-colors border-none">
                       {group.title}
                     </NavigationMenuTrigger>
                     <NavigationMenuContent>
@@ -62,7 +63,7 @@ export default function Navbar() {
                           <ListItem
                             key={item.title}
                             title={item.title}
-                            status={item.status} // Passing status
+                            status={item.status}
                             href={
                               item.status === "soon"
                                 ? undefined

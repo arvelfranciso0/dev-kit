@@ -1,17 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { Github, Cpu, ExternalLink, Heart } from "lucide-react";
+import { Github, Heart } from "lucide-react";
 import Image from "next/image";
 import { menuGroups } from "@/configs/navigation";
-import { cn } from "@/lib/utils";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
     <footer className="border-t border-zinc-100 dark:border-zinc-800 bg-white dark:bg-zinc-950 mt-20 transition-colors">
-      <div className="mx-auto max-w-7xl px-6 py-12">
+      <div className=" px-6 py-12">
         {/* TOP SECTION */}
         <div className="flex flex-col md:flex-row items-start justify-between gap-10">
           {/* BRAND & TAGLINE */}
