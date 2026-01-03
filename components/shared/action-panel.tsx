@@ -13,6 +13,7 @@ interface ActionPanelProps {
   icon?: React.ReactNode;
   variant?: "input" | "output";
   children: React.ReactNode;
+  headers?: React.ReactNode;
 }
 
 export function ActionPanel({
@@ -23,6 +24,7 @@ export function ActionPanel({
   icon,
   variant = "input",
   children,
+  headers,
 }: ActionPanelProps) {
   return (
     <div
@@ -57,6 +59,8 @@ export function ActionPanel({
           )}
 
           <CopiedStatus copyValue={copyValue} />
+
+          {headers}
         </div>
       </div>
 
