@@ -4,10 +4,18 @@ import { useState, useMemo } from "react";
 import { ToolHeader } from "@/components/shared/tool-header";
 import { ActionPanel } from "@/components/shared/action-panel";
 import { Button } from "@/components/ui/button";
-import { Link2, Globe, ShieldCheck, Code2, CaseSensitive } from "lucide-react";
+import {
+  Link2,
+  Globe,
+  ShieldCheck,
+  Code2,
+  CaseSensitive,
+  Search,
+} from "lucide-react";
 import { generateSlug } from "@/lib/string-utils";
 import { SlugEncoding } from "@/types/string";
 import { MetadataCard } from "@/components/shared/meta-card";
+import { InfoSection } from "@/components/shared/info-section";
 export default function SlugGenerator() {
   const [input, setInput] = useState("");
   const [separator, setSeparator] = useState<"-" | "_">("-");
@@ -120,6 +128,19 @@ export default function SlugGenerator() {
           icon={<Link2 size={14} />}
           label="Path Type"
           value={separator === "-" ? "URL Path" : "Variable/File"}
+        />
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-12 border-t pt-12">
+        <InfoSection
+          title="SEO Optimization"
+          icon={Search}
+          description="Clean, keyword-rich URLs are a primary ranking factor. This generator strips special characters and converts spaces to hyphens, ensuring your links are human-readable and crawlable by search engines."
+        />
+        <InfoSection
+          title="URL Normalization"
+          icon={Globe}
+          description="Standardizing your slugs prevents duplicate content issues. It handles accents (diacritics), removes stop words, and enforces lowercase formatting to ensure consistent link structures across your entire platform."
         />
       </div>
     </div>

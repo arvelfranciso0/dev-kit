@@ -4,7 +4,14 @@ import { useState, useEffect, useCallback, useMemo } from "react";
 import { ToolHeader } from "@/components/shared/tool-header";
 import { ActionPanel } from "@/components/shared/action-panel";
 import { MetadataCard } from "@/components/shared/meta-card";
-import { Key, RefreshCw, Ruler, AlertCircle, ShieldCheck } from "lucide-react";
+import {
+  Key,
+  RefreshCw,
+  Ruler,
+  AlertCircle,
+  ShieldCheck,
+  Lock,
+} from "lucide-react";
 import {
   generateSecurePassword,
   checkPasswordStrength,
@@ -15,6 +22,7 @@ import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";
 import { PasswordOptions } from "@/types/password";
 import ToggleItem from "@/components/shared/toogle-item";
+import { InfoSection } from "@/components/shared/info-section";
 
 export default function PasswordGenerator() {
   const [length, setLength] = useState<number[]>([16]);
@@ -194,6 +202,18 @@ export default function PasswordGenerator() {
             </div>
           )}
         </div>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-12 border-t border-zinc-100 dark:border-zinc-800 pt-12">
+        <InfoSection
+          title="Cryptographic Entropy"
+          icon={ShieldCheck}
+          description="True security relies on high entropy. Our generator uses cryptographically strong pseudo-random number generators (CSPRNG) to ensure that every character is unpredictable and resistant to brute-force dictionary attacks."
+        />
+        <InfoSection
+          title="Zero-Knowledge Generation"
+          icon={Lock}
+          description="Your security is our priority. Passwords are generated entirely within your browser's local environment. No data is ever transmitted to a server or stored in a database, ensuring your credentials remain private and offline."
+        />
       </div>
     </div>
   );

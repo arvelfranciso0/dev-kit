@@ -8,6 +8,7 @@ import {
   TextCursorInput,
   BookOpen,
   Bug,
+  Layers,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -15,6 +16,7 @@ import { cn } from "@/lib/utils";
 import { ToolHeader } from "@/components/shared/tool-header";
 import { ActionPanel } from "@/components/shared/action-panel";
 import { Textarea } from "@/components/ui/textarea";
+import { InfoSection } from "@/components/shared/info-section";
 
 const AVAILABLE_FLAGS = [
   { char: "g", label: "Global", desc: "Find all occurrences." },
@@ -176,7 +178,7 @@ export default function RegexTester() {
               >
                 {renderHighlightedText()}
               </div>
-              <Textarea
+              <textarea
                 className="relative w-full h-full p-6 bg-transparent border-none focus:ring-0 focus:outline-none resize-none whitespace-pre-wrap break-all font-mono leading-relaxed"
                 placeholder="Paste content to test against..."
                 value={text}
@@ -264,6 +266,19 @@ export default function RegexTester() {
             </div>
           </div>
         </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-12 border-t border-zinc-100 dark:border-zinc-800 pt-12">
+        <InfoSection
+          title="Pattern Integrity"
+          icon={Search}
+          description="Regular expressions are powerful but fragile. Our validator provides real-time visual feedback and match highlighting, ensuring your patterns behave exactly as expected before you deploy them to production code."
+        />
+        <InfoSection
+          title="Capture Group Insights"
+          icon={Layers}
+          description="Beyond simple matches, this tool breaks down capture groups and backreferences. Understanding how your regex extracts specific data fragments helps in debugging complex parsing logic and data transformation pipelines."
+        />
       </div>
     </div>
   );

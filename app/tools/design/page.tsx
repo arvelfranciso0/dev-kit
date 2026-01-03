@@ -8,28 +8,28 @@ import Header from "@/components/shared/header";
 const tools: Tool[] = [
   {
     title: "Unit Converter",
-    desc: "PX, REM, VW, VH conversions.",
+    desc: "Seamlessly convert between PX, REM, EM, and viewport units based on your project's root font size.",
     href: "/tools/design/units",
     icon: <Ruler size={18} />,
     status: "ready",
   },
   {
     title: "Contrast Checker",
-    desc: "WCAG contrast validation.",
+    desc: "Ensure accessibility by validating foreground and background color combinations against WCAG 2.1 AA/AAA standards.",
     href: "/tools/design/contrast",
     icon: <Contrast size={18} />,
     status: "ready",
   },
   {
     title: "Fluid Type Scale",
-    desc: "Responsive clamp() typography.",
+    desc: "Generate smart CSS clamp() values to create typography that scales perfectly between mobile and desktop breakpoints.",
     href: "/tools/design/typography",
     icon: <Type size={18} />,
     status: "ready",
   },
   {
     title: "Aspect Ratio",
-    desc: "Aspect-ratio calculator.",
+    desc: "Calculate precise dimensions and padding-top percentages for consistent media layouts and modern CSS aspect-ratio properties.",
     href: "/tools/design/aspect-ratio",
     icon: <RectangleHorizontal size={18} />,
     status: "ready",

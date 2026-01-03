@@ -308,7 +308,7 @@ export default function ReadmeBuilder() {
               </div>
 
               <TabsContent value="raw" className="m-0">
-                <Textarea
+                <textarea
                   readOnly
                   value={markdownOutput}
                   className="min-h-[600px] font-mono text-[11px] bg-zinc-950 text-zinc-400 border-none p-6 leading-relaxed resize-none rounded-b-2xl"

@@ -3,9 +3,16 @@
 import { useState, useMemo, useRef } from "react";
 import { ToolHeader } from "@/components/shared/tool-header";
 import { ActionPanel } from "@/components/shared/action-panel";
-import { Upload, Database, Loader2 } from "lucide-react";
+import {
+  Upload,
+  Database,
+  Loader2,
+  Binary,
+  TableProperties,
+} from "lucide-react";
 import { csvToJson, parseCsvFile } from "@/lib/json-utils";
 import { cn } from "@/lib/utils";
+import { InfoSection } from "@/components/shared/info-section";
 
 export default function CsvToJsonTool() {
   const [input, setInput] = useState("");
@@ -130,6 +137,18 @@ export default function CsvToJsonTool() {
             )}
           </div>
         </ActionPanel>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-12 border-t border-zinc-100 dark:border-zinc-800 pt-12">
+        <InfoSection
+          title="Tabular to Structured"
+          icon={TableProperties}
+          description="CSV data is inherently flat. This converter parses your comma-separated rows and maps them into an array of JSON objects, using the first row as keys to ensure your data is ready for API consumption or database seeding."
+        />
+        <InfoSection
+          title="Type Inference"
+          icon={Binary}
+          description="Beyond simple string conversion, the engine intelligently detects data types. It automatically identifies numbers, booleans, and null values within your CSV, preventing the 'everything-is-a-string' issue during integration."
+        />
       </div>
     </div>
   );

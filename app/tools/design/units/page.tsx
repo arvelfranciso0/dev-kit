@@ -22,17 +22,16 @@ export default function MultiUnitConverter() {
   const [val, setVal] = useState<string>("16");
   const [sourceUnit, setSourceUnit] = useState<string>("px");
 
-  // Logic to convert any input into Pixels first (the "Pivot" unit)
   const toPx = (value: number, unit: string) => {
     switch (unit) {
       case "rem":
         return value * baseSize[0];
       case "em":
-        return value * baseSize[0]; // Simplified for tool context
+        return value * baseSize[0];
       case "vw":
         return (value * viewportWidth[0]) / 100;
       case "vh":
-        return (value * 1080) / 100; // Standard HD height
+        return (value * 1080) / 100;
       case "pt":
         return value * (96 / 72);
       default:

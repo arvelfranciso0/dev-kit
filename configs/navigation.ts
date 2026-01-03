@@ -116,7 +116,7 @@ export const menuGroups = [
         title: "HTML Sanitizer",
         href: "/html",
         description: "Clean and normalize HTML.",
-        status: "soon",
+        status: "ready",
       },
     ],
   },

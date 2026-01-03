@@ -8,21 +8,21 @@ import Header from "@/components/shared/header";
 const tools: Tool[] = [
   {
     title: "Markdown Preview",
-    desc: "Live GitHub-style rendering.",
+    desc: "Real-time GitHub-flavored Markdown editor and renderer with GFM support and synchronous scrolling.",
     href: "/tools/dev/markdown",
     icon: <FileCode size={18} />,
     status: "ready",
   },
   {
     title: "Diff Viewer",
-    desc: "Side-by-side code comparison.",
+    desc: "Perform side-by-side or unified visual comparisons between code snippets to track changes and resolve conflicts.",
     href: "/tools/dev/diff",
     icon: <GitCompare size={18} />,
     status: "ready",
   },
   {
     title: "Git Commands",
-    desc: "Interactive git reference.",
+    desc: "A comprehensive reference for advanced Git workflows, including conventional commits and branching strategies.",
     href: "/tools/dev/git",
     icon: <GitBranch size={18} />,
     status: "ready",

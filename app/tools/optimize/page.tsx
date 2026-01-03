@@ -8,17 +8,17 @@ import Header from "@/components/shared/header";
 const tools: Tool[] = [
   {
     title: "SVG Optimizer",
-    desc: "SVGO-based SVG minification.",
+    desc: "Compress and minify SVG vectors using SVGO to reduce file size without losing visual quality.",
     href: "/tools/optimize/svg",
     icon: <Minimize2 size={18} />,
     status: "ready",
   },
   {
     title: "HTML Sanitizer",
-    desc: "Clean and normalize HTML.",
+    desc: "Strip malicious scripts and normalize messy markup into clean, safe, and valid HTML5.",
     href: "/tools/optimize/html",
     icon: <ShieldCheck size={18} />,
-    status: "soon",
+    status: "ready",
   },
 ];
 

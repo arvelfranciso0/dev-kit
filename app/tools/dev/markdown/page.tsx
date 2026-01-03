@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { BookOpen, Download, Trash2 } from "lucide-react";
+import { BookOpen, Download, Eye, FileText, Trash2 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
@@ -11,6 +11,7 @@ import "highlight.js/styles/github-dark.css";
 import { ToolHeader } from "@/components/shared/tool-header";
 import { Button } from "@/components/ui/button";
 import { ActionPanel } from "@/components/shared/action-panel";
+import { InfoSection } from "@/components/shared/info-section";
 
 export default function GitHubSplitPreview() {
   const [content, setContent] = useState(
@@ -57,7 +58,7 @@ function hello(name: string) {
 
         {/* RIGHT SIDE: Preview */}
         <div className="flex flex-col h-full overflow-hidden">
-          <ActionPanel label="GitHub Preview">
+          <ActionPanel label="GitHub Preview" variant={"output"}>
             <div className="min-h-25">
               <article
                 className="p-6 prose prose-sm prose-zinc dark:prose-invert max-w-none 
@@ -77,6 +78,18 @@ function hello(name: string) {
             </div>
           </ActionPanel>
         </div>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-12 border-t border-zinc-100 dark:border-zinc-800 pt-12">
+        <InfoSection
+          title="Real-time Rendering"
+          icon={Eye}
+          description="Instantly visualize your GitHub-flavored markdown as you type. Our parser converts raw syntax into semantic HTML, allowing you to check formatting, links, and media alignment without constant context switching."
+        />
+        <InfoSection
+          title="GFM Compliance"
+          icon={FileText}
+          description="Full support for GitHub Flavored Markdown (GFM), including task lists, strikethroughs, and auto-linked URLs. Ensure your documentation looks exactly as it will appear on repository hosting services or project wikis."
+        />
       </div>
     </div>
   );

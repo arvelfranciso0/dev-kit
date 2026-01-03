@@ -8,14 +8,14 @@ import Header from "@/components/shared/header";
 const tools: Tool[] = [
   {
     title: "JWT Debugger",
-    desc: "Decode and inspect JWTs.",
+    desc: "Locally decode, verify, and inspect JSON Web Token payloads and header signatures without sending data to a server.",
     href: "/tools/security/jwt",
     icon: <Shield size={18} />,
     status: "ready",
   },
   {
     title: "Bcrypt Hasher",
-    desc: "Secure password hashing.",
+    desc: "Generate and verify cryptographically secure password hashes using adaptive salt rounds for industry-standard protection.",
     href: "/tools/security/bcrypt",
     icon: <Lock size={18} />,
     status: "ready",

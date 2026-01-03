@@ -10,8 +10,11 @@ import {
   Download,
   Table,
   AlertCircle,
+  ListTree,
+  TableProperties,
 } from "lucide-react";
 import { jsonToCsv } from "@/lib/json-utils";
+import { InfoSection } from "@/components/shared/info-section";
 
 export default function JsonCsv() {
   const [input, setInput] = useState("");
@@ -92,6 +95,7 @@ export default function JsonCsv() {
         <ActionPanel
           label="CSV Result"
           icon={<FileSpreadsheet size={14} />}
+          count={csvResult.length}
           copyValue={csvResult}
           variant="output"
         >
@@ -110,6 +114,18 @@ export default function JsonCsv() {
             )}
           </div>
         </ActionPanel>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-12 border-t border-zinc-100 dark:border-zinc-800 pt-12">
+        <InfoSection
+          title="Data Flattening"
+          icon={ListTree}
+          description="JSON often contains deeply nested objects and arrays. Our converter intelligently flattens these hierarchies into a single-row relationship, using dot notation for keys to ensure no data point is lost during the transition to a 2D grid."
+        />
+        <InfoSection
+          title="Tabular Interoperability"
+          icon={TableProperties}
+          description="Bridge the gap between modern API responses and traditional analysis tools. By transforming structured JSON into RFC 4180 compliant CSV format, your data becomes instantly compatible with Excel, Google Sheets, and SQL bulk-import utilities."
+        />
       </div>
     </div>
   );

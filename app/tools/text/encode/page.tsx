@@ -21,6 +21,7 @@ import { cn } from "@/lib/utils";
 
 import { ToolHeader } from "@/components/shared/tool-header";
 import { ActionPanel } from "@/components/shared/action-panel";
+import { InfoSection } from "@/components/shared/info-section";
 
 type Mode = "Base64 Encode" | "Base64 Decode" | "URL Encode" | "URL Decode";
 
@@ -159,6 +160,18 @@ export default function EncoderTool() {
             )}
           </div>
         </ActionPanel>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-12 border-t border-zinc-100 dark:border-zinc-800 pt-12">
+        <InfoSection
+          title="Base64 vs. URL Encoding"
+          icon={ArrowRightLeft}
+          description="Base64 converts binary data or complex strings into safe ASCII text for reliable transmission, while URL encoding targets reserved characters such as '&', '?', and '=' to ensure web addresses remain valid and functional."
+        />
+        <InfoSection
+          title="Data Integrity & Safety"
+          icon={Sparkles}
+          description="Client-side transformations ensure that sensitive strings such as API keys or session fragments remain within the local environment. This protocol transformation engine preserves data integrity without requiring server-side processing."
+        />
       </div>
     </div>
   );

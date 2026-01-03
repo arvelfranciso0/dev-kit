@@ -20,6 +20,7 @@ import { Input } from "@/components/ui/input";
 import { InfoSection } from "@/components/shared/info-section";
 import CopiedStatus from "@/components/shared/copied-status";
 import { GIT_COMMANDS } from "@/configs/git-commands";
+import { MetadataCard } from "@/components/shared/meta-card";
 
 const CONVENTIONAL_TYPES = [
   { type: "feat", desc: "A new feature" },
@@ -101,7 +102,11 @@ export default function GitCheatSheet() {
           {/* Grid of Commands */}
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
             {filteredCommands.map((section) => (
-              <ActionPanel label={section.category} key={section.category}>
+              <ActionPanel
+                label={section.category}
+                key={section.category}
+                variant={"output"}
+              >
                 <div className="divide-y divide-zinc-100 dark:divide-zinc-800">
                   {section.commands.map((item, idx) => (
                     <CopiedStatus

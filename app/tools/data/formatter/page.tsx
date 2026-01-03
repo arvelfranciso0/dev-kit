@@ -4,9 +4,20 @@ import { useState, useMemo } from "react";
 import { ToolHeader } from "@/components/shared/tool-header";
 import { ActionPanel } from "@/components/shared/action-panel";
 import { Button } from "@/components/ui/button";
-import { Braces, AlignLeft, Zap, FileJson, AlertCircle } from "lucide-react";
+import {
+  Braces,
+  AlignLeft,
+  Zap,
+  FileJson,
+  AlertCircle,
+  LayoutPanelLeft,
+  ShieldCheck,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { formatJSON, minifyJSON } from "@/lib/json-utils";
+import { InfoSection } from "@/components/shared/info-section";
+import Status from "@/components/shared/status";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function Formatter() {
   const [input, setInput] = useState("");
@@ -108,26 +119,31 @@ export default function Formatter() {
       {/* QUICK STATUS BAR */}
       <div className="flex justify-between items-center px-6 py-4 rounded-2xl border border-zinc-100 dark:border-zinc-900 bg-zinc-50/30 dark:bg-zinc-900/10">
         <div className="flex gap-6">
-          <div className="flex flex-col">
-            <span className="text-[10px] font-black uppercase text-zinc-400 tracking-tighter">
-              Status
-            </span>
-            <span
-              className={cn(
-                "text-xs font-bold",
-                error ? "text-destructive" : "text-emerald-500"
-              )}
-            >
-              {error ? "Invalid Syntax" : input ? "Valid JSON" : "Idle"}
-            </span>
-          </div>
+          <Status
+            value={error ? "Invalid Syntax" : input ? "Valid JSON" : "Idle"}
+            label="Status"
+            color={cn(
+              "text-xs font-bold",
+              error ? "text-destructive" : "text-emerald-500"
+            )}
+          />
           <div className="flex flex-col border-l border-zinc-200 dark:border-zinc-800 pl-6">
-            <span className="text-[10px] font-black uppercase text-zinc-400 tracking-tighter">
-              Indent
-            </span>
-            <span className="text-xs font-bold">2 Spaces</span>
+            <Status value="2 Spaces" label="Indent" />
           </div>
         </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-12 border-t border-zinc-100 dark:border-zinc-800 pt-12">
+        <InfoSection
+          title="Human-Centric Structure"
+          icon={LayoutPanelLeft}
+          description="JSON is often transmitted as minified 'blobs' to save bandwidth. Formatting expands this data with proper indentation and whitespace, transforming dense machine-readable strings into a clear, hierarchical structure that is easy for developers to audit and debug."
+        />
+        <InfoSection
+          title="Schema Validation"
+          icon={ShieldCheck}
+          description="Beyond aesthetics, formatting acts as a first line of defense for data integrity. Our engine validates the JSON syntax in real-time, catching missing commas, unclosed brackets, or trailing characters that would otherwise cause application crashes or API failures."
+        />
       </div>
     </div>
   );

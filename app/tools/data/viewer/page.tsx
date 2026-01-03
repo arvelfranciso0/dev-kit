@@ -3,14 +3,24 @@
 import { useState, useMemo } from "react";
 import { ToolHeader } from "@/components/shared/tool-header";
 import { ActionPanel } from "@/components/shared/action-panel";
-import { Eye, Table, TreeDeciduous, Search, Info } from "lucide-react";
+import {
+  Eye,
+  Table,
+  TreeDeciduous,
+  Info,
+  Network,
+  SearchCode,
+  FileJson,
+} from "lucide-react";
 import { JsonView, defaultStyles } from "react-json-view-lite";
 import "react-json-view-lite/dist/index.css";
-import { cn } from "@/lib/utils";
+import { InfoSection } from "@/components/shared/info-section";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import DataTable from "./_components/data-table";
 
 export default function DataViewer() {
   const [input, setInput] = useState("");
-  const [viewMode, setViewMode] = useState<"tree" | "table">("tree");
+  const [viewMode, setViewMode] = useState("tree");
 
   const parsedData = useMemo(() => {
     try {
@@ -21,7 +31,13 @@ export default function DataViewer() {
   }, [input]);
 
   const isArrayOfObjects =
-    Array.isArray(parsedData) && typeof parsedData[0] === "object";
+    Array.isArray(parsedData) &&
+    parsedData.length > 0 &&
+    typeof parsedData[0] === "object";
+
+  // If user is on table mode but data changes to something non-tabular, switch back to tree
+  const activeTab =
+    viewMode === "table" && !isArrayOfObjects ? "tree" : viewMode;
 
   return (
     <div className="p-4 md:p-8 space-y-8">
@@ -32,41 +48,36 @@ export default function DataViewer() {
           icon={<Eye />}
         />
 
-        {/* VIEW MODE TOGGLE */}
-        <div className="flex gap-1 p-1 bg-zinc-100 dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800">
-          <button
-            onClick={() => setViewMode("tree")}
-            className={cn(
-              "flex items-center gap-2 px-4 py-2 rounded-lg text-[10px] font-bold uppercase tracking-widest transition-all",
-              viewMode === "tree"
-                ? "bg-white dark:bg-zinc-800 shadow-sm"
-                : "opacity-50 hover:opacity-100"
-            )}
-          >
-            <TreeDeciduous size={14} /> Tree
-          </button>
-          <button
-            disabled={!isArrayOfObjects}
-            onClick={() => setViewMode("table")}
-            className={cn(
-              "flex items-center gap-2 px-4 py-2 rounded-lg text-[10px] font-bold uppercase tracking-widest transition-all",
-              viewMode === "table"
-                ? "bg-white dark:bg-zinc-800 shadow-sm"
-                : "opacity-50 hover:opacity-100",
-              !isArrayOfObjects && "cursor-not-allowed grayscale"
-            )}
-          >
-            <Table size={14} /> Table
-          </button>
-        </div>
+        <Tabs value={activeTab} onValueChange={setViewMode} className="w-auto">
+          <TabsList className="grid w-full grid-cols-2 h-11 bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-1">
+            <TabsTrigger
+              value="tree"
+              className="text-[10px] font-bold uppercase tracking-widest gap-2"
+            >
+              <TreeDeciduous size={14} /> Tree
+            </TabsTrigger>
+            <TabsTrigger
+              value="table"
+              disabled={!isArrayOfObjects}
+              className="text-[10px] font-bold uppercase tracking-widest gap-2"
+            >
+              <Table size={14} /> Table
+            </TabsTrigger>
+          </TabsList>
+        </Tabs>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* INPUT SOURCE */}
         <div className="lg:col-span-1">
-          <ActionPanel label="Raw JSON Source" onReset={() => setInput("")}>
+          <ActionPanel
+            label="Raw JSON Source"
+            icon={<FileJson size={14} />}
+            onReset={() => setInput("")}
+            count={input.length}
+          >
             <textarea
-              className="w-full h-150 p-4 bg-transparent resize-none focus:outline-none text-xs font-mono leading-relaxed"
+              className="w-full h-150 p-4 bg-transparent resize-none focus:outline-none text-xs font-mono leading-relaxed placeholder:opacity-50"
               placeholder="Paste your JSON array or object here..."
               value={input}
               onChange={(e) => setInput(e.target.value)}
@@ -76,88 +87,75 @@ export default function DataViewer() {
         </div>
 
         {/* INTERACTIVE VIEWER */}
-        <div className="lg:col-span-2 rounded-3xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 overflow-hidden flex flex-col">
-          <div className="px-6 py-4 border-b border-zinc-100 dark:border-zinc-900 bg-zinc-50/50 dark:bg-zinc-900/20 flex justify-between items-center">
-            <span className="text-[10px] font-black uppercase tracking-widest text-zinc-400">
-              Inspector Output
-            </span>
-            {parsedData && !parsedData.error && (
-              <div className="flex gap-4 text-[10px] font-mono text-zinc-500">
-                <span>
-                  Type: {Array.isArray(parsedData) ? "Array" : "Object"}
-                </span>
-                <span>
-                  Size: {new TextEncoder().encode(input).length} bytes
-                </span>
-              </div>
-            )}
-          </div>
-
-          <div className="flex-1 overflow-auto p-6">
-            {parsedData?.error ? (
-              <div className="h-full flex flex-col items-center justify-center text-rose-500 gap-2 opacity-50">
-                <Info size={24} />
-                <span className="text-[10px] font-bold uppercase tracking-tighter">
-                  {parsedData.error}
-                </span>
-              </div>
-            ) : !parsedData ? (
-              <div className="h-full flex items-center justify-center text-zinc-300 italic text-sm">
-                Awaiting data input...
-              </div>
-            ) : viewMode === "tree" ? (
-              <div className="font-mono text-sm custom-json-view">
-                <JsonView
-                  data={parsedData}
-                  shouldExpandNode={(level) => level < 2}
-                  style={defaultStyles}
-                />
-              </div>
-            ) : (
-              <DataTable data={parsedData} />
-            )}
-          </div>
+        <div className="lg:col-span-2">
+          <ActionPanel
+            icon={
+              activeTab === "tree" ? (
+                <TreeDeciduous size={14} />
+              ) : (
+                <Table size={14} />
+              )
+            }
+            variant={"output"}
+            label={`${activeTab.toUpperCase()} INSPECTOR`}
+            headers={
+              parsedData &&
+              !parsedData.error && (
+                <div className="flex gap-4 text-[10px] font-mono text-zinc-500">
+                  <span>
+                    Type: {Array.isArray(parsedData) ? "Array" : "Object"}
+                  </span>
+                  <span>
+                    Size: {new TextEncoder().encode(input).length} bytes
+                  </span>
+                </div>
+              )
+            }
+          >
+            <div className="flex-1 overflow-auto p-4 h-152">
+              {!parsedData ? (
+                <div className="h-full flex items-center justify-center text-zinc-300 dark:text-zinc-800 italic text-sm">
+                  Awaiting data input...
+                </div>
+              ) : parsedData?.error ? (
+                <div className="h-full flex flex-col items-center justify-center text-rose-500 gap-2 opacity-50">
+                  <Info size={24} />
+                  <span className="text-[10px] font-bold uppercase tracking-tighter">
+                    {parsedData.error}
+                  </span>
+                </div>
+              ) : (
+                <div className="h-full">
+                  {activeTab === "tree" ? (
+                    <div className="font-mono text-sm custom-json-view">
+                      <JsonView
+                        data={parsedData}
+                        shouldExpandNode={(level) => level < 2}
+                        style={defaultStyles}
+                      />
+                    </div>
+                  ) : (
+                    <DataTable data={parsedData} />
+                  )}
+                </div>
+              )}
+            </div>
+          </ActionPanel>
         </div>
       </div>
-    </div>
-  );
-}
 
-// Sub-component for Table View
-function DataTable({ data }: { data: any[] }) {
-  if (!Array.isArray(data) || data.length === 0) return null;
-  const headers = Object.keys(data[0]);
-
-  return (
-    <div className="overflow-x-auto">
-      <table className="w-full text-left border-collapse">
-        <thead>
-          <tr className="border-b border-zinc-200 dark:border-zinc-800">
-            {headers.map((h) => (
-              <th
-                key={h}
-                className="py-2 px-4 text-[10px] font-black uppercase tracking-widest text-zinc-400"
-              >
-                {h}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody className="text-xs font-mono">
-          {data.map((row, i) => (
-            <tr
-              key={i}
-              className="border-b border-zinc-100 dark:border-zinc-900 hover:bg-zinc-50 dark:hover:bg-zinc-900/50"
-            >
-              {headers.map((h) => (
-                <td key={h} className="py-2 px-4 truncate max-w-50">
-                  {typeof row[h] === "object" ? "{...}" : String(row[h])}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-12 border-t border-zinc-100 dark:border-zinc-800 pt-12">
+        <InfoSection
+          title="Visual Hierarchy"
+          icon={SearchCode}
+          description="Transform dense, minified JSON strings into a clean, collapsible tree structure. This interactive visualization allows you to quickly scan keys and values while maintaining a clear sense of data nesting and depth."
+        />
+        <InfoSection
+          title="Schema Exploration"
+          icon={Network}
+          description="Designed for high-performance data navigation, the viewer helps you explore complex object schemas without getting lost. Instantly identify data types—such as arrays, booleans, and nulls—through syntax-aware color coding."
+        />
+      </div>
     </div>
   );
 }

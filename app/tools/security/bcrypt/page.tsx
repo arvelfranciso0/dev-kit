@@ -17,9 +17,11 @@ import {
   ShieldCheck,
   ShieldAlert,
   Cpu,
+  Fingerprint,
 } from "lucide-react";
 import { hashText, verifyHash, BCRYPT_CONFIG } from "@/lib/crypto-utils";
 import { cn } from "@/lib/utils";
+import { InfoSection } from "@/components/shared/info-section";
 
 export default function BcryptHasher() {
   const [input, setInput] = useState("");
@@ -143,20 +145,6 @@ export default function BcryptHasher() {
               >
                 {hash || "Waiting for generation..."}
               </p>
-              {/* {hash && (
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="absolute right-4 top-1/2 -translate-y-1/2"
-                  onClick={handleCopy}
-                >
-                  {copied ? (
-                    <Check className="text-emerald-500" size={18} />
-                  ) : (
-                    <Copy size={18} />
-                  )}
-                </Button>
-              )} */}
             </div>
           </ActionPanel>
 
@@ -208,6 +196,18 @@ export default function BcryptHasher() {
             </div>
           </ActionPanel>
         </div>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-12 border-t border-zinc-100 dark:border-zinc-800 pt-12">
+        <InfoSection
+          title="Cryptographic Salting"
+          icon={Fingerprint}
+          description="Bcrypt automatically incorporates a random salt into every hash. This ensures that even if two users have the same password, their generated hashes will be completely unique, effectively neutralizing rainbow table attacks."
+        />
+        <InfoSection
+          title="Adaptive Work Factor"
+          icon={ShieldCheck}
+          description="The 'cost' parameter determines the number of hashing rounds. As hardware gets faster, you can increase this work factor to ensure that verifying a password remains intentionally slow for attackers while staying fast for users."
+        />
       </div>
     </div>
   );

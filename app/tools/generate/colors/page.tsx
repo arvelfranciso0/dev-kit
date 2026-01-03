@@ -5,7 +5,7 @@ import chroma from "chroma-js";
 import { ToolHeader } from "@/components/shared/tool-header";
 import { ActionPanel } from "@/components/shared/action-panel";
 import { Button } from "@/components/ui/button";
-import { Palette, RotateCcw, Info, Sparkles } from "lucide-react";
+import { Palette, RotateCcw, Info, Sparkles, ShieldCheck } from "lucide-react";
 import { useDebounce } from "@/hooks/use-debounce";
 
 import { cn } from "@/lib/utils";
@@ -14,6 +14,7 @@ import CopiedStatus from "@/components/shared/copied-status";
 import { ColorPicker } from "@/components/shared/color-picker";
 import { CopyItem } from "@/components/shared/copy-item";
 import { PaletteRow } from "./_components/palette-row";
+import { InfoSection } from "@/components/shared/info-section";
 
 export default function ColorPalette() {
   const [seedColor, setSeedColor] = useState("#3B82F6");
@@ -142,6 +143,18 @@ export default function ColorPalette() {
             </p>
           </div>
         </div>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-12 border-t border-zinc-100 dark:border-zinc-800 pt-12">
+        <InfoSection
+          title="Harmonious Color Logic"
+          icon={Palette}
+          description="Generate mathematically consistent color scales based on color theory principles like monochromatic, analogous, and triadic relationships. This ensures that your UI remains visually balanced across primary, secondary, and accent surfaces."
+        />
+        <InfoSection
+          title="WCAG Accessibility"
+          icon={ShieldCheck}
+          description="Color choice isn't just about aesthetics; it's about usability. The generator automatically validates contrast ratios against WCAG 2.1 standards, ensuring that your text remains legible for users with visual impairments across all generated shades."
+        />
       </div>
     </div>
   );

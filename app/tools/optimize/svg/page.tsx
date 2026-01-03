@@ -12,13 +12,13 @@ import { Textarea } from "@/components/ui/textarea";
 import {
   FileCode,
   Sparkles,
-  Trash2,
   Zap,
-  Info,
   Loader2,
   Download,
+  Minimize2,
+  TrendingDown,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { MetadataCard } from "@/components/shared/meta-card";
 
 export default function SvgOptimizer() {
   const [rawSvg, setRawSvg] = useState("");
@@ -34,22 +34,14 @@ export default function SvgOptimizer() {
     );
   }, [rawSvg]);
 
-  // Comprehensive Export Formats
   const exports = useMemo(() => {
     if (!optimizedSvg) return null;
-
-    // 1. Base64
     const base64 = window.btoa(unescape(encodeURIComponent(optimizedSvg)));
-
-    // 2. Data URI (Optimized for CSS/Browsers)
-    // This maintains readability while escaping characters that break CSS backgrounds
     const dataUri = `data:image/svg+xml,${optimizedSvg
       .replace(/"/g, "'")
       .replace(/>\s+</g, "><")
       .replace(/\s{2,}/g, " ")
       .replace(/[\r\n%#()<>?\[\\\]^`{|}]/g, encodeURIComponent)}`;
-
-    // 3. Raw encodeURIComponent (The standard JS encoding with prefix)
     const rawEncoded = `data:image/svg+xml,${encodeURIComponent(optimizedSvg)}`;
 
     return {
@@ -62,7 +54,6 @@ export default function SvgOptimizer() {
   const handleOptimize = async () => {
     if (!rawSvg) return;
     setIsProcessing(true);
-
     try {
       const result = optimize(rawSvg, {
         multipass: true,
@@ -75,7 +66,6 @@ export default function SvgOptimizer() {
       });
       setOptimizedSvg(result.data);
     } catch (error) {
-      console.error("SVGO Optimization failed:", error);
       setOptimizedSvg(rawSvg.replace(/<!--[\s\S]*?-->/g, "").trim());
     } finally {
       setIsProcessing(false);
@@ -109,6 +99,33 @@ export default function SvgOptimizer() {
         icon={<FileCode />}
       />
 
+      {/* TOP METRICS SECTION */}
+      <div className="flex justify-end w-full">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 w-full md:w-auto md:min-w-150">
+          <MetadataCard
+            icon={<FileCode size={14} />}
+            label="Original"
+            value={
+              optimizedSvg ? `${(rawSvg.length / 1024).toFixed(2)} KB` : "---"
+            }
+          />
+          <MetadataCard
+            icon={<Sparkles size={14} className="text-emerald-500" />}
+            label="Optimized"
+            value={
+              optimizedSvg
+                ? `${(optimizedSvg.length / 1024).toFixed(2)} KB`
+                : "---"
+            }
+          />
+          <MetadataCard
+            icon={<TrendingDown size={14} className="text-amber-500" />}
+            label="Reduction"
+            value={optimizedSvg ? `-${calculateSaving()}%` : "---"}
+          />
+        </div>
+      </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         <div className="lg:col-span-5 space-y-6">
           <ActionPanel
@@ -119,9 +136,9 @@ export default function SvgOptimizer() {
             }}
           >
             <div className="p-4 space-y-4">
-              <Textarea
+              <textarea
                 placeholder="Paste <svg> code..."
-                className="min-h-75 font-mono text-[10px] bg-zinc-50 dark:bg-zinc-950 rounded-2xl border-none focus-visible:ring-1"
+                className="min-h-100 font-mono text-[10px] bg-zinc-50 dark:bg-zinc-950 rounded-2xl border-none focus-visible:ring-1"
                 value={rawSvg}
                 onChange={(e) => {
                   setRawSvg(e.target.value);
@@ -202,52 +219,22 @@ export default function SvgOptimizer() {
                 </div>
               )}
             </div>
-
-            {optimizedSvg && (
-              <div className="absolute bottom-6 left-6 right-6 flex justify-between items-center bg-white/90 dark:bg-zinc-900/90 backdrop-blur-xl p-5 rounded-3xl border border-zinc-200/50 shadow-2xl">
-                <div className="flex gap-8">
-                  <Stat
-                    label="Original"
-                    value={`${(rawSvg.length / 1024).toFixed(2)} KB`}
-                  />
-                  <Stat
-                    label="Optimized"
-                    value={`${(optimizedSvg.length / 1024).toFixed(2)} KB`}
-                    color="text-emerald-500"
-                  />
-                </div>
-                <div className="text-right">
-                  <p className="text-[10px] font-black uppercase text-zinc-400">
-                    Reduction
-                  </p>
-                  <p className="text-lg font-black text-amber-500">
-                    -{calculateSaving()}%
-                  </p>
-                </div>
-              </div>
-            )}
           </PreviewContainer>
         </div>
       </div>
-    </div>
-  );
-}
 
-function Stat({
-  label,
-  value,
-  color = "text-zinc-900 dark:text-zinc-100",
-}: {
-  label: string;
-  value: string;
-  color?: string;
-}) {
-  return (
-    <div>
-      <p className="text-[10px] font-black uppercase text-zinc-400 mb-1">
-        {label}
-      </p>
-      <p className={cn("text-sm font-mono font-bold", color)}>{value}</p>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-12 border-t border-zinc-100 dark:border-zinc-800 pt-12">
+        <InfoSection
+          title="Path Minification"
+          icon={Minimize2}
+          description="Vector files often contain redundant coordinate data and overly precise decimals. Our optimizer rounds these values and simplifies path commands, significantly reducing file size."
+        />
+        <InfoSection
+          title="Bloat Removal"
+          icon={Zap}
+          description="Design software embeds hidden metadata and unused groups. We strip these unnecessary elements and minify the XML structure to ensure your assets load instantly."
+        />
+      </div>
     </div>
   );
 }

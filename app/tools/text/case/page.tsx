@@ -12,10 +12,12 @@ import {
   CaseLower,
   Codepen,
   Terminal,
+  Zap,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ToolHeader } from "@/components/shared/tool-header";
 import { ActionPanel } from "@/components/shared/action-panel";
+import { InfoSection } from "@/components/shared/info-section";
 
 export default function CaseConverter() {
   const [text, setText] = useState("");
@@ -72,6 +74,18 @@ export default function CaseConverter() {
             </div>
           </ActionPanel>
         ))}
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-12 border-t pt-12">
+        <InfoSection
+          title="Naming Conventions"
+          icon={CaseUpper}
+          description="Consistency is key in clean code. Whether you are switching a database schema to snake_case or a React component to PascalCase, this utility ensures your identifiers match your project's architectural standards perfectly."
+        />
+        <InfoSection
+          title="Refactoring Speed"
+          icon={Zap}
+          description="Manual text editing is prone to human error. By automating case transformation, you eliminate typos and mismatched variable names, allowing you to focus on logic rather than string formatting during large-scale refactors."
+        />
       </div>
     </div>
   );
