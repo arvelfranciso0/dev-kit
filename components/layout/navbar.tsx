@@ -107,7 +107,7 @@ export default function Navbar() {
         <div className="flex items-center gap-2">
           <button
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="p-2 rounded-lg text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors relative"
+            className="p-2 rounded-lg text-zinc-900 hover:text-amber-500 dark:text-zinc-50 dark:hover:text-zinc-100 transition-colors relative"
           >
             <Sun className="h-4 w-4 scale-100 dark:scale-0 transition-all" />
             <Moon className="absolute h-4 w-4 scale-0 dark:scale-100 transition-all top-2 left-2" />
