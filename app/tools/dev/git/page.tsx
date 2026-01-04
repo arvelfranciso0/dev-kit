@@ -21,6 +21,7 @@ import { InfoSection } from "@/components/shared/info-section";
 import CopiedStatus from "@/components/shared/copied-status";
 import { GIT_COMMANDS } from "@/configs/git-commands";
 import { MetadataCard } from "@/components/shared/meta-card";
+import { CopyItem } from "@/components/shared/copy-item";
 
 const CONVENTIONAL_TYPES = [
   { type: "feat", desc: "A new feature" },
@@ -109,7 +110,7 @@ export default function GitCheatSheet() {
               >
                 <div className="divide-y divide-zinc-100 dark:divide-zinc-800">
                   {section.commands.map((item, idx) => (
-                    <CopiedStatus
+                    <CopyItem
                       copyValue={item.cmd}
                       key={idx}
                       className="group p-4 hover:bg-amber-500/5 transition-colors cursor-pointer"
@@ -122,7 +123,7 @@ export default function GitCheatSheet() {
                           {item.desc}
                         </p>
                       </div>
-                    </CopiedStatus>
+                    </CopyItem>
                   ))}
                 </div>
               </ActionPanel>

@@ -1,23 +1,32 @@
 "use client";
 
 import { useState } from "react";
-import { toUpper, toLower, toCamelCase, toSnakeCase } from "@/lib/string-utils";
 import {
-  Copy,
-  Check,
+  toUpper,
+  toLower,
+  toCamelCase,
+  toSnakeCase,
+  // Assuming toPascalCase exists in your utils, if not:
+  // (str) => str.replace(/(\w)(\w*)/g, (_, g1, g2) => g1.toUpperCase() + g2.toLowerCase()).replace(/\s+/g, '')
+} from "@/lib/string-utils";
+import {
   Type,
-  RotateCcw,
-  Hash,
+  Zap,
   CaseUpper,
   CaseLower,
   Codepen,
   Terminal,
-  Zap,
+  Hash,
+  Box,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+
+// Shared Components
 import { ToolHeader } from "@/components/shared/tool-header";
 import { ActionPanel } from "@/components/shared/action-panel";
 import { InfoSection } from "@/components/shared/info-section";
+import { MetadataCard } from "@/components/shared/meta-card";
+import { Input } from "@/components/ui/input";
 
 export default function CaseConverter() {
   const [text, setText] = useState("");
@@ -38,26 +47,46 @@ export default function CaseConverter() {
   ];
 
   return (
-    <div className="p-4 md:p-8 space-y-8 text-zinc-900 dark:text-zinc-100">
-      <ToolHeader
-        title="Case Converter"
-        subtitle="String Transformation Utility"
-        icon={<Type />}
-      />
-
-      <ActionPanel
-        label="Raw Input"
-        count={text.length}
-        onReset={() => setText("")}
-      >
-        <textarea
-          className="w-full h-40 p-6 bg-transparent resize-none focus:outline-none font-mono text-base md:text-lg leading-relaxed"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          placeholder="Paste text..."
+    <div className="p-4 md:p-8 space-y-8">
+      {/* Header & Metrics */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <ToolHeader
+          title="Case Converter"
+          subtitle="Transform strings between common programming naming conventions."
+          icon={<Type />}
         />
+
+        <div className="flex justify-end">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full md:w-auto md:min-w-100">
+            <MetadataCard
+              icon={<Hash size={14} className="text-zinc-400" />}
+              label="Characters"
+              value={text.length.toString()}
+            />
+            <MetadataCard
+              icon={<Zap size={14} className="text-amber-500" />}
+              label="Words"
+              value={
+                text.trim() ? text.trim().split(/\s+/).length.toString() : "0"
+              }
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Input Section */}
+      <ActionPanel label="String Input" onReset={() => setText("")}>
+        <div className="p-6">
+          <Input
+            placeholder="Type or paste text to transform..."
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            className="h-14 px-6 rounded-2xl bg-zinc-50 dark:bg-zinc-950 border-zinc-200 dark:border-zinc-800 text-lg font-medium placeholder:text-zinc-400 focus-visible:ring-zinc-200 dark:focus-visible:ring-zinc-800 transition-all"
+          />
+        </div>
       </ActionPanel>
 
+      {/* Results Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {conversions.map(({ label, value, icon }) => (
           <ActionPanel
@@ -67,24 +96,32 @@ export default function CaseConverter() {
             variant="output"
             copyValue={value}
           >
-            <div className="p-6 font-mono text-base break-all min-h-20 flex items-center">
-              {value || (
-                <span className="text-zinc-300 italic text-sm">Waiting...</span>
+            <div className="p-6 font-mono text-base break-all min-h-25 flex items-center bg-white dark:bg-zinc-950/50">
+              {value ? (
+                <span className="text-zinc-900 dark:text-zinc-100 animate-in fade-in slide-in-from-left-2 duration-300">
+                  {value}
+                </span>
+              ) : (
+                <span className="text-zinc-400 italic text-sm">
+                  Waiting for input...
+                </span>
               )}
             </div>
           </ActionPanel>
         ))}
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-12 border-t pt-12">
+
+      {/* Documentation Section */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-12 border-t border-zinc-100 dark:border-zinc-800 pt-12">
         <InfoSection
           title="Naming Conventions"
           icon={CaseUpper}
-          description="Consistency is key in clean code. Whether you are switching a database schema to snake_case or a React component to PascalCase, this utility ensures your identifiers match your project's architectural standards perfectly."
+          description="Consistency is key in clean code. Whether you are switching a database schema to snake_case or a React component to PascalCase, this utility ensures your identifiers match your project standards."
         />
         <InfoSection
           title="Refactoring Speed"
           icon={Zap}
-          description="Manual text editing is prone to human error. By automating case transformation, you eliminate typos and mismatched variable names, allowing you to focus on logic rather than string formatting during large-scale refactors."
+          description="Manual text editing is prone to human error. Automating case transformation eliminates typos and mismatched variable names, especially during large-scale code refactors."
         />
       </div>
     </div>

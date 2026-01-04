@@ -15,6 +15,8 @@ import {
 } from "lucide-react";
 import { jsonToCsv } from "@/lib/json-utils";
 import { InfoSection } from "@/components/shared/info-section";
+import { Textarea } from "@/components/ui/textarea";
+import { CodeEditor } from "@/components/shared/code-mirror";
 
 export default function JsonCsv() {
   const [input, setInput] = useState("");
@@ -72,23 +74,12 @@ export default function JsonCsv() {
           count={input.length}
           onReset={() => setInput("")}
         >
-          <div className="relative h-125">
-            <textarea
-              className="w-full h-full p-6 bg-transparent resize-none focus:outline-none text-sm leading-relaxed"
-              placeholder='[{"name": "John", "age": 30}, {"name": "Jane", "age": 25}]'
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              spellCheck={false}
-            />
-            {error && (
-              <div className="absolute bottom-4 left-4 right-4 p-3 rounded-lg bg-destructive/10 border border-destructive/20 text-destructive flex items-start gap-2 animate-in fade-in">
-                <AlertCircle size={14} className="shrink-0 mt-0.5" />
-                <p className="text-[11px] font-bold uppercase tracking-tight">
-                  {error}
-                </p>
-              </div>
-            )}
-          </div>
+          <CodeEditor
+            value={input}
+            onChange={(value) => setInput(value)}
+            containerClassName="h-162.5"
+            editable
+          />
         </ActionPanel>
 
         {/* OUTPUT PANEL */}

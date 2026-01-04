@@ -1,4 +1,5 @@
 import CopiedStatus from "@/components/shared/copied-status";
+import { CopyItem } from "@/components/shared/copy-item";
 import { cn } from "@/lib/utils";
 
 interface PaletteRowProps {
@@ -17,7 +18,7 @@ export function PaletteRow({ name, hex, isSeed }: PaletteRowProps) {
           : "hover:bg-zinc-50 dark:hover:bg-zinc-900"
       )}
     >
-      <CopiedStatus copyValue={hex}>
+      <CopyItem copyValue={hex}>
         <div className="flex items-center gap-4">
           <div
             className="w-10 h-10 rounded-lg shadow-sm border border-black/5"
@@ -39,7 +40,7 @@ export function PaletteRow({ name, hex, isSeed }: PaletteRowProps) {
             </span>
           </div>
         </div>
-      </CopiedStatus>
+      </CopyItem>
     </div>
   );
 }

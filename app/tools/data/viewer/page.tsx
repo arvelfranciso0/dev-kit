@@ -17,6 +17,8 @@ import "react-json-view-lite/dist/index.css";
 import { InfoSection } from "@/components/shared/info-section";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import DataTable from "./_components/data-table";
+import { Textarea } from "@/components/ui/textarea";
+import { CodeEditor } from "@/components/shared/code-mirror";
 
 export default function DataViewer() {
   const [input, setInput] = useState("");
@@ -76,12 +78,11 @@ export default function DataViewer() {
             onReset={() => setInput("")}
             count={input.length}
           >
-            <textarea
-              className="w-full h-150 p-4 bg-transparent resize-none focus:outline-none text-xs font-mono leading-relaxed placeholder:opacity-50"
-              placeholder="Paste your JSON array or object here..."
+            <CodeEditor
               value={input}
-              onChange={(e) => setInput(e.target.value)}
-              spellCheck={false}
+              onChange={(e) => setInput(e)}
+              containerClassName="h-162.5"
+              editable
             />
           </ActionPanel>
         </div>
@@ -112,7 +113,7 @@ export default function DataViewer() {
               )
             }
           >
-            <div className="flex-1 overflow-auto p-4 h-152">
+            <div className="flex-1 overflow-auto p-4 h-162.5">
               {!parsedData ? (
                 <div className="h-full flex items-center justify-center text-zinc-300 dark:text-zinc-800 italic text-sm">
                   Awaiting data input...

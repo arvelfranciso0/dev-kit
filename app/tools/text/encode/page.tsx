@@ -22,6 +22,7 @@ import { cn } from "@/lib/utils";
 import { ToolHeader } from "@/components/shared/tool-header";
 import { ActionPanel } from "@/components/shared/action-panel";
 import { InfoSection } from "@/components/shared/info-section";
+import { Textarea } from "@/components/ui/textarea";
 
 type Mode = "Base64 Encode" | "Base64 Decode" | "URL Encode" | "URL Decode";
 
@@ -130,8 +131,8 @@ export default function EncoderTool() {
           onReset={() => setText("")}
           variant="input"
         >
-          <textarea
-            className="h-80 md:h-112.5 w-full p-6 bg-transparent resize-none focus:outline-none font-mono text-base leading-relaxed placeholder:text-zinc-300 dark:placeholder:text-zinc-800"
+          <Textarea
+            className="h-80 p-4"
             placeholder="Enter raw text here..."
             value={text}
             onChange={(e) => setText(e.target.value)}

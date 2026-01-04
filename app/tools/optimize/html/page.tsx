@@ -18,6 +18,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { InfoSection } from "@/components/shared/info-section";
 import { MetadataCard } from "@/components/shared/meta-card";
+import { CodeEditor } from "@/components/shared/code-mirror";
 
 export default function HTMLSanitizer() {
   const [input, setInput] = useState("");
@@ -78,48 +79,50 @@ export default function HTMLSanitizer() {
   }, [input, output]);
 
   return (
-    <div className="flex flex-col p-4 lg:p-8 space-y-6 h-full">
-      <ToolHeader
-        title="HTML Sanitizer"
-        subtitle="Strip malicious scripts and normalize messy markup into clean HTML5"
-        icon={<ShieldCheck />}
-      />
+    <div className="p-4 md:p-8 space-y-8 ">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <ToolHeader
+          title="HTML Sanitizer"
+          subtitle="Strip malicious scripts and normalize messy markup into clean HTML5"
+          icon={<ShieldCheck />}
+        />
 
-      <div className="flex justify-end w-full">
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full md:w-auto md:min-w-150">
-          <MetadataCard
-            icon={<FileCode size={14} />}
-            label="Original Size"
-            value={input ? `${stats.raw} KB` : "---"}
-          />
-          <MetadataCard
-            icon={<ShieldCheck size={14} className="text-emerald-500" />}
-            label="Sanitized Size"
-            value={output ? `${stats.clean} KB` : "---"}
-          />
-          <MetadataCard
-            icon={<Trash2 size={14} className="text-amber-500" />}
-            label="Bloat Removed"
-            value={output ? `-${stats.reduction}%` : "---"}
-          />
+        <div className="flex justify-end">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 w-full md:w-auto md:min-w-125">
+            <MetadataCard
+              icon={<FileCode size={14} />}
+              label="Original Size"
+              value={input ? `${stats.raw} KB` : "---"}
+            />
+            <MetadataCard
+              icon={<ShieldCheck size={14} className="text-emerald-500" />}
+              label="Sanitized Size"
+              value={output ? `${stats.clean} KB` : "---"}
+            />
+            <MetadataCard
+              icon={<Trash2 size={14} className="text-amber-500" />}
+              label="Bloat Removed"
+              value={output ? `-${stats.reduction}%` : "---"}
+            />
+          </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
         <ActionPanel
           label="Dirty HTML Input"
           icon={<Code2 size={14} />}
           onReset={() => setInput("")}
           count={input.length}
         >
-          <div className="p-4">
-            <textarea
-              placeholder="Paste untrusted HTML..."
-              className="min-h-[400px] font-mono text-xs resize-none bg-white dark:bg-zinc-950 border-zinc-200 dark:border-zinc-800"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-            />
-          </div>
+          <CodeEditor
+            value={input}
+            onChange={(value) => setInput(value)}
+            mode={"html"}
+            containerClassName="h-162.5"
+            placeholder={"Paste untrusted HTML..."}
+            editable
+          />
         </ActionPanel>
 
         <ActionPanel
@@ -128,31 +131,32 @@ export default function HTMLSanitizer() {
           variant="output"
           copyValue={output}
         >
-          <div className="p-4">
-            <Tabs defaultValue="code" className="w-full">
-              <TabsList className="bg-zinc-100 dark:bg-zinc-900 mb-4">
-                <TabsTrigger value="code" className="text-xs">
-                  <Code2 size={12} className="mr-2" /> Source
-                </TabsTrigger>
-                <TabsTrigger value="preview" className="text-xs">
-                  <Eye size={12} className="mr-2" /> Visual Preview
-                </TabsTrigger>
-              </TabsList>
+          <Tabs defaultValue="code" className="w-full">
+            <TabsList className="bg-zinc-100 dark:bg-zinc-900 mb-4">
+              <TabsTrigger value="code" className="text-xs">
+                <Code2 size={12} className="mr-2" /> Source
+              </TabsTrigger>
+              <TabsTrigger value="preview" className="text-xs">
+                <Eye size={12} className="mr-2" /> Visual Preview
+              </TabsTrigger>
+            </TabsList>
 
-              <TabsContent value="code">
-                <pre className="p-4 rounded-lg bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 min-h-[350px] max-h-[350px] overflow-auto text-xs font-mono text-amber-600 dark:text-amber-500 whitespace-pre-wrap">
-                  {output || "Waiting for input..."}
-                </pre>
-              </TabsContent>
+            <TabsContent value="code">
+              <CodeEditor
+                containerClassName="h-148"
+                value={output}
+                placeholder={"Waiting for input..."}
+                readOnly
+              />
+            </TabsContent>
 
-              <TabsContent value="preview">
-                <div
-                  className="p-4 rounded-lg bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 min-h-[350px] max-h-[350px] overflow-auto prose prose-sm dark:prose-invert max-w-none"
-                  dangerouslySetInnerHTML={{ __html: output }}
-                />
-              </TabsContent>
-            </Tabs>
-          </div>
+            <TabsContent value="preview">
+              <div
+                className="p-4 h-148 overflow-auto prose prose-sm dark:prose-invert max-w-none"
+                dangerouslySetInnerHTML={{ __html: output }}
+              />
+            </TabsContent>
+          </Tabs>
         </ActionPanel>
       </div>
 

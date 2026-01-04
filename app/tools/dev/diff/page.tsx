@@ -10,6 +10,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { GitCompare, Columns, Rows, Check } from "lucide-react";
 import "react-diff-view/style/index.css";
 import { InfoSection } from "@/components/shared/info-section";
+import { CodeEditor } from "@/components/shared/code-mirror";
 
 export default function DiffViewer() {
   const [oldCode, setOldCode] = useState("");
@@ -35,20 +36,20 @@ export default function DiffViewer() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <ActionPanel label="Original Code" onReset={() => setOldCode("")}>
-          <textarea
-            placeholder="Paste original code..."
-            className="w-full h-full min-h-125 p-6 bg-transparent resize-none focus:outline-none font-mono text-sm leading-relaxed"
+          <CodeEditor
+            editable={true}
             value={oldCode}
-            onChange={(e) => setOldCode(e.target.value)}
+            onChange={(value) => setOldCode(value)}
+            containerClassName="h-162.5"
           />
         </ActionPanel>
 
         <ActionPanel label="Modified Code" onReset={() => setNewCode("")}>
-          <textarea
-            placeholder="Paste modified code..."
-            className="w-full h-full min-h-125 p-6 bg-transparent resize-none focus:outline-none font-mono text-sm leading-relaxed"
+          <CodeEditor
+            editable={true}
             value={newCode}
-            onChange={(e) => setNewCode(e.target.value)}
+            onChange={(value) => setNewCode(value)}
+            containerClassName="h-162.5"
           />
         </ActionPanel>
       </div>

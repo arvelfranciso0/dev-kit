@@ -15,6 +15,10 @@ import { compareJson } from "@/lib/json-utils";
 import { cn } from "@/lib/utils";
 import { InfoSection } from "@/components/shared/info-section";
 import { Textarea } from "@/components/ui/textarea";
+import ReactCodeMirror, { oneDark } from "@uiw/react-codemirror";
+import { transparentThemeCodeViewer } from "@/configs/themes";
+import { json } from "@codemirror/lang-json";
+import { CodeEditor } from "@/components/shared/code-mirror";
 
 export default function JsonDiffTool() {
   const [original, setOriginal] = useState("");
@@ -38,12 +42,14 @@ export default function JsonDiffTool() {
           label="Original JSON"
           onReset={() => setOriginal("")}
           icon={<History />}
+          count={original.length}
         >
-          <textarea
-            className="w-full h-64 p-4 bg-transparent resize-none focus:outline-none text-xs font-mono"
-            placeholder='{ "id": 1, "status": "active" }'
+          <CodeEditor
             value={original}
-            onChange={(e) => setOriginal(e.target.value)}
+            onChange={(value) => setOriginal(value)}
+            containerClassName="h-162.5"
+            editable
+            mode={"json"}
           />
         </ActionPanel>
 
@@ -51,12 +57,14 @@ export default function JsonDiffTool() {
           label="Modified JSON"
           onReset={() => setModified("")}
           icon={<FileEdit />}
+          count={modified.length}
         >
-          <textarea
-            className="w-full h-64 p-4 bg-transparent resize-none focus:outline-none text-xs font-mono"
-            placeholder='{ "id": 1, "status": "pending" }'
+          <CodeEditor
             value={modified}
-            onChange={(e) => setModified(e.target.value)}
+            onChange={(value) => setModified(value)}
+            containerClassName="h-162.5"
+            editable
+            mode={"json"}
           />
         </ActionPanel>
       </div>

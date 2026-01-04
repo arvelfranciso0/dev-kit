@@ -12,6 +12,8 @@ import { ToolHeader } from "@/components/shared/tool-header";
 import { Button } from "@/components/ui/button";
 import { ActionPanel } from "@/components/shared/action-panel";
 import { InfoSection } from "@/components/shared/info-section";
+import { Textarea } from "@/components/ui/textarea";
+import { CodeEditor } from "@/components/shared/code-mirror";
 
 export default function GitHubSplitPreview() {
   const [content, setContent] = useState(
@@ -48,12 +50,17 @@ function hello(name: string) {
       <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-2 overflow-hidden">
         {/* LEFT SIDE: Editor */}
         <ActionPanel label="Markdown Input" onReset={() => setContent("")}>
-          <textarea
+          <CodeEditor
+            editable
+            value={content}
+            onChange={(value) => setContent(value)}
+          />
+          {/* <Textarea
             value={content}
             onChange={(e) => setContent(e.target.value)}
             className="w-full h-full p-6 bg-transparent resize-none focus:outline-none font-mono text-sm leading-relaxed"
             placeholder="Paste your JSON or Markdown here..."
-          />
+          /> */}
         </ActionPanel>
 
         {/* RIGHT SIDE: Preview */}
