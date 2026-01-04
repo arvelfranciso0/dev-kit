@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 
 interface MetadataCardProps {
-  icon: React.ReactNode;
+  icon?: React.ReactNode;
   label: string;
   value: string;
   variant?: "default" | "success" | "error" | "warning";
@@ -28,12 +28,7 @@ export function MetadataCard({
           {label}
         </span>
       </div>
-      <p
-        className={cn(
-          "text-xs font-bold font-mono truncate",
-          variantStyles[variant]
-        )}
-      >
+      <p className={cn("text-xs font-bold font-mono ", variantStyles[variant])}>
         {value}
       </p>
     </div>

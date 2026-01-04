@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -129,4 +130,131 @@
        @apply font-mono;
      }
   
+}
+
+
+/* Custom Diff Styles */
+.diff-custom-container .diff {
+  background-color: transparent;
+}
+
+.diff-custom-container .diff-gutter {
+  background-color: transparent;
+  border-right: 1px solid #e4e4e7;
+  /* zinc-200 */
+  color: #a1a1aa;
+  /* zinc-400 */
+}
+
+.dark .diff-custom-container .diff-gutter {
+  border-right: 1px solid #27272a;
+  /* zinc-800 */
+}
+
+.diff-custom-container .diff-code-insert {
+  background-color: rgba(16, 185, 129, 0.1) !important;
+  /* emerald-500/10 */
+}
+
+.diff-custom-container .diff-code-delete {
+  background-color: rgba(239, 68, 68, 0.1) !important;
+  /* red-500/10 */
+}
+
+.diff-custom-container .diff-gutter-insert {
+  background-color: rgba(16, 185, 129, 0.2) !important;
+  color: #10b981 !important;
+}
+
+.diff-custom-container .diff-gutter-delete {
+  background-color: rgba(239, 68, 68, 0.2) !important;
+  color: #ef4444 !important;
+}
+
+/* Add this to your globals.css */
+
+/* 1. Styling for the Tiptap Editor Surface */
+.ProseMirror table {
+  border-collapse: collapse;
+  table-layout: fixed;
+  width: 100%;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+  /* zinc-200 */
+}
+
+.dark .ProseMirror table {
+  border-color: #27272a;
+  /* zinc-800 */
+}
+
+.ProseMirror th,
+.ProseMirror td {
+  min-width: 1em;
+  border: 1px solid #e2e8f0;
+  padding: 6px 10px;
+  vertical-align: top;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.dark .ProseMirror th,
+.dark .ProseMirror td {
+  border-color: #27272a;
+}
+
+.ProseMirror th {
+  font-weight: bold;
+  text-align: left;
+  background-color: #f4f4f5;
+  /* zinc-100 */
+}
+
+.dark .ProseMirror th {
+  background-color: #18181b;
+  /* zinc-900 */
+}
+
+/* 2. Styling for the Selected Cell */
+.ProseMirror .selectedCell:after {
+  z-index: 2;
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(200, 200, 255, 0.4);
+  pointer-events: none;
+}
+
+/* GitHub-like styling for details and tables */
+.custom-markdown details {
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  background-color: transparent;
+}
+
+.custom-markdown summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: #0969da;
+  /* GitHub Link Blue */
+}
+
+.custom-markdown summary:hover {
+  text-decoration: underline;
+}
+
+.custom-markdown table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.custom-markdown th,
+.custom-markdown td {
+  border: 1px solid #d0d7de;
+  padding: 6px 13px;
 }

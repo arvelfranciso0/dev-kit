@@ -1,6 +1,6 @@
 "use client";
 
-import { Hash, RotateCcw, Copy, Check } from "lucide-react";
+import { Hash, RotateCcw, Copy, Check, Database } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useCopy } from "@/hooks/use-copy";
 import CopiedStatus from "./copied-status";
@@ -13,6 +13,7 @@ interface ActionPanelProps {
   icon?: React.ReactNode;
   variant?: "input" | "output";
   children: React.ReactNode;
+  headers?: React.ReactNode;
 }
 
 export function ActionPanel({
@@ -23,6 +24,7 @@ export function ActionPanel({
   icon,
   variant = "input",
   children,
+  headers,
 }: ActionPanelProps) {
   return (
     <div
@@ -39,17 +41,17 @@ export function ActionPanel({
           {icon} {label}
         </span>
 
-        <div className="flex items-center gap-4 text-[10px] font-mono">
+        <div className="flex items-center gap-2 text-[10px] font-mono">
           {typeof count === "number" && (
             <span className="flex items-center gap-1.5 text-zinc-400">
-              <Hash size={12} /> {count}
+              <Database size={12} /> {count}
             </span>
           )}
 
-          {onReset && (
+          {onReset && count !== 0 && (
             <button
               onClick={onReset}
-              className="hover:text-zinc-900 dark:hover:text-zinc-100 text-zinc-400 transition-colors flex items-center gap-1.5 font-bold uppercase tracking-widest"
+              className="hover:text-zinc-900 cursor-pointer dark:hover:text-zinc-100 text-zinc-400 transition-colors flex items-center gap-1.5 font-bold uppercase tracking-widest"
             >
               <RotateCcw size={12} />
               <span className="hidden sm:inline">Reset</span>
@@ -57,11 +59,13 @@ export function ActionPanel({
           )}
 
           <CopiedStatus copyValue={copyValue} />
+
+          {headers}
         </div>
       </div>
 
       {/* CONTENT AREA */}
-      <div className="flex-1">{children}</div>
+      <div className="flex-1 p-2">{children}</div>
     </div>
   );
 }
