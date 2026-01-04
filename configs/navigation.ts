@@ -198,4 +198,17 @@ export const menuGroups = [
       },
     ],
   },
+  {
+    title: "Playgrounds",
+    href: "/tools/playgrounds",
+    status: "ready",
+    items: [
+      {
+        title: "HTML/CSS/JS Lab",
+        href: "/web",
+        description: "Live web development sandbox with instant preview.",
+        status: "ready",
+      },
+    ],
+  },
 ];

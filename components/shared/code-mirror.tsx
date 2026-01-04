@@ -7,11 +7,13 @@ import { xml } from "@codemirror/lang-xml";
 import { javascript } from "@codemirror/lang-javascript";
 import { oneDark } from "@codemirror/theme-one-dark";
 import { Extension } from "@codemirror/state";
+import { css } from "@codemirror/lang-css";
+
 import { cn } from "@/lib/utils";
 import { transparentThemeCodeViewer } from "@/configs/themes";
 import { useTheme } from "next-themes";
 
-type EditorMode = "json" | "html" | "xml" | "javascript" | "text";
+type EditorMode = "json" | "html" | "xml" | "javascript" | "css" | "text";
 
 interface CodeEditorProps
   extends Omit<ReactCodeMirrorProps, "theme" | "extensions"> {
@@ -50,6 +52,7 @@ function detectLanguage(value?: string): EditorMode {
   if (v.startsWith("<!DOCTYPE html") || /<\/?[a-z][\s\S]*>/i.test(v)) {
     return "html";
   }
+  if (/{[^}]*}/.test(v) && /[.#]?[a-zA-Z0-9_-]+\s*\{/.test(v)) return "css";
 
   return "text";
 }
@@ -64,6 +67,7 @@ const languageMap: Record<EditorMode, Extension[]> = {
       typescript: true,
     }),
   ],
+  css: [css()],
   text: [],
 };
 

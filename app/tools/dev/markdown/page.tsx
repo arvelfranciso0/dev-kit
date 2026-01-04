@@ -55,12 +55,6 @@ function hello(name: string) {
             value={content}
             onChange={(value) => setContent(value)}
           />
-          {/* <Textarea
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            className="w-full h-full p-6 bg-transparent resize-none focus:outline-none font-mono text-sm leading-relaxed"
-            placeholder="Paste your JSON or Markdown here..."
-          /> */}
         </ActionPanel>
 
         {/* RIGHT SIDE: Preview */}

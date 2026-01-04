@@ -25,7 +25,7 @@ export function PreviewContainer({
     <div className={cn("lg:col-span-8 h-full min-h-125", containerClassName)}>
       <div
         className={cn(
-          "relative h-full w-full overflow-hidden rounded-[3rem] border border-zinc-200 p-6 transition-all duration-500 flex flex-col items-center justify-center text-center md:p-12 dark:border-zinc-800",
+          "relative h-full w-full overflow-hidden rounded-2xl border border-zinc-200 p-6 transition-all duration-500 flex flex-col items-center justify-center text-center md:p-12 dark:border-zinc-800",
           !style?.backgroundColor && "bg-zinc-50 dark:bg-zinc-900/50",
           className
         )}
