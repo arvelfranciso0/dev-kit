@@ -9,14 +9,17 @@ import {
   BookOpen,
   Bug,
   Layers,
+  Target,
+  Hash,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 // Reusable Components
 import { ToolHeader } from "@/components/shared/tool-header";
 import { ActionPanel } from "@/components/shared/action-panel";
-import { Textarea } from "@/components/ui/textarea";
 import { InfoSection } from "@/components/shared/info-section";
+import { MetadataCard } from "@/components/shared/meta-card";
+import { Textarea } from "@/components/ui/textarea";
 
 const AVAILABLE_FLAGS = [
   { char: "g", label: "Global", desc: "Find all occurrences." },
@@ -29,27 +32,23 @@ const AVAILABLE_FLAGS = [
 export default function RegexTester() {
   const [pattern, setPattern] = useState("");
   const [text, setText] = useState("");
-  const [flags, setFlags] = useState<string[]>(["g"]);
+  const [flags, setFlags] = useState<string[]>(["g", "m"]);
   const [error, setError] = useState<string | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
-
-  const handlePatternChange = (val: string) => {
-    const delimiterMatch = val.match(/^\/(.+)\/([gimsu]*)$/);
-    if (delimiterMatch) {
-      setPattern(delimiterMatch[1]);
-      const newFlags = delimiterMatch[2].split("");
-      setFlags(Array.from(new Set(newFlags)));
-    } else {
-      setPattern(val);
-    }
-  };
 
   const regex = useMemo(() => {
     if (!pattern) {
       setError(null);
       return null;
     }
+
     try {
+      const unescapedDelimiter = /(?<!\\)\//;
+      if (unescapedDelimiter.test(pattern)) {
+        setError("An unescaped delimiter must be escaped, use `\\/` ");
+        return null;
+      }
+
       const r = new RegExp(pattern, flags.join(""));
       setError(null);
       return r;
@@ -89,10 +88,7 @@ export default function RegexTester() {
       const end = start + match[0].length;
       result.push(text.slice(lastIndex, start));
       result.push(
-        <mark
-          key={i}
-          className="bg-yellow-500/30 border-b-2 border-yellow-500 text-transparent rounded-sm"
-        >
+        <mark key={i} className="bg-amber-500/30  text-transparent">
           {match[0]}
         </mark>
       );
@@ -104,44 +100,77 @@ export default function RegexTester() {
   };
 
   return (
-    <div className="p-4 md:p-8 space-y-8 text-zinc-900 dark:text-zinc-100">
-      <ToolHeader
-        title="Regex Debugger"
-        subtitle="Pattern Validation Engine"
-        icon={<Bug />}
-      />
+    <div className="p-4 md:p-8 space-y-8">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <ToolHeader
+          title="Regex Debugger"
+          subtitle="Real-time regular expression testing and visual match highlighting."
+          icon={<Bug />}
+        />
 
-      {/* EXPRESSION CARD (Unique Layout) */}
-      <div className="p-6 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 shadow-sm space-y-5">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-1">
-          <label className="text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
-            Expression
+        {/* METRICS ROW */}
+        <div className="flex justify-end">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full md:w-auto md:min-w-100">
+            <MetadataCard
+              icon={<Target size={14} className="text-emerald-500" />}
+              label="Matches Found"
+              value={matches.length > 0 ? matches.length.toString() : "0"}
+            />
+            <MetadataCard
+              icon={
+                <AlertCircle
+                  size={14}
+                  className={cn(error ? "text-destructive" : "text-zinc-400")}
+                />
+              }
+              label="Engine Status"
+              value={error ? "Invalid" : pattern ? "Ready" : "Idle"}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* EXPRESSION CARD */}
+      <div className="p-6 rounded-3xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 shadow-sm space-y-4">
+        <div className="flex items-center justify-between px-1">
+          <label className="text-[10px] font-black uppercase tracking-widest text-zinc-400">
+            Regex Expression
           </label>
           {error && (
-            <span className="text-xs font-mono text-destructive flex items-center gap-2 bg-destructive/10 px-4 py-1.5 rounded-lg border border-destructive/20 animate-in fade-in slide-in-from-top-1">
-              <AlertCircle size={14} className="shrink-0" /> {error}
+            <span className="text-[10px] font-mono text-destructive flex items-center gap-2">
+              <AlertCircle size={12} /> {error}
             </span>
           )}
         </div>
 
-        <div className="flex flex-col md:flex-row items-stretch md:items-center gap-4">
-          <div className="flex-1 flex items-center gap-4 px-5 min-h-10 max-h-16 rounded-xl border border-zinc-200 dark:border-zinc-800 focus-within:ring-4 focus-within:ring-zinc-400/10 transition-all bg-zinc-50/30 dark:bg-zinc-900/10">
-            <span className="text-zinc-300 dark:text-zinc-700 font-mono text-sm select-none">
+        <div className="flex flex-col lg:flex-row items-stretch gap-4">
+          <div
+            className={cn(
+              "flex-1 flex items-center gap-3 px-5 min-h-14 rounded-2xl border transition-all bg-zinc-50/50 dark:bg-zinc-900/30",
+              error
+                ? "border-destructive/50 ring-4 ring-destructive/5"
+                : "border-zinc-200 dark:border-zinc-800 focus-within:border-zinc-400 dark:focus-within:border-zinc-600"
+            )}
+          >
+            <span className="text-zinc-400 font-mono text-lg select-none">
               /
             </span>
             <input
-              placeholder="enter_pattern_here..."
+              placeholder="[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}"
               value={pattern}
-              onChange={(e) => handlePatternChange(e.target.value)}
-              className="flex-1 bg-transparent border-none outline-none font-mono text-sm placeholder:text-zinc-300 w-full"
+              onChange={(e) => setPattern(e.target.value)}
+              className="flex-1 bg-transparent border-none outline-none font-mono text-sm placeholder:text-zinc-300 dark:placeholder:text-zinc-700 w-full"
               spellCheck={false}
             />
-            <span className="text-zinc-300 dark:text-zinc-700 font-mono text-sm select-none">
+            <span className="text-zinc-400 font-mono text-lg select-none">
               /
             </span>
+            <div className="flex items-center gap-1 ml-2 text-amber-600 dark:text-amber-500 font-mono font-bold text-sm">
+              {flags.join("")}
+            </div>
           </div>
 
-          <div className="flex items-center justify-center gap-1.5 p-2 bg-zinc-50/50 dark:bg-zinc-900/50 rounded-xl border border-zinc-100 dark:border-zinc-800">
+          <div className="flex items-center gap-1.5 p-1.5 bg-zinc-100/50 dark:bg-zinc-900/50 rounded-2xl border border-zinc-200 dark:border-zinc-800">
             {AVAILABLE_FLAGS.map((f) => (
               <Toggle
                 key={f.char}
@@ -151,7 +180,7 @@ export default function RegexTester() {
                     on ? [...prev, f.char] : prev.filter((x) => x !== f.char)
                   )
                 }
-                className="w-10 h-10 shrink-0 rounded-lg data-[state=on]:bg-zinc-900 data-[state=on]:text-white dark:data-[state=on]:bg-white dark:data-[state=on]:text-black transition-all font-mono text-base font-bold"
+                className="w-10 h-10 rounded-xl data-[state=on]:bg-white dark:data-[state=on]:bg-zinc-800 data-[state=on]:shadow-sm transition-all font-mono text-sm"
               >
                 {f.char}
               </Toggle>
@@ -161,16 +190,15 @@ export default function RegexTester() {
       </div>
 
       {/* WORKSPACE GRID */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* TEST STRING AREA (Using Reusable ActionPanel) */}
-        <div className="lg:col-span-2">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <div className="lg:col-span-8">
           <ActionPanel
             label="Test String"
-            icon={<TextCursorInput size={16} />}
-            count={matches.length}
+            icon={<TextCursorInput size={14} />}
             onReset={() => setText("")}
+            count={text.length}
           >
-            <div className="relative h-125 md:h-150 font-mono text-base overflow-hidden">
+            <div className="relative h-125 font-mono text-sm overflow-hidden bg-white dark:bg-zinc-950">
               <div
                 ref={scrollRef}
                 aria-hidden="true"
@@ -178,9 +206,9 @@ export default function RegexTester() {
               >
                 {renderHighlightedText()}
               </div>
-              <textarea
-                className="relative w-full h-full p-6 bg-transparent border-none focus:ring-0 focus:outline-none resize-none whitespace-pre-wrap break-all font-mono leading-relaxed"
-                placeholder="Paste content to test against..."
+              <Textarea
+                className="relative w-full h-full p-6 bg-transparent border-none focus:ring-0 focus:outline-none resize-none whitespace-pre-wrap break-all font-mono leading-relaxed text-zinc-800 dark:text-zinc-200"
+                placeholder="Insert text here to test your regex matches..."
                 value={text}
                 onChange={(e) => setText(e.target.value)}
                 onScroll={handleScroll}
@@ -190,78 +218,54 @@ export default function RegexTester() {
           </ActionPanel>
         </div>
 
-        {/* SIDEBAR REFERENCE (Styled to match ActionPanel aesthetic) */}
-        <div className="space-y-6">
-          <div className="flex flex-col rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 shadow-sm p-6 space-y-6">
-            <h3 className="text-xs font-black uppercase tracking-[0.2em] text-zinc-400 flex items-center gap-2">
-              <BookOpen size={16} /> Reference
+        <div className="lg:col-span-4 space-y-6">
+          <div className="rounded-3xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 p-6 space-y-6">
+            <h3 className="text-[10px] font-black uppercase tracking-widest text-zinc-400 flex items-center gap-2">
+              <BookOpen size={14} /> Flag Reference
             </h3>
-
-            <div className="space-y-3">
+            <div className="space-y-2">
               {AVAILABLE_FLAGS.map((f) => (
                 <div
                   key={f.char}
                   className={cn(
-                    "flex items-start gap-4 p-4 rounded-xl border transition-all",
+                    "flex items-start gap-3 p-3 rounded-2xl border transition-all",
                     flags.includes(f.char)
-                      ? "border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900/50"
-                      : "border-transparent opacity-30 grayscale"
+                      ? "border-zinc-200 bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900/50"
+                      : "border-transparent opacity-40"
                   )}
                 >
-                  <span className="font-mono text-sm font-bold bg-zinc-200 dark:bg-zinc-800 px-2 py-1 rounded-md shrink-0">
+                  <span className="font-mono text-xs font-bold bg-zinc-200 dark:bg-zinc-800 px-2 py-1 rounded-lg shrink-0">
                     {f.char}
                   </span>
-                  <div className="min-w-0">
-                    <p className="text-sm font-bold leading-tight">{f.label}</p>
-                    <p className="text-xs text-zinc-500 mt-1 leading-normal">
-                      {f.desc}
-                    </p>
+                  <div>
+                    <p className="text-xs font-bold">{f.label}</p>
+                    <p className="text-[11px] text-zinc-500 mt-0.5">{f.desc}</p>
                   </div>
                 </div>
               ))}
             </div>
 
-            <div className="space-y-4 pt-4 border-t border-zinc-100 dark:border-zinc-800">
-              <h3 className="font-black text-xs uppercase tracking-[0.2em] text-zinc-400">
-                Token Guide
+            <div className="pt-6 border-t border-zinc-100 dark:border-zinc-800 space-y-4">
+              <h3 className="text-[10px] font-black uppercase tracking-widest text-zinc-400 flex items-center gap-2">
+                <Hash size={14} /> Quick Tokens
               </h3>
-              <div className="grid grid-cols-2 lg:grid-cols-1 gap-2 text-[13px] font-mono bg-zinc-50 dark:bg-zinc-900/50 p-4 rounded-xl border border-zinc-100 dark:border-zinc-800">
-                <p>
-                  <span className="text-zinc-900 dark:text-zinc-100 font-bold">
-                    .
-                  </span>{" "}
-                  any char
-                </p>
-                <p>
-                  <span className="text-zinc-900 dark:text-zinc-100 font-bold">
-                    \d
-                  </span>{" "}
-                  digit
-                </p>
-                <p>
-                  <span className="text-zinc-900 dark:text-zinc-100 font-bold">
-                    \w
-                  </span>{" "}
-                  word
-                </p>
-                <p>
-                  <span className="text-zinc-900 dark:text-zinc-100 font-bold">
-                    \s
-                  </span>{" "}
-                  space
-                </p>
-                <p>
-                  <span className="text-zinc-900 dark:text-zinc-100 font-bold">
-                    ^
-                  </span>{" "}
-                  start
-                </p>
-                <p>
-                  <span className="text-zinc-900 dark:text-zinc-100 font-bold">
-                    $
-                  </span>{" "}
-                  end
-                </p>
+              <div className="grid grid-cols-2 gap-2 text-[11px] font-mono">
+                {[
+                  { t: ".", d: "any" },
+                  { t: "\\d", d: "digit" },
+                  { t: "\\w", d: "word" },
+                  { t: "\\s", d: "space" },
+                  { t: "^", d: "start" },
+                  { t: "$", d: "end" },
+                ].map((token) => (
+                  <div
+                    key={token.t}
+                    className="bg-zinc-50 dark:bg-zinc-900/50 p-2 rounded-lg border border-zinc-100 dark:border-zinc-800 flex justify-between"
+                  >
+                    <span className="font-bold text-amber-600">{token.t}</span>
+                    <span className="text-zinc-500">{token.d}</span>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -272,12 +276,12 @@ export default function RegexTester() {
         <InfoSection
           title="Pattern Integrity"
           icon={Search}
-          description="Regular expressions are powerful but fragile. Our validator provides real-time visual feedback and match highlighting, ensuring your patterns behave exactly as expected before you deploy them to production code."
+          description="Regular expressions are powerful but fragile. Our validator provides real-time visual feedback, ensuring your patterns behave exactly as expected before deployment."
         />
         <InfoSection
           title="Capture Group Insights"
           icon={Layers}
-          description="Beyond simple matches, this tool breaks down capture groups and backreferences. Understanding how your regex extracts specific data fragments helps in debugging complex parsing logic and data transformation pipelines."
+          description="Beyond simple matches, this tool helps you visualize how complex regex extracts specific data fragments for parsing logic and transformation pipelines."
         />
       </div>
     </div>

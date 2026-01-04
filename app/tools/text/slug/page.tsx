@@ -16,6 +16,7 @@ import { generateSlug } from "@/lib/string-utils";
 import { SlugEncoding } from "@/types/string";
 import { MetadataCard } from "@/components/shared/meta-card";
 import { InfoSection } from "@/components/shared/info-section";
+import { Textarea } from "@/components/ui/textarea";
 export default function SlugGenerator() {
   const [input, setInput] = useState("");
   const [separator, setSeparator] = useState<"-" | "_">("-");
@@ -82,8 +83,8 @@ export default function SlugGenerator() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <ActionPanel label="Source Content" onReset={() => setInput("")}>
-          <textarea
-            className="w-full h-48 p-6 bg-transparent resize-none focus:outline-none text-lg font-medium font-mono"
+          <Textarea
+            className="h-80 p-4"
             placeholder="e.g. München Café @ 2025"
             value={input}
             onChange={(e) => setInput(e.target.value)}

@@ -8,7 +8,6 @@ import { CodePanel } from "@/components/shared/code-panel";
 import { ActionPanel } from "@/components/shared/action-panel";
 import { InfoSection } from "@/components/shared/info-section";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import {
   FileCode,
   Sparkles,
@@ -17,13 +16,23 @@ import {
   Download,
   Minimize2,
   TrendingDown,
+  Scale,
 } from "lucide-react";
 import { MetadataCard } from "@/components/shared/meta-card";
+import { Textarea } from "@/components/ui/textarea";
+import { CodeEditor } from "@/components/shared/code-mirror";
 
 export default function SvgOptimizer() {
   const [rawSvg, setRawSvg] = useState("");
   const [optimizedSvg, setOptimizedSvg] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
+
+  // Helper to format bytes to KB
+  const formatSize = (str: string) => {
+    if (!str) return "0 KB";
+    const kb = str.length / 1024;
+    return kb < 1 ? `${str.length} B` : `${kb.toFixed(2)} KB`;
+  };
 
   // Instant Raw Preview
   const rawPreview = useMemo(() => {
@@ -33,6 +42,13 @@ export default function SvgOptimizer() {
       '<svg width="100%" height="100%" class="text-zinc-900 dark:text-zinc-100"'
     );
   }, [rawSvg]);
+
+  const savings = useMemo(() => {
+    if (!rawSvg || !optimizedSvg) return 0;
+    const diff = rawSvg.length - optimizedSvg.length;
+    const percentage = (diff / rawSvg.length) * 100;
+    return Math.max(0, parseFloat(percentage.toFixed(1)));
+  }, [rawSvg, optimizedSvg]);
 
   const exports = useMemo(() => {
     if (!optimizedSvg) return null;
@@ -84,45 +100,39 @@ export default function SvgOptimizer() {
     URL.revokeObjectURL(url);
   };
 
-  const calculateSaving = () => {
-    if (!rawSvg || !optimizedSvg) return 0;
-    const saving =
-      ((rawSvg.length - optimizedSvg.length) / rawSvg.length) * 100;
-    return Math.max(0, parseFloat(saving.toFixed(1)));
-  };
-
   return (
     <div className="p-4 md:p-8 space-y-8">
-      <ToolHeader
-        title="SVG Optimizer"
-        subtitle="Professional-grade SVGO tool with multiple encoding exports."
-        icon={<FileCode />}
-      />
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <ToolHeader
+          title="SVG Optimizer"
+          subtitle="Professional-grade SVGO tool with multiple encoding exports."
+          icon={<FileCode />}
+        />
 
-      {/* TOP METRICS SECTION */}
-      <div className="flex justify-end w-full">
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 w-full md:w-auto md:min-w-150">
-          <MetadataCard
-            icon={<FileCode size={14} />}
-            label="Original"
-            value={
-              optimizedSvg ? `${(rawSvg.length / 1024).toFixed(2)} KB` : "---"
-            }
-          />
-          <MetadataCard
-            icon={<Sparkles size={14} className="text-emerald-500" />}
-            label="Optimized"
-            value={
-              optimizedSvg
-                ? `${(optimizedSvg.length / 1024).toFixed(2)} KB`
-                : "---"
-            }
-          />
-          <MetadataCard
-            icon={<TrendingDown size={14} className="text-amber-500" />}
-            label="Reduction"
-            value={optimizedSvg ? `-${calculateSaving()}%` : "---"}
-          />
+        {/* DYNAMIC METRICS ROW */}
+        <div className="flex justify-end">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 w-full md:w-auto md:min-w-125">
+            <MetadataCard
+              icon={<Scale size={14} className="text-zinc-400" />}
+              label="Original"
+              value={rawSvg ? formatSize(rawSvg) : "---"}
+            />
+            <MetadataCard
+              icon={<Sparkles size={14} className="text-emerald-500" />}
+              label="Optimized"
+              value={optimizedSvg ? formatSize(optimizedSvg) : "---"}
+            />
+            <MetadataCard
+              icon={
+                <TrendingDown
+                  size={14}
+                  className={savings > 0 ? "text-blue-500" : "text-zinc-400"}
+                />
+              }
+              label="Reduction"
+              value={optimizedSvg ? `${savings}%` : "---"}
+            />
+          </div>
         </div>
       </div>
 
@@ -134,17 +144,27 @@ export default function SvgOptimizer() {
               setRawSvg("");
               setOptimizedSvg("");
             }}
+            count={rawSvg.length}
           >
             <div className="p-4 space-y-4">
-              <textarea
-                placeholder="Paste <svg> code..."
-                className="min-h-100 font-mono text-[10px] bg-zinc-50 dark:bg-zinc-950 rounded-2xl border-none focus-visible:ring-1"
+              <CodeEditor
+                value={rawSvg}
+                onChange={(value) => {
+                  setRawSvg(value);
+                  if (optimizedSvg) setOptimizedSvg("");
+                }}
+                editable
+                containerClassName="h-162.5"
+              />
+              {/* <Textarea
+                placeholder="Paste <svg> code here..."
+                className="h-80"
                 value={rawSvg}
                 onChange={(e) => {
                   setRawSvg(e.target.value);
                   if (optimizedSvg) setOptimizedSvg("");
                 }}
-              />
+              /> */}
               <div className="flex gap-2">
                 <Button
                   onClick={handleOptimize}
@@ -154,15 +174,15 @@ export default function SvgOptimizer() {
                   {isProcessing ? (
                     <Loader2 size={16} className="animate-spin mr-2" />
                   ) : (
-                    <Sparkles size={16} className="mr-2" />
+                    <Zap size={16} className="mr-2" />
                   )}
-                  Optimize
+                  {optimizedSvg ? "Optimized" : "Optimize SVG"}
                 </Button>
                 {optimizedSvg && (
                   <Button
                     variant="outline"
                     onClick={handleDownload}
-                    className="rounded-xl"
+                    className="rounded-xl border-zinc-200 dark:border-zinc-800"
                   >
                     <Download size={16} className="mr-2" />
                     Download
@@ -174,14 +194,14 @@ export default function SvgOptimizer() {
 
           {optimizedSvg && exports && (
             <CodePanel
-              title="Optimized Results"
+              title="Export Options"
               options={[
                 { id: "clean", label: "Clean SVG", value: optimizedSvg },
                 { id: "uri", label: "Data URI", value: exports.dataUri },
                 { id: "base64", label: "Base64", value: exports.base64 },
                 {
                   id: "encode",
-                  label: "encodeURIComponent",
+                  label: "Encoded",
                   value: exports.rawEncoded,
                 },
               ]}
@@ -193,16 +213,16 @@ export default function SvgOptimizer() {
           <PreviewContainer
             statusLabel={
               optimizedSvg
-                ? "Optimized"
+                ? "Optimized Preview"
                 : rawSvg
-                ? "Live Raw Preview"
-                : "Waiting"
+                ? "Original Preview"
+                : "Empty"
             }
           >
-            <div className="flex flex-col items-center justify-center p-12 min-h-[400px]">
+            <div className="flex flex-col items-center justify-center p-12 min-h-125 bg-zinc-50/50 dark:bg-zinc-900/20 rounded-b-3xl">
               {optimizedSvg || rawPreview ? (
                 <div
-                  className="w-64 h-64 flex items-center justify-center transition-all duration-500"
+                  className="w-full max-w-[320px] aspect-square flex items-center justify-center transition-all duration-500 animate-in fade-in zoom-in-95"
                   dangerouslySetInnerHTML={{
                     __html: (optimizedSvg || rawPreview || "").replace(
                       "<svg",
@@ -213,8 +233,8 @@ export default function SvgOptimizer() {
               ) : (
                 <div className="text-center space-y-4 opacity-20">
                   <FileCode size={80} className="mx-auto" />
-                  <p className="text-xs font-black uppercase tracking-widest">
-                    Awaiting Input
+                  <p className="text-xs font-black uppercase tracking-widest italic">
+                    Drop SVG code to begin
                   </p>
                 </div>
               )}
@@ -227,12 +247,12 @@ export default function SvgOptimizer() {
         <InfoSection
           title="Path Minification"
           icon={Minimize2}
-          description="Vector files often contain redundant coordinate data and overly precise decimals. Our optimizer rounds these values and simplifies path commands, significantly reducing file size."
+          description="Vector files often contain redundant coordinate data. Our optimizer rounds decimals and simplifies path commands to reduce file size without losing quality."
         />
         <InfoSection
-          title="Bloat Removal"
+          title="Metadata Stripping"
           icon={Zap}
-          description="Design software embeds hidden metadata and unused groups. We strip these unnecessary elements and minify the XML structure to ensure your assets load instantly."
+          description="Design tools like Figma or Illustrator embed hidden bloat. We strip namespaces, comments, and unused groups to ensure assets load instantly."
         />
       </div>
     </div>

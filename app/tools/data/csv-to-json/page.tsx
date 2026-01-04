@@ -13,6 +13,8 @@ import {
 import { csvToJson, parseCsvFile } from "@/lib/json-utils";
 import { cn } from "@/lib/utils";
 import { InfoSection } from "@/components/shared/info-section";
+import { Textarea } from "@/components/ui/textarea";
+import { CodeEditor } from "@/components/shared/code-mirror";
 
 export default function CsvToJsonTool() {
   const [input, setInput] = useState("");
@@ -112,8 +114,8 @@ export default function CsvToJsonTool() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <ActionPanel label="Manual CSV Input" onReset={() => setInput("")}>
-          <textarea
-            className="w-full h-100 p-6 bg-transparent resize-none focus:outline-none text-sm font-mono leading-relaxed"
+          <Textarea
+            className="h-162.5 p-4 "
             placeholder="paste,csv,data,here..."
             value={input}
             onChange={(e) => setInput(e.target.value)}
@@ -125,17 +127,18 @@ export default function CsvToJsonTool() {
           variant="output"
           copyValue={jsonResult}
         >
-          <div className="h-100 overflow-auto">
-            {jsonResult ? (
-              <pre className="p-6 text-sm font-mono text-zinc-600 dark:text-zinc-400">
-                {jsonResult}
-              </pre>
-            ) : (
-              <div className="h-full flex flex-col items-center justify-center opacity-30 italic text-xs">
-                JSON output will appear here...
-              </div>
-            )}
-          </div>
+          {jsonResult ? (
+            <CodeEditor
+              value={jsonResult}
+              containerClassName="h-162.5"
+              readOnly
+              mode={"json"}
+            />
+          ) : (
+            <div className="h-100 flex flex-col items-center justify-center opacity-30 italic text-xs">
+              JSON output will appear here...
+            </div>
+          )}
         </ActionPanel>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-12 border-t border-zinc-100 dark:border-zinc-800 pt-12">

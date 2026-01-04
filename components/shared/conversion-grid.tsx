@@ -1,9 +1,6 @@
 "use client";
 
-import { Check, Copy } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { useCopy } from "@/hooks/use-copy";
-import CopiedStatus from "./copied-status";
+import { CopyItem } from "./copy-item";
 
 interface ConversionItem {
   label: string;
@@ -12,12 +9,11 @@ interface ConversionItem {
 }
 
 export function ConversionCard({ item }: { item: ConversionItem }) {
-  // We copy the value + the unit (e.g., "1.5rem")
   const fullString = `${item.value}${item.unit}`;
 
   return (
     <div className="group flex items-center justify-between p-5 rounded-2xl bg-white dark:bg-zinc-950 border border-zinc-100 dark:border-zinc-800 shadow-sm hover:border-zinc-200 dark:hover:border-zinc-700 transition-all">
-      <CopiedStatus copyValue={fullString}>
+      <CopyItem copyValue={fullString}>
         <div className="space-y-1">
           <span className="text-[9px] font-black uppercase tracking-[0.2em] text-zinc-400">
             {item.label}
@@ -29,7 +25,7 @@ export function ConversionCard({ item }: { item: ConversionItem }) {
             </span>
           </div>
         </div>
-      </CopiedStatus>
+      </CopyItem>
     </div>
   );
 }

@@ -11,6 +11,7 @@ import {
   Quote,
   Table as TableIcon,
   Link2Icon,
+  Smile,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -42,6 +43,14 @@ import {
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import ToolbarButton from "./toolbar-button";
+import EmojiPicker, { Theme } from "emoji-picker-react";
+import { cn } from "@/lib/utils";
+import { useTheme } from "next-themes";
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from "@/components/ui/popover";
 
 interface SortableBlockProps {
   block: Block;
@@ -64,22 +73,79 @@ export function SortableBlock({
   } = useSortable({ id: block.id });
   const [isLinkModalOpen, setIsLinkModalOpen] = useState(false);
   const [linkUrl, setLinkUrl] = useState("");
+  const { resolvedTheme } = useTheme();
 
+  const typeStyles = {
+    h1: "text-4xl font-extrabold tracking-tight",
+    h2: "text-3xl font-bold tracking-tight",
+    h3: "text-2xl font-bold",
+    h4: "text-xl font-semibold",
+  };
+
+  const handleEmojiClick = (emojiData: any) => {
+    const emoji = emojiData.emoji;
+
+    // Now handles both Text and H1-H4 blocks
+    if (editor) {
+      editor.chain().focus().insertContent(emoji).run();
+    } else {
+      // Fallback for the raw textarea (Code blocks, etc.)
+      onUpdate(block.id, block.content + emoji);
+    }
+  };
+
+  // const editor = useEditor({
+  //   extensions: [
+  //     StarterKit,
+  //     Markdown.configure({
+  //       html: false,
+  //       tightLists: true,
+  //     }),
+  //     Table.configure({
+  //       resizable: true,
+  //       allowTableNodeSelection: true,
+  //     }),
+  //     TableRow,
+  //     TableHeader,
+  //     TableCell,
+  //     Placeholder.configure({ placeholder: "Start writing your content..." }),
+  //     Link.configure({
+  //       openOnClick: false,
+  //       HTMLAttributes: {
+  //         class: "text-blue-500 underline underline-offset-4 cursor-pointer",
+  //       },
+  //     }),
+  //   ],
+  //   content: block.content,
+  //   immediatelyRender: false,
+  //   onUpdate: ({ editor }) => {
+  //     const storage = editor.storage as any;
+  //     const markdown = storage.markdown?.getMarkdown();
+
+  //     if (markdown !== undefined) {
+  //       onUpdate(block.id, markdown);
+  //     }
+  //   },
+  //   editorProps: {
+  //     attributes: {
+  //       class:
+  //         "focus:outline-none min-h-[120px] prose prose-sm dark:prose-invert max-w-none font-sans text-sm",
+  //     },
+  //   },
+  // });
   const editor = useEditor({
     extensions: [
       StarterKit,
-      Markdown.configure({
-        html: false,
-        tightLists: true,
-      }),
-      Table.configure({
-        resizable: true,
-        allowTableNodeSelection: true,
-      }),
+      Markdown.configure({ html: false, tightLists: true }),
+      Table.configure({ resizable: true, allowTableNodeSelection: true }),
       TableRow,
       TableHeader,
       TableCell,
-      Placeholder.configure({ placeholder: "Start writing your content..." }),
+      Placeholder.configure({
+        placeholder: block.type.startsWith("H")
+          ? `Enter ${block.type} title...`
+          : "Start writing your content...",
+      }),
       Link.configure({
         openOnClick: false,
         HTMLAttributes: {
@@ -92,19 +158,31 @@ export function SortableBlock({
     onUpdate: ({ editor }) => {
       const storage = editor.storage as any;
       const markdown = storage.markdown?.getMarkdown();
-
       if (markdown !== undefined) {
         onUpdate(block.id, markdown);
       }
     },
     editorProps: {
+      handleKeyDown: (view, event) => {
+        // Prevent new lines in Heading tags to keep them as single-line titles
+        if (block.type.startsWith("H") && event.key === "Enter") {
+          return true;
+        }
+        return false;
+      },
       attributes: {
-        class:
-          "focus:outline-none min-h-[120px] prose prose-sm dark:prose-invert max-w-none font-sans text-sm",
+        class: cn(
+          "focus:outline-none w-full prose prose-sm dark:prose-invert max-w-none font-sans",
+          // Apply heading styles if it's an H block, otherwise standard text styles
+          block.type.startsWith("H")
+            ? `${
+                typeStyles[block.type.toLowerCase() as keyof typeof typeStyles]
+              } min-h-0`
+            : "min-h-30 text-sm"
+        ),
       },
     },
   });
-
   const style = {
     transform: CSS.Translate.toString(transform),
     transition,
@@ -135,7 +213,7 @@ export function SortableBlock({
         isDragging
           ? "border-amber-500 ring-2 ring-amber-500/10"
           : "border-zinc-200 dark:border-zinc-800"
-      } shadow-sm mb-4 bg-white dark:bg-zinc-950`}
+      } shadow-sm mb-4 bg-white dark:bg-zinc-950 `}
     >
       <button
         {...attributes}
@@ -151,6 +229,7 @@ export function SortableBlock({
             <span className="text-[10px] font-black uppercase tracking-widest text-zinc-400">
               {block.type}
             </span>
+
             {block.type === "Code" && (
               <Select
                 value={block.language || "javascript"}
@@ -167,6 +246,42 @@ export function SortableBlock({
                 </SelectContent>
               </Select>
             )}
+            {block.type.startsWith("H") && (
+              <div className="flex items-center gap-1 bg-zinc-100/50 dark:bg-zinc-900/50 p-1 rounded-lg">
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      className="h-7 w-7 p-0 hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-md"
+                    >
+                      <Smile size={14} className="text-zinc-500" />
+                    </Button>
+                  </PopoverTrigger>
+
+                  <PopoverContent
+                    side="bottom"
+                    align="start"
+                    className="w-full p-0 border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 shadow-xl rounded-xl overflow-hidden"
+                  >
+                    <EmojiPicker
+                      theme={
+                        resolvedTheme === "dark" ? Theme.DARK : Theme.LIGHT
+                      }
+                      onEmojiClick={handleEmojiClick}
+                      lazyLoadEmojis={true}
+                      skinTonesDisabled
+                      searchPlaceholder="Search emoji..."
+                      width="350px"
+                      height="450px"
+                      style={{
+                        border: "none",
+                        boxShadow: "none",
+                      }}
+                    />
+                  </PopoverContent>
+                </Popover>
+              </div>
+            )}
             {block.type === "Text" && editor && (
               <div className="flex items-center gap-1 bg-zinc-100/50 dark:bg-zinc-900/50 p-1 rounded-lg">
                 <ToolbarButton
@@ -181,7 +296,7 @@ export function SortableBlock({
                   icon={<Italic size={14} />}
                   tooltip="Italic"
                 />
-                <div className="w-[1px] h-4 bg-zinc-300 dark:bg-zinc-700 mx-1" />
+                <div className="w-px h-4 bg-zinc-300 dark:bg-zinc-700 mx-1" />
                 <ToolbarButton
                   onClick={() =>
                     editor.chain().focus().toggleBulletList().run()
@@ -212,9 +327,43 @@ export function SortableBlock({
                   icon={<TableIcon size={14} />}
                   tooltip="Insert Table"
                 />
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      className="h-7 w-7 p-0 hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-md"
+                    >
+                      <Smile size={14} className="text-zinc-500" />
+                    </Button>
+                  </PopoverTrigger>
+
+                  <PopoverContent
+                    side="bottom"
+                    align="start"
+                    className="w-full p-0 border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 shadow-xl rounded-xl overflow-hidden"
+                  >
+                    <EmojiPicker
+                      theme={
+                        resolvedTheme === "dark" ? Theme.DARK : Theme.LIGHT
+                      }
+                      onEmojiClick={handleEmojiClick}
+                      lazyLoadEmojis={true}
+                      skinTonesDisabled
+                      searchPlaceholder="Search emoji..."
+                      // Use "100%" to fill the PopoverContent width
+                      width="350px"
+                      height="450px"
+                      // This is the important part: ensure internal styles match your app
+                      style={{
+                        border: "none",
+                        boxShadow: "none",
+                      }}
+                    />
+                  </PopoverContent>
+                </Popover>
                 {editor.isActive("table") && (
                   <>
-                    <div className="w-[1px] h-4 bg-zinc-300 dark:bg-zinc-700 mx-1" />
+                    <div className="w-px h-4 bg-zinc-300 dark:bg-zinc-700 mx-1" />
                     <ToolbarButton
                       onClick={() =>
                         editor.chain().focus().addColumnAfter().run()
@@ -234,7 +383,7 @@ export function SortableBlock({
                       }
                       tooltip="Delete Column"
                     />
-                    <div className="w-[1px] h-2 bg-zinc-200 dark:bg-zinc-800 mx-0.5" />
+                    <div className="w-px h-2 bg-zinc-200 dark:bg-zinc-800 mx-0.5" />
                     {/* Add Row */}
                     <ToolbarButton
                       onClick={() => editor.chain().focus().addRowAfter().run()}
@@ -284,27 +433,18 @@ export function SortableBlock({
           </Button>
         </div>
 
-        <div className="bg-zinc-50 dark:bg-zinc-900/50 rounded-xl p-2 min-h-[40px] flex items-center">
-          {block.type.startsWith("H") ? (
-            <Input
-              value={block.content}
-              onChange={(e) => onUpdate(block.id, e.target.value)}
-              className="border-none bg-transparent font-bold text-lg focus-visible:ring-0"
-              placeholder={`Enter ${block.type} text...`}
-            />
-          ) : block.type === "Text" ? (
+        <div className="bg-zinc-50 dark:bg-zinc-900/50 rounded-xl p-2 min-h-10 flex items-center">
+          {block.type === "Text" || block.type.startsWith("H") ? (
             <EditorContent editor={editor} className="p-2 w-full" />
           ) : block.type === "Divider" ? (
-            /* New Divider Logic */
             <div className="w-full py-4 px-2">
-              <div className="h-[2px] w-full bg-zinc-300 dark:bg-zinc-700 rounded-full" />
+              <div className="h-0.5 w-full bg-zinc-300 dark:bg-zinc-700 rounded-full" />
             </div>
           ) : (
-            /* This remains for Code, SQL, Bash, and Shields */
             <textarea
               value={block.content}
               onChange={(e) => onUpdate(block.id, e.target.value)}
-              className="w-full border-none bg-transparent font-mono text-xs min-h-[100px] focus:outline-none p-2 resize-none"
+              className="w-full border-none bg-transparent font-mono text-sm min-h-25 focus:outline-none p-2 resize-none"
               placeholder="Enter content..."
             />
           )}

@@ -11,13 +11,13 @@ import { Badge } from "@/components/ui/badge";
 import {
   Lock,
   Hash,
-  Check,
-  Copy,
   RefreshCw,
   ShieldCheck,
   ShieldAlert,
   Cpu,
   Fingerprint,
+  Activity,
+  Shield,
 } from "lucide-react";
 import { hashText, verifyHash, BCRYPT_CONFIG } from "@/lib/crypto-utils";
 import { cn } from "@/lib/utils";
@@ -35,6 +35,14 @@ export default function BcryptHasher() {
   const [matchStatus, setMatchStatus] = useState<"idle" | "match" | "mismatch">(
     "idle"
   );
+
+  const getSecurityLevel = (r: number) => {
+    if (r < 8) return { label: "Low", color: "text-rose-500" };
+    if (r < 12) return { label: "Standard", color: "text-emerald-500" };
+    return { label: "High", color: "text-blue-500" };
+  };
+
+  const security = getSecurityLevel(rounds[0]);
 
   const handleHash = async () => {
     if (!input) return;
@@ -55,24 +63,53 @@ export default function BcryptHasher() {
 
   return (
     <div className="p-4 md:p-8 space-y-8">
-      <ToolHeader
-        title="Bcrypt Hasher"
-        subtitle="Secure password hashing with adjustable cost factors"
-        icon={<Lock />}
-      />
+      {/* Header & Dynamic Metrics */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <ToolHeader
+          title="Bcrypt Hasher"
+          subtitle="Secure password hashing with adaptive cost factors."
+          icon={<Lock />}
+        />
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* LEFT: CONFIG */}
-        <div className="space-y-6">
-          <ActionPanel label="Hashing Parameters">
+        <div className="flex justify-end">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 w-full md:w-auto md:min-w-112.5">
+            <MetadataCard
+              icon={<Cpu size={14} className="text-zinc-400" />}
+              label="Complexity"
+              value={`2^${rounds[0]}`}
+            />
+            <MetadataCard
+              icon={<Shield size={14} className={security.color} />}
+              label="Security"
+              value={security.label}
+            />
+            <MetadataCard
+              icon={<Activity size={14} className="text-amber-500" />}
+              label="Status"
+              value={isHashing ? "Hashing..." : "Idle"}
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        {/* LEFT: CONFIGURATION (Col 5) */}
+        <div className="lg:col-span-5 space-y-6">
+          <ActionPanel
+            label="Hasher Configuration"
+            icon={<Fingerprint size={14} />}
+          >
             <div className="p-6 space-y-8">
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
                   <label className="text-[10px] font-black uppercase tracking-widest text-zinc-400">
-                    Salt Rounds (Cost)
+                    Cost Factor (Salt Rounds)
                   </label>
-                  <Badge variant="secondary" className="font-mono">
-                    {rounds[0]}
+                  <Badge
+                    variant="outline"
+                    className="font-mono px-3 py-1 rounded-lg"
+                  >
+                    {rounds[0]} Rounds
                   </Badge>
                 </div>
                 <Slider
@@ -81,25 +118,28 @@ export default function BcryptHasher() {
                   min={BCRYPT_CONFIG.minRounds}
                   max={BCRYPT_CONFIG.maxRounds}
                   step={1}
+                  className="py-4"
                 />
                 <p className="text-[10px] text-zinc-500 italic leading-relaxed">
-                  Higher rounds increase security but take longer to compute. 10
-                  is industry standard.
+                  Recommended: 10-12. Each increment doubles the time required
+                  to verify.
                 </p>
               </div>
 
-              <div className="space-y-4 pt-4 border-t border-zinc-100 dark:border-zinc-800">
-                <label className="text-[10px] font-black uppercase tracking-widest text-zinc-400">
-                  Plaintext Input
-                </label>
-                <Input
-                  placeholder="String to hash..."
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  className="bg-zinc-50 dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800"
-                />
+              <div className="space-y-4 pt-6 border-t border-zinc-100 dark:border-zinc-800">
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black uppercase tracking-widest text-zinc-400">
+                    Plaintext String
+                  </label>
+                  <Input
+                    placeholder="Enter password or secret..."
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    className="h-12 bg-zinc-50 dark:bg-zinc-950 border-zinc-200 dark:border-zinc-800 rounded-xl"
+                  />
+                </div>
                 <Button
-                  className="w-full"
+                  className="w-full h-12 rounded-xl bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 shadow-md hover:opacity-90"
                   disabled={!input || isHashing}
                   onClick={handleHash}
                 >
@@ -108,105 +148,112 @@ export default function BcryptHasher() {
                   ) : (
                     <Hash className="mr-2 h-4 w-4" />
                   )}
-                  Generate Hash
+                  Generate Bcrypt Hash
                 </Button>
               </div>
             </div>
           </ActionPanel>
-
-          <div className="grid grid-cols-1 gap-4">
-            <MetadataCard
-              icon={<Cpu size={14} />}
-              label="Complexity"
-              value={`2^${rounds[0]} iterations`}
-            />
-          </div>
         </div>
 
-        {/* RIGHT: RESULTS & VERIFICATION */}
-        <div className="lg:col-span-2 space-y-6">
-          {/* HASH OUTPUT */}
+        {/* RIGHT: OUTPUT & VERIFICATION (Col 7) */}
+        <div className="lg:col-span-7 space-y-6">
           <ActionPanel
-            label="Generated Hash"
+            label="Resulting Hash"
             variant="output"
             onReset={() => {
               setHash("");
               setInput("");
-              setRounds([10]);
             }}
             copyValue={hash}
           >
-            <div className="relative p-6 bg-zinc-50 dark:bg-zinc-900/50  border-zinc-100 dark:border-zinc-800 min-h-25 flex items-center justify-between group">
+            <div className="p-6 bg-white dark:bg-zinc-950/50 min-h-24 flex items-center">
               <p
                 className={cn(
-                  "font-mono text-sm break-all pr-12 text-zinc-700 dark:text-zinc-300",
-                  !hash && "opacity-30 italic"
+                  "font-mono text-sm break-all leading-relaxed",
+                  hash
+                    ? "text-emerald-600 dark:text-emerald-400"
+                    : "text-zinc-400 italic"
                 )}
               >
-                {hash || "Waiting for generation..."}
+                {hash || "Awaiting generation..."}
               </p>
             </div>
           </ActionPanel>
 
-          {/* VERIFICATION SECTION */}
-          <ActionPanel label="Verify Existing Hash">
-            <div className="p-6 space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <Input
-                  placeholder="Plaintext to check..."
-                  value={verifyInput}
-                  onChange={(e) => setVerifyInput(e.target.value)}
-                />
-                <Input
-                  placeholder="Bcrypt hash to compare..."
-                  value={verifyTarget}
-                  onChange={(e) => setVerifyTarget(e.target.value)}
-                />
+          <ActionPanel
+            label="Verify Authenticity"
+            icon={<ShieldCheck size={14} />}
+          >
+            <div className="p-6 space-y-6">
+              <div className="grid grid-cols-1 gap-4">
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black uppercase tracking-widest text-zinc-400">
+                    Plaintext to Check
+                  </label>
+                  <Input
+                    placeholder="Secret string..."
+                    value={verifyInput}
+                    onChange={(e) => setVerifyInput(e.target.value)}
+                    className="h-11 rounded-xl"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black uppercase tracking-widest text-zinc-400">
+                    Existing Hash
+                  </label>
+                  <Input
+                    placeholder="$2b$10$..."
+                    value={verifyTarget}
+                    onChange={(e) => setVerifyTarget(e.target.value)}
+                    className="h-11 rounded-xl font-mono text-xs"
+                  />
+                </div>
               </div>
+
               <Button
-                variant="secondary"
-                className="w-full"
+                variant="outline"
+                className="w-full h-11 rounded-xl border-zinc-200 dark:border-zinc-800"
                 onClick={handleVerify}
                 disabled={!verifyInput || !verifyTarget}
               >
-                Verify Authenticity
+                Compare Hash & String
               </Button>
 
               {matchStatus !== "idle" && (
-                <div
-                  className={cn(
-                    "p-4 rounded-xl border flex items-center gap-3 animate-in fade-in slide-in-from-top-2",
-                    matchStatus === "match"
-                      ? "bg-emerald-500/5 border-emerald-500/20 text-emerald-600"
-                      : "bg-rose-500/5 border-rose-500/20 text-rose-600"
-                  )}
-                >
-                  {matchStatus === "match" ? (
-                    <ShieldCheck size={18} />
-                  ) : (
-                    <ShieldAlert size={18} />
-                  )}
-                  <span className="text-xs font-bold uppercase tracking-widest">
-                    {matchStatus === "match"
-                      ? "Hash Match Confirmed"
-                      : "Hash Mismatch - Invalid"}
-                  </span>
+                <div className="animate-in fade-in zoom-in-95 duration-300">
+                  <MetadataCard
+                    variant={matchStatus === "match" ? "success" : "error"}
+                    icon={
+                      matchStatus === "match" ? (
+                        <ShieldCheck size={16} className="text-emerald-500" />
+                      ) : (
+                        <ShieldAlert size={16} className="text-rose-500" />
+                      )
+                    }
+                    label="Verification Result"
+                    value={
+                      matchStatus === "match"
+                        ? "Signature Verified"
+                        : "Mismatched Signatures"
+                    }
+                  />
                 </div>
               )}
             </div>
           </ActionPanel>
         </div>
       </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-12 border-t border-zinc-100 dark:border-zinc-800 pt-12">
         <InfoSection
           title="Cryptographic Salting"
           icon={Fingerprint}
-          description="Bcrypt automatically incorporates a random salt into every hash. This ensures that even if two users have the same password, their generated hashes will be completely unique, effectively neutralizing rainbow table attacks."
+          description="Bcrypt automatically incorporates a random salt. This ensures identical passwords produce unique hashes, neutralizing rainbow table attacks."
         />
         <InfoSection
           title="Adaptive Work Factor"
           icon={ShieldCheck}
-          description="The 'cost' parameter determines the number of hashing rounds. As hardware gets faster, you can increase this work factor to ensure that verifying a password remains intentionally slow for attackers while staying fast for users."
+          description="The cost factor doubles the hashing time with every increment. This 'slowness' is intentional, making brute-force attacks computationally expensive."
         />
       </div>
     </div>

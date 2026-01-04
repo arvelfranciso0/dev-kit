@@ -49,33 +49,53 @@ import { Block, BlockType } from "@/types/readme";
 import { README_TEMPLATES } from "@/configs/templates";
 import { SortableBlock } from "./_components/sortable-block";
 import { InfoSection } from "@/components/shared/info-section";
+const STORAGE_KEY = "readme-builder-blocks";
 
 export default function ReadmeBuilder() {
   const [blocks, setBlocks] = useState<Block[]>([]);
-  const [activeId, setActiveId] = useState<string | null>(null);
-
+  const [isHydrated, setIsHydrated] = useState(false);
   const sensors = useSensors(useSensor(PointerSensor));
+
   useEffect(() => {
-    setBlocks(
-      README_TEMPLATES.universal.map((b) => ({
-        ...b,
-        id: crypto.randomUUID(), // Use a more robust ID generator
-        type: b.type as BlockType,
-      }))
-    );
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      try {
+        setBlocks(JSON.parse(saved));
+      } catch (e) {
+        console.error("Failed to parse saved progress", e);
+      }
+    } else {
+      // If no saved progress, load the default template
+      setBlocks(
+        README_TEMPLATES.universal.map((b) => ({
+          ...b,
+          id: crypto.randomUUID(),
+          type: b.type as BlockType,
+        }))
+      );
+    }
+    setIsHydrated(true);
   }, []);
+
+  useEffect(() => {
+    if (isHydrated) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(blocks));
+    }
+  }, [blocks, isHydrated]);
 
   const markdownOutput = useMemo(() => {
     return blocks
       .map((b) => {
-        // If the content is empty and it's not a Divider, maybe return empty string
         if (!b.content && b.type !== "Divider") return "";
-
         switch (b.type) {
           case "H1":
             return `# ${b.content}`;
           case "H2":
             return `## ${b.content}`;
+          case "H3":
+            return `### ${b.content}`;
+          case "H4":
+            return `#### ${b.content}`;
           case "Shields":
             return `![Stars](https://img.shields.io/github/stars/${b.content}?style=for-the-badge) ![License](https://img.shields.io/github/license/${b.content}?style=for-the-badge)`;
           case "Code":
@@ -89,7 +109,6 @@ export default function ReadmeBuilder() {
           case "Divider":
             return `---`;
           case "Text":
-            // Tiptap-markdown already provides the raw markdown (including bold, tables, etc.)
             return b.content;
           default:
             return b.content;
@@ -114,7 +133,7 @@ export default function ReadmeBuilder() {
     setBlocks([
       ...blocks,
       {
-        id: Math.random().toString(36).substr(2, 9),
+        id: crypto.randomUUID(),
         type,
         content: "",
         language: lang,
@@ -133,6 +152,8 @@ export default function ReadmeBuilder() {
     }
   };
 
+  if (!isHydrated) return null;
+
   return (
     <div className="p-4 md:p-8 space-y-8">
       <ToolHeader
@@ -147,6 +168,7 @@ export default function ReadmeBuilder() {
           <Select
             onValueChange={(val) => {
               if (val === "blank") {
+                localStorage.removeItem(STORAGE_KEY);
                 setBlocks([]);
                 return;
               }
@@ -156,7 +178,7 @@ export default function ReadmeBuilder() {
               setBlocks(
                 selectedTemplate.map((b) => ({
                   ...b,
-                  id: Math.random().toString(36).substr(2, 9),
+                  id: crypto.randomUUID(),
                   type: b.type as BlockType,
                 }))
               );
@@ -240,6 +262,22 @@ export default function ReadmeBuilder() {
               <Button
                 variant="outline"
                 size="sm"
+                onClick={() => addBlock("H3")}
+                className="rounded-xl"
+              >
+                <Type size={14} className="mr-2" /> H3
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => addBlock("H4")}
+                className="rounded-xl"
+              >
+                <Type size={14} className="mr-2" /> H4
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
                 onClick={() => addBlock("Text")}
                 className="rounded-xl"
               >
@@ -308,10 +346,10 @@ export default function ReadmeBuilder() {
               </div>
 
               <TabsContent value="raw" className="m-0">
-                <textarea
+                <Textarea
                   readOnly
                   value={markdownOutput}
-                  className="min-h-[600px] font-mono text-[11px] bg-zinc-950 text-zinc-400 border-none p-6 leading-relaxed resize-none rounded-b-2xl"
+                  className="min-h-150 font-mono text-sm bg-zinc-950 text-zinc-400 border-none p-6 leading-relaxed resize-none rounded-b-2xl"
                 />
               </TabsContent>
 
