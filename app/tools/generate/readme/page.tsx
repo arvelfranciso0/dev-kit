@@ -239,7 +239,7 @@ export default function ReadmeBuilder() {
           </DndContext>
 
           <div className="p-6 border-2 border-dashed border-zinc-100 dark:border-zinc-800 rounded-3xl mt-6 bg-zinc-50/30 dark:bg-zinc-900/10">
-            <p className="text-[10px] font-bold text-zinc-400 uppercase mb-4 tracking-widest text-center">
+            <p className="text-xs font-bold text-zinc-400 uppercase mb-4 tracking-widest text-center">
               Add Custom Elements
             </p>
             <div className="grid grid-cols-3 md:grid-cols-4 gap-2">

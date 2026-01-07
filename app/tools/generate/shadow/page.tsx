@@ -210,7 +210,7 @@ export default function ShadowGenerator() {
                 }}
               >
                 <Box className="text-zinc-100 dark:text-zinc-800" size={64} />
-                <span className="text-[11px] font-black text-zinc-400 uppercase tracking-[0.2em]">
+                <span className="text-xs font-black text-zinc-400 uppercase tracking-[0.2em]">
                   Preview Object
                 </span>
               </div>
@@ -221,7 +221,7 @@ export default function ShadowGenerator() {
         <div className="space-y-6">
           <div className="flex items-center gap-3">
             <div className="h-px grow bg-zinc-100 dark:bg-zinc-800" />
-            <span className="text-[11px] font-black uppercase tracking-[0.3em] text-zinc-400">
+            <span className="text-xs font-black uppercase tracking-[0.3em] text-zinc-400">
               Library Presets
             </span>
             <div className="h-px grow bg-zinc-100 dark:bg-zinc-800" />
@@ -278,10 +278,10 @@ function SliderGroup({ label, icon, value, onChange, min, max, unit }: any) {
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
-        <span className="text-[10px] font-black uppercase text-zinc-400 flex items-center gap-2">
+        <span className="text-xs font-black uppercase text-zinc-400 flex items-center gap-2">
           {icon} {label}
         </span>
-        <Badge variant="outline" className="font-mono text-[10px]">
+        <Badge variant="outline" className="font-mono text-xs">
           {value[0]}
           {unit}
         </Badge>

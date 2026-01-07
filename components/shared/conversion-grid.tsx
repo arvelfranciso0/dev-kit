@@ -15,7 +15,7 @@ export function ConversionCard({ item }: { item: ConversionItem }) {
     <div className="group flex items-center justify-between p-5 rounded-2xl bg-white dark:bg-zinc-950 border border-zinc-100 dark:border-zinc-800 shadow-sm hover:border-zinc-200 dark:hover:border-zinc-700 transition-all">
       <CopyItem copyValue={fullString}>
         <div className="space-y-1">
-          <span className="text-[9px] font-black uppercase tracking-[0.2em] text-zinc-400">
+          <span className="text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
             {item.label}
           </span>
           <div className="text-2xl font-mono font-bold text-zinc-900 dark:text-zinc-100 uppercase tabular-nums">

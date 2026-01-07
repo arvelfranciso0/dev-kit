@@ -150,7 +150,7 @@ function FeatureCard({
             {items.map((item) => (
               <span
                 key={item}
-                className="text-[9px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-lg bg-zinc-100 dark:bg-zinc-900 text-zinc-500 dark:text-zinc-400 border border-zinc-200/50 dark:border-zinc-800/50"
+                className="text-xs font-bold uppercase tracking-widest px-2.5 py-1 rounded-lg bg-zinc-100 dark:bg-zinc-900 text-zinc-500 dark:text-zinc-400 border border-zinc-200/50 dark:border-zinc-800/50"
               >
                 {item}
               </span>

@@ -65,7 +65,7 @@ export default function PasswordGenerator() {
             <div className="p-6 space-y-8">
               <div className="space-y-5">
                 <div className="flex justify-between items-center">
-                  <label className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">
+                  <label className="text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
                     Key Length
                   </label>
                   <Badge variant="secondary" className="font-mono">
@@ -191,7 +191,7 @@ export default function PasswordGenerator() {
                 className="text-rose-500 shrink-0 mt-0.5"
               />
               <div>
-                <p className="text-[10px] font-black uppercase tracking-widest text-rose-600 dark:text-rose-400">
+                <p className="text-xs font-black uppercase tracking-widest text-rose-600 dark:text-rose-400">
                   Vulnerability Alert
                 </p>
                 <p className="text-xs text-zinc-500 mt-1 italic">

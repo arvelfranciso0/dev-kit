@@ -10,7 +10,7 @@ export default function DataTable({ data }: { data: any[] }) {
             {headers.map((h) => (
               <th
                 key={h}
-                className="py-2 px-4 text-[10px] font-black uppercase tracking-widest text-zinc-400"
+                className="py-2 px-4 text-xs font-black uppercase tracking-widest text-zinc-400"
               >
                 {h}
               </th>

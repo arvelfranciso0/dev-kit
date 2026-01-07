@@ -79,7 +79,7 @@ export default function MultiUnitConverter() {
             <div className="p-6 space-y-8">
               {/* Base Font Size */}
               <div className="space-y-4">
-                <div className="flex justify-between items-center text-[10px] font-black uppercase text-zinc-400">
+                <div className="flex justify-between items-center text-xs font-black uppercase text-zinc-400">
                   <span>Root Font Size</span>
                   <Badge variant="outline">{baseSize[0]}px</Badge>
                 </div>
@@ -94,7 +94,7 @@ export default function MultiUnitConverter() {
 
               {/* Viewport Width */}
               <div className="space-y-4">
-                <div className="flex justify-between items-center text-[10px] font-black uppercase text-zinc-400">
+                <div className="flex justify-between items-center text-xs font-black uppercase text-zinc-400">
                   <span>Simulated Viewport</span>
                   <Badge variant="outline">{viewportWidth[0]}w</Badge>
                 </div>
@@ -111,7 +111,7 @@ export default function MultiUnitConverter() {
 
           <div className="p-4 rounded-xl bg-blue-50/50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-900/30 flex gap-3">
             <Info className="text-blue-500 shrink-0" size={16} />
-            <p className="text-[10px] text-blue-700 dark:text-blue-300 leading-tight">
+            <p className="text-xs text-blue-700 dark:text-blue-300 leading-tight">
               <strong>Viewport Units (vw)</strong> depend on screen width. We've
               set yours to <strong>{viewportWidth[0]}px</strong> for this
               calculation.

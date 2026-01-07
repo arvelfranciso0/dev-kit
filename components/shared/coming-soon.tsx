@@ -50,7 +50,7 @@ export default function ComingSoon({
           <Button
             asChild
             variant="outline"
-            className="rounded-xl px-6 h-11 font-bold uppercase tracking-widest text-[10px] border-zinc-200 dark:border-zinc-800"
+            className="rounded-xl px-6 h-11 font-bold uppercase tracking-widest text-xs border-zinc-200 dark:border-zinc-800"
           >
             <Link href="/" className="flex items-center gap-2">
               <ArrowLeft size={14} /> Return to Dashboard
@@ -59,7 +59,7 @@ export default function ComingSoon({
 
           {/* Status Badge */}
           <div className="px-4 py-2 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800">
-            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">
+            <span className="text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
               Priority: High
             </span>
           </div>

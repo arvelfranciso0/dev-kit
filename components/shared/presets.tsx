@@ -50,13 +50,13 @@ export function PresetButton({
           )}
         />
       )}
-      <div className="text-[10px] font-black uppercase tracking-tight leading-none">
+      <div className="text-xs font-black uppercase tracking-tight leading-none">
         {label}
       </div>
       {sub && (
         <div
           className={cn(
-            "text-[8px] uppercase font-bold transition-opacity",
+            "text-xs uppercase font-bold transition-opacity",
             isActive ? "opacity-70" : "opacity-40 group-hover:opacity-60"
           )}
         >
@@ -99,7 +99,7 @@ export function PresetCard({
       {/* Info Area */}
       <div className="space-y-1 px-1">
         <div className="flex items-center justify-between gap-2">
-          <span className="text-[10px] font-black uppercase tracking-tight text-zinc-900 dark:text-zinc-100 truncate">
+          <span className="text-xs font-black uppercase tracking-tight text-zinc-900 dark:text-zinc-100 truncate">
             {label}
           </span>
           {copyValue && (
@@ -124,7 +124,7 @@ export function PresetCard({
           )}
         </div>
         {sub && (
-          <p className="text-[9px] text-zinc-400 uppercase tracking-widest font-black leading-none">
+          <p className="text-xs text-zinc-400 uppercase tracking-widest font-black leading-none">
             {sub}
           </p>
         )}

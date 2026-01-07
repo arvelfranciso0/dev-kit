@@ -115,7 +115,7 @@ export default function Formatter() {
 
             <div className="px-4 pb-4">
               <Button
-                variant="outline"
+                variant="default"
                 onClick={handleMinify}
                 disabled={!input || !!errorDetails}
                 className="w-full h-11 rounded-xl"

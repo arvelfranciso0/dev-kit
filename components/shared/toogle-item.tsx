@@ -19,12 +19,12 @@ export default function ToggleItem({
       <div className="flex flex-col space-y-0.5">
         <label
           htmlFor={id}
-          className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 cursor-pointer"
+          className="text-xs font-bold uppercase tracking-widest text-zinc-500 cursor-pointer"
         >
           {label}
         </label>
         {description && (
-          <span className="text-[9px] text-zinc-400 leading-none">
+          <span className="text-xs text-zinc-400 leading-none">
             {description}
           </span>
         )}
