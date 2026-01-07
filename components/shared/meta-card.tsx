@@ -24,7 +24,7 @@ export function MetadataCard({
     <div className="p-4 rounded-2xl border border-zinc-100 dark:border-zinc-900 bg-white dark:bg-zinc-950 shadow-sm transition-all hover:border-zinc-200 dark:hover:border-zinc-800">
       <div className="flex items-center gap-2 mb-2 opacity-40">
         <div className="shrink-0">{icon}</div>
-        <span className="text-[9px] font-black uppercase tracking-[0.2em] whitespace-nowrap">
+        <span className="text-xs font-black uppercase tracking-[0.2em] whitespace-nowrap">
           {label}
         </span>
       </div>

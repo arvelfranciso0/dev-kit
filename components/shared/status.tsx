@@ -11,9 +11,7 @@ export default function Status({
 }) {
   return (
     <div>
-      <p className="text-[10px] font-black uppercase text-zinc-400 mb-1">
-        {label}
-      </p>
+      <p className="text-xs font-black uppercase text-zinc-400 mb-1">{label}</p>
       <p className={cn("text-sm font-mono font-bold", color)}>{value}</p>
     </div>
   );

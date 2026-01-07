@@ -30,12 +30,12 @@ export function CopyItem({ copyValue, className, children }: CommandItemProps) {
             {isCopied ? (
               <div className="flex items-center uppercase gap-2 text-emerald-500 animate-in fade-in zoom-in-95 duration-200">
                 <Check size={12} />
-                <span className="text-[10px]">Copied</span>
+                <span className="text-xs">Copied</span>
               </div>
             ) : (
               <div className="flex items-center uppercase gap-2 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100">
                 <Copy size={12} />
-                <span className="text-[10px]">Copy</span>
+                <span className="text-xs">Copy</span>
               </div>
             )}
           </div>

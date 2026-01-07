@@ -34,7 +34,7 @@ export function PreviewContainer({
         {/* Top Decoration: Status Pulse */}
         <div className="absolute top-8 left-8 flex items-center gap-2">
           <div className="h-2 w-2 animate-pulse rounded-full bg-emerald-500" />
-          <span className="text-[10px] font-black uppercase tracking-widest text-zinc-400">
+          <span className="text-xs font-black uppercase tracking-widest text-zinc-400">
             {statusLabel}
           </span>
         </div>

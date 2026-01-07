@@ -156,20 +156,12 @@ export default function SvgOptimizer() {
                 editable
                 containerClassName="h-162.5"
               />
-              {/* <Textarea
-                placeholder="Paste <svg> code here..."
-                className="h-80"
-                value={rawSvg}
-                onChange={(e) => {
-                  setRawSvg(e.target.value);
-                  if (optimizedSvg) setOptimizedSvg("");
-                }}
-              /> */}
               <div className="flex gap-2">
                 <Button
                   onClick={handleOptimize}
+                  variant="default"
                   disabled={isProcessing || !rawSvg}
-                  className="flex-1 rounded-xl bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 shadow-sm"
+                  className="flex-1 rounded-xl "
                 >
                   {isProcessing ? (
                     <Loader2 size={16} className="animate-spin mr-2" />

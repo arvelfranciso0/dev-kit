@@ -30,7 +30,7 @@ export default function Footer() {
                 DevKit
               </span>
             </Link>
-            <p className="text-[11px] font-mono text-zinc-500 leading-relaxed uppercase tracking-tight">
+            <p className="text-xs font-mono text-zinc-500 leading-relaxed uppercase tracking-tight">
               A high-performance toolkit for modern engineers. Local-first
               processing. Zero data persistence.
             </p>
@@ -38,7 +38,7 @@ export default function Footer() {
 
           {/* QUICK LINKS GRID - Two Columns */}
           <div className="flex-1 max-w-xl">
-            <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-6">
+            <h4 className="text-xs font-black uppercase tracking-[0.2em] text-zinc-400 mb-6">
               Tool Categories
             </h4>
             <div className="grid grid-cols-2 gap-x-12 gap-y-10">
@@ -62,12 +62,12 @@ export default function Footer() {
         {/* BOTTOM SECTION */}
         <div className="mt-16 pt-8 border-t border-zinc-50 dark:border-zinc-900/50 flex flex-col sm:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-2">
-            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400">
+            <span className="text-xs font-bold uppercase tracking-[0.2em] text-zinc-400">
               © {currentYear} DevKit
             </span>
           </div>
 
-          <div className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500">
+          <div className="flex items-center gap-1 text-xs font-bold uppercase tracking-[0.2em] text-zinc-500">
             <span>Built with</span>
             <Heart
               size={10}
@@ -88,7 +88,7 @@ function FooterLink({ group }: { group: (typeof menuGroups)[0] }) {
 
   if (isSoon) {
     return (
-      <div className="text-[10px] font-bold uppercase tracking-widest text-zinc-300 dark:text-zinc-700 cursor-not-allowed flex items-center justify-between">
+      <div className="text-xs font-bold uppercase tracking-widest text-zinc-300 dark:text-zinc-700 cursor-not-allowed flex items-center justify-between">
         {group.title}
         <span className="text-[7px] px-1 border border-zinc-200 dark:border-zinc-800 rounded">
           Soon
@@ -100,7 +100,7 @@ function FooterLink({ group }: { group: (typeof menuGroups)[0] }) {
   return (
     <Link
       href={group.href}
-      className="text-[11px] font-bold uppercase tracking-widest text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+      className="text-xs font-bold uppercase tracking-widest text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
     >
       {group.title}
     </Link>

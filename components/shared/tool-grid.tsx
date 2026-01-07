@@ -55,7 +55,7 @@ export function ToolCard({ tool }: { tool: Tool }) {
                 className="text-zinc-300 group-hover:text-zinc-900 dark:group-hover:text-zinc-100 transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
               />
             ) : (
-              <span className="text-[10px] font-black uppercase tracking-widest text-zinc-400 bg-zinc-100 dark:bg-zinc-900 px-2 py-1 rounded-md">
+              <span className="text-xs font-black uppercase tracking-widest text-zinc-400 bg-zinc-100 dark:bg-zinc-900 px-2 py-1 rounded-md">
                 Soon
               </span>
             )}
@@ -65,14 +65,14 @@ export function ToolCard({ tool }: { tool: Tool }) {
             <h3 className="font-bold text-sm tracking-tight text-zinc-900 dark:text-zinc-50">
               {tool.title}
             </h3>
-            <p className="text-[11px] text-zinc-500 leading-normal mt-1.5 line-clamp-2">
+            <p className="text-xs text-zinc-500 leading-normal mt-1.5 line-clamp-2">
               {tool.desc}
             </p>
           </div>
         </div>
 
         {isReady && (
-          <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400 group-hover:text-zinc-900 dark:group-hover:text-zinc-100 transition-colors">
+          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-zinc-400 group-hover:text-zinc-900 dark:group-hover:text-zinc-100 transition-colors">
             Open Tool{" "}
             <ArrowRight
               size={10}

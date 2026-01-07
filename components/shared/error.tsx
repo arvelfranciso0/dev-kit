@@ -34,7 +34,7 @@ export function EditorError({
 
         {/* Message Content */}
         <div className="flex-1 min-w-0 pt-0.5">
-          <p className="text-[11px] font-bold uppercase tracking-wider opacity-80 mb-1">
+          <p className="text-xs font-bold uppercase tracking-wider opacity-80 mb-1">
             Syntax Error
           </p>
           <p className="text-xs font-mono leading-tight wrap-break-words">

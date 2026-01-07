@@ -226,7 +226,7 @@ export function SortableBlock({
       <div className="flex flex-col gap-2 w-full">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <span className="text-[10px] font-black uppercase tracking-widest text-zinc-400">
+            <span className="text-xs font-black uppercase tracking-widest text-zinc-400">
               {block.type}
             </span>
 
@@ -235,7 +235,7 @@ export function SortableBlock({
                 value={block.language || "javascript"}
                 onValueChange={(val) => onUpdate(block.id, block.content, val)}
               >
-                <SelectTrigger className="h-5 text-[9px] w-24 px-2 bg-zinc-100 dark:bg-zinc-900 border-none">
+                <SelectTrigger className="h-5 text-xs w-24 px-2 bg-zinc-100 dark:bg-zinc-900 border-none">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -368,7 +368,7 @@ export function SortableBlock({
                       onClick={() =>
                         editor.chain().focus().addColumnAfter().run()
                       }
-                      icon={<span className="text-[10px] font-bold">+Col</span>}
+                      icon={<span className="text-xs font-bold">+Col</span>}
                       tooltip="Add Column"
                     />
                     {/* Delete Column */}
@@ -377,7 +377,7 @@ export function SortableBlock({
                         editor.chain().focus().deleteColumn().run()
                       }
                       icon={
-                        <span className="text-[10px] font-bold text-red-500">
+                        <span className="text-xs font-bold text-red-500">
                           -Col
                         </span>
                       }
@@ -387,14 +387,14 @@ export function SortableBlock({
                     {/* Add Row */}
                     <ToolbarButton
                       onClick={() => editor.chain().focus().addRowAfter().run()}
-                      icon={<span className="text-[10px] font-bold">+Row</span>}
+                      icon={<span className="text-xs font-bold">+Row</span>}
                       tooltip="Add Row"
                     />
                     {/* Delete Row */}
                     <ToolbarButton
                       onClick={() => editor.chain().focus().deleteRow().run()}
                       icon={
-                        <span className="text-[10px] font-bold text-red-500">
+                        <span className="text-xs font-bold text-red-500">
                           -Row
                         </span>
                       }

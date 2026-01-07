@@ -47,7 +47,7 @@ export default function SlugGenerator() {
                 variant={separator === s ? "secondary" : "ghost"}
                 size="sm"
                 onClick={() => setSeparator(s as "-" | "_")}
-                className="h-7 px-3 rounded-lg text-[9px] font-bold uppercase tracking-widest"
+                className="h-7 px-3 rounded-lg text-xs font-bold uppercase tracking-widest"
               >
                 {s === "-" ? "Kebab" : "Snake"}
               </Button>
@@ -62,7 +62,7 @@ export default function SlugGenerator() {
                 variant={encoding === e ? "secondary" : "ghost"}
                 size="sm"
                 onClick={() => setEncoding(e)}
-                className="h-7 px-3 rounded-lg text-[9px] font-bold uppercase tracking-widest"
+                className="h-7 px-3 rounded-lg text-xs font-bold uppercase tracking-widest"
               >
                 {e}
               </Button>
@@ -73,7 +73,7 @@ export default function SlugGenerator() {
             variant={keepCase ? "secondary" : "ghost"}
             size="sm"
             onClick={() => setKeepCase(!keepCase)}
-            className="h-9 px-4 rounded-xl text-[9px] font-bold uppercase tracking-widest gap-2"
+            className="h-9 px-4 rounded-xl text-xs font-bold uppercase tracking-widest gap-2"
           >
             <CaseSensitive size={14} />
             {keepCase ? "Raw Case" : "Lower"}
@@ -98,7 +98,7 @@ export default function SlugGenerator() {
                 {slug}
               </span>
             ) : (
-              <span className="text-[10px] font-black uppercase tracking-[0.2em] opacity-20">
+              <span className="text-xs font-black uppercase tracking-[0.2em] opacity-20">
                 Awaiting input...
               </span>
             )}
