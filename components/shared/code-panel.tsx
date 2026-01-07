@@ -38,7 +38,7 @@ export function CodePanel({
               <TabsTrigger
                 key={opt.id}
                 value={opt.id}
-                className="text-[10px] font-bold uppercase px-3"
+                className="text-xs font-bold uppercase px-3"
               >
                 {opt.label}
               </TabsTrigger>
@@ -50,7 +50,7 @@ export function CodePanel({
           {options.map((opt) => (
             <TabsContent key={opt.id} value={opt.id} className="mt-0">
               <div className="group relative">
-                <code className="block p-4 bg-zinc-50 dark:bg-zinc-950 rounded-xl text-[10px] font-mono text-zinc-500 dark:text-zinc-400 break-all leading-relaxed border border-zinc-100 dark:border-zinc-800 max-h-40 overflow-y-auto scrollbar-hide">
+                <code className="block p-4 bg-zinc-50 dark:bg-zinc-950 rounded-xl text-xs font-mono text-zinc-500 dark:text-zinc-400 break-all leading-relaxed border border-zinc-100 dark:border-zinc-800 max-h-40 overflow-y-auto scrollbar-hide">
                   {opt.value}
                 </code>
               </div>

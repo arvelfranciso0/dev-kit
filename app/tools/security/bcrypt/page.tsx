@@ -102,7 +102,7 @@ export default function BcryptHasher() {
             <div className="p-6 space-y-8">
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-zinc-400">
+                  <label className="text-xs font-black uppercase tracking-widest text-zinc-400">
                     Cost Factor (Salt Rounds)
                   </label>
                   <Badge
@@ -120,7 +120,7 @@ export default function BcryptHasher() {
                   step={1}
                   className="py-4"
                 />
-                <p className="text-[10px] text-zinc-500 italic leading-relaxed">
+                <p className="text-xs text-zinc-500 italic leading-relaxed">
                   Recommended: 10-12. Each increment doubles the time required
                   to verify.
                 </p>
@@ -128,7 +128,7 @@ export default function BcryptHasher() {
 
               <div className="space-y-4 pt-6 border-t border-zinc-100 dark:border-zinc-800">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-zinc-400">
+                  <label className="text-xs font-black uppercase tracking-widest text-zinc-400">
                     Plaintext String
                   </label>
                   <Input
@@ -187,7 +187,7 @@ export default function BcryptHasher() {
             <div className="p-6 space-y-6">
               <div className="grid grid-cols-1 gap-4">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-zinc-400">
+                  <label className="text-xs font-black uppercase tracking-widest text-zinc-400">
                     Plaintext to Check
                   </label>
                   <Input
@@ -198,7 +198,7 @@ export default function BcryptHasher() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-zinc-400">
+                  <label className="text-xs font-black uppercase tracking-widest text-zinc-400">
                     Existing Hash
                   </label>
                   <Input

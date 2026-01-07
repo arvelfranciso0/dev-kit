@@ -61,7 +61,7 @@ export default function JsonCsv() {
           size="sm"
           disabled={!csvResult}
           onClick={handleDownload}
-          className="rounded-xl font-bold uppercase tracking-widest text-[10px] h-10 border-zinc-200 dark:border-zinc-800"
+          className="rounded-xl font-bold uppercase tracking-widest text-xs h-10 border-zinc-200 dark:border-zinc-800"
         >
           <Download size={14} className="mr-2" /> Download CSV
         </Button>
@@ -98,7 +98,7 @@ export default function JsonCsv() {
             ) : (
               <div className="h-full flex flex-col items-center justify-center text-zinc-300 opacity-50">
                 <FileJson size={40} strokeWidth={1} />
-                <span className="text-[10px] font-black uppercase tracking-[0.2em] mt-4">
+                <span className="text-xs font-black uppercase tracking-[0.2em] mt-4">
                   Waiting for Valid Input
                 </span>
               </div>

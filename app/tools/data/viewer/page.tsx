@@ -54,14 +54,14 @@ export default function DataViewer() {
           <TabsList className="grid w-full grid-cols-2 h-11 bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-1">
             <TabsTrigger
               value="tree"
-              className="text-[10px] font-bold uppercase tracking-widest gap-2"
+              className="text-xs font-bold uppercase tracking-widest gap-2"
             >
               <TreeDeciduous size={14} /> Tree
             </TabsTrigger>
             <TabsTrigger
               value="table"
               disabled={!isArrayOfObjects}
-              className="text-[10px] font-bold uppercase tracking-widest gap-2"
+              className="text-xs font-bold uppercase tracking-widest gap-2"
             >
               <Table size={14} /> Table
             </TabsTrigger>
@@ -102,7 +102,7 @@ export default function DataViewer() {
             headers={
               parsedData &&
               !parsedData.error && (
-                <div className="flex gap-4 text-[10px] font-mono text-zinc-500">
+                <div className="flex gap-4 text-xs font-mono text-zinc-500">
                   <span>
                     Type: {Array.isArray(parsedData) ? "Array" : "Object"}
                   </span>
@@ -121,7 +121,7 @@ export default function DataViewer() {
               ) : parsedData?.error ? (
                 <div className="h-full flex flex-col items-center justify-center text-rose-500 gap-2 opacity-50">
                   <Info size={24} />
-                  <span className="text-[10px] font-bold uppercase tracking-tighter">
+                  <span className="text-xs font-bold uppercase tracking-tighter">
                     {parsedData.error}
                   </span>
                 </div>

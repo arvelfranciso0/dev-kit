@@ -201,7 +201,7 @@ function ViewportPair({ min, setMin, max, setMax }: any) {
   return (
     <div className="grid grid-cols-2 gap-4">
       <div className="space-y-2">
-        <label className="text-[9px] font-black uppercase text-zinc-400">
+        <label className="text-xs font-black uppercase text-zinc-400">
           Min Viewport
         </label>
         <Input
@@ -212,7 +212,7 @@ function ViewportPair({ min, setMin, max, setMax }: any) {
         />
       </div>
       <div className="space-y-2">
-        <label className="text-[9px] font-black uppercase text-zinc-400">
+        <label className="text-xs font-black uppercase text-zinc-400">
           Max Viewport
         </label>
         <Input
@@ -230,10 +230,10 @@ function SliderControl({ label, value, onChange, max }: any) {
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
-        <label className="text-[10px] font-black uppercase tracking-widest text-zinc-400">
+        <label className="text-xs font-black uppercase tracking-widest text-zinc-400">
           {label}
         </label>
-        <span className="text-[10px] font-mono font-bold">{value}px</span>
+        <span className="text-xs font-mono font-bold">{value}px</span>
       </div>
       <Slider
         value={[value]}

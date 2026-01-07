@@ -133,11 +133,11 @@ export default function RegexTester() {
       {/* EXPRESSION CARD */}
       <div className="p-6 rounded-3xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 shadow-sm space-y-4">
         <div className="flex items-center justify-between px-1">
-          <label className="text-[10px] font-black uppercase tracking-widest text-zinc-400">
+          <label className="text-xs font-black uppercase tracking-widest text-zinc-400">
             Regex Expression
           </label>
           {error && (
-            <span className="text-[10px] font-mono text-destructive flex items-center gap-2">
+            <span className="text-xs font-mono text-destructive flex items-center gap-2">
               <AlertCircle size={12} /> {error}
             </span>
           )}
@@ -220,7 +220,7 @@ export default function RegexTester() {
 
         <div className="lg:col-span-4 space-y-6">
           <div className="rounded-3xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 p-6 space-y-6">
-            <h3 className="text-[10px] font-black uppercase tracking-widest text-zinc-400 flex items-center gap-2">
+            <h3 className="text-xs font-black uppercase tracking-widest text-zinc-400 flex items-center gap-2">
               <BookOpen size={14} /> Flag Reference
             </h3>
             <div className="space-y-2">
@@ -239,17 +239,17 @@ export default function RegexTester() {
                   </span>
                   <div>
                     <p className="text-xs font-bold">{f.label}</p>
-                    <p className="text-[11px] text-zinc-500 mt-0.5">{f.desc}</p>
+                    <p className="text-xs text-zinc-500 mt-0.5">{f.desc}</p>
                   </div>
                 </div>
               ))}
             </div>
 
             <div className="pt-6 border-t border-zinc-100 dark:border-zinc-800 space-y-4">
-              <h3 className="text-[10px] font-black uppercase tracking-widest text-zinc-400 flex items-center gap-2">
+              <h3 className="text-xs font-black uppercase tracking-widest text-zinc-400 flex items-center gap-2">
                 <Hash size={14} /> Quick Tokens
               </h3>
-              <div className="grid grid-cols-2 gap-2 text-[11px] font-mono">
+              <div className="grid grid-cols-2 gap-2 text-xs font-mono">
                 {[
                   { t: ".", d: "any" },
                   { t: "\\d", d: "digit" },

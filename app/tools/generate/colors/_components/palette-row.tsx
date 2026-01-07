@@ -26,11 +26,11 @@ export function PaletteRow({ name, hex, isSeed }: PaletteRowProps) {
           />
           <div className="space-y-0.5">
             <div className="flex items-center gap-2">
-              <span className="text-[10px] font-black text-zinc-400 w-8">
+              <span className="text-xs font-black text-zinc-400 w-8">
                 {name}
               </span>
               {isSeed && (
-                <span className="text-[8px] font-bold uppercase bg-zinc-900 text-white px-1.5 rounded-full">
+                <span className="text-xs font-bold uppercase bg-zinc-900 text-white px-1.5 rounded-full">
                   Seed
                 </span>
               )}

@@ -70,7 +70,7 @@ export default function ContrastChecker() {
 
             <ActionPanel label="Safe Palette Suggestions">
               <div className="p-6 space-y-3">
-                <p className="text-[10px] text-zinc-400 uppercase font-bold mb-4 flex items-center gap-2">
+                <p className="text-xs text-zinc-400 uppercase font-bold mb-4 flex items-center gap-2">
                   <ShieldCheck size={12} /> Adjusted Foreground to Pass
                 </p>
                 <SafeColorCard
@@ -96,7 +96,7 @@ export default function ContrastChecker() {
             style={{ backgroundColor: background }} // Passing the dynamic background
           >
             <div style={{ color: foreground }}>
-              <span className="text-[10px] font-black uppercase tracking-[0.4em] opacity-60">
+              <span className="text-xs font-black uppercase tracking-[0.4em] opacity-60">
                 Ratio
               </span>
               <h2 className="text-8xl font-black tracking-tighter">
@@ -135,17 +135,17 @@ function SafeColorCard({ label, hex, currentBg, onApply, target }: any) {
           style={{ backgroundColor: hex }}
         />
         <div className="flex flex-col">
-          <span className="text-[10px] font-bold text-zinc-900 dark:text-zinc-100 uppercase">
+          <span className="text-xs font-bold text-zinc-900 dark:text-zinc-100 uppercase">
             {label}
           </span>
-          <span className="text-[9px] font-mono text-zinc-500 uppercase">
+          <span className="text-xs font-mono text-zinc-500 uppercase">
             {hex} ({target})
           </span>
         </div>
       </div>
       <button
         onClick={() => onApply(hex)}
-        className="px-3 py-1.5 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg text-[9px] font-black uppercase tracking-widest hover:bg-zinc-900 hover:text-white dark:hover:bg-zinc-50 dark:hover:text-zinc-900 transition-all"
+        className="px-3 py-1.5 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg text-xs font-black uppercase tracking-widest hover:bg-zinc-900 hover:text-white dark:hover:bg-zinc-50 dark:hover:text-zinc-900 transition-all"
       >
         Apply
       </button>
@@ -163,17 +163,17 @@ function ColorController({ label, value, onChange }: any) {
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
-        <label className="text-[10px] font-black uppercase tracking-widest text-zinc-400">
+        <label className="text-xs font-black uppercase tracking-widest text-zinc-400">
           {label}
         </label>
-        <CopiedStatus copyValue={value} className="text-[10px]" />
+        <CopiedStatus copyValue={value} className="text-xs" />
       </div>
 
       <ColorPicker value={value} onChange={onChange} />
 
       {/* Lightness Slider */}
       <div className="space-y-2">
-        <div className="flex justify-between text-[8px] font-bold text-zinc-400 uppercase tracking-tighter px-1">
+        <div className="flex justify-between text-xs font-bold text-zinc-400 uppercase tracking-tighter px-1">
           <span>Dark</span>
           <span>Light</span>
         </div>

@@ -138,13 +138,13 @@ export default function JwtDebugger() {
             variant="output"
           >
             <div className="p-6 bg-zinc-50/50 dark:bg-zinc-900/20 border-t border-zinc-100 dark:border-zinc-800">
-              <div className="font-mono text-[10px] text-zinc-400 uppercase tracking-widest mb-2">
+              <div className="font-mono text-xs text-zinc-400 uppercase tracking-widest mb-2">
                 HMACSHA256 (
               </div>
               <div className="text-xs font-mono text-blue-500 truncate">
                 {token.split(".")[2] || "base64url_encode(signature)"}
               </div>
-              <div className="font-mono text-[10px] text-zinc-400 uppercase tracking-widest mt-2">
+              <div className="font-mono text-xs text-zinc-400 uppercase tracking-widest mt-2">
                 )
               </div>
             </div>

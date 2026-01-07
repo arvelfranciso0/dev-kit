@@ -26,20 +26,20 @@ import { CopyItem } from "@/components/shared/copy-item";
 const CONVENTIONAL_TYPES = [
   { type: "feat", desc: "A new feature" },
   { type: "fix", desc: "A bug fix" },
-  { type: "docs", desc: "Documentation only changes" },
+  { type: "docs", desc: "Documentation only changes." },
   {
     type: "style",
-    desc: "Changes that do not affect the meaning of the code (white-space, formatting, etc)",
+    desc: "Non-functional changes (whitespace, formatting, etc.)",
   },
   {
     type: "refactor",
-    desc: "A code change that neither fixes a bug nor adds a feature",
+    desc: "A code change that neither fixes a bug nor adds a feature.",
   },
   { type: "perf", desc: "A code change that improves performance" },
-  { type: "test", desc: "Adding missing tests or correcting existing tests" },
+  { type: "test", desc: "Adding missing tests or correcting existing tests." },
   {
     type: "chore",
-    desc: "Changes to the build process or auxiliary tools and libraries",
+    desc: "Changes to the build process or auxiliary tools and libraries.",
   },
 ];
 
@@ -70,7 +70,6 @@ export default function GitCheatSheet() {
       <ActionPanel
         label="Git Reference"
         icon={<FileText size={14} />}
-        copyValue={allCommandsText}
         variant="output"
       >
         <div className="flex flex-col space-y-8 p-6 min-h-125 bg-zinc-50/50 dark:bg-zinc-900/30">
@@ -116,10 +115,10 @@ export default function GitCheatSheet() {
                       className="group p-4 hover:bg-amber-500/5 transition-colors cursor-pointer"
                     >
                       <div className="flex flex-col gap-1">
-                        <code className="text-xs font-bold text-amber-600 dark:text-amber-500 font-mono">
+                        <code className="text-sm font-bold text-amber-600 dark:text-amber-500 font-mono">
                           {item.cmd}
                         </code>
-                        <p className="text-[11px] text-zinc-500 leading-tight">
+                        <p className="text-xs text-zinc-500 leading-tight">
                           {item.desc}
                         </p>
                       </div>
@@ -144,10 +143,10 @@ export default function GitCheatSheet() {
                   key={item.type}
                   className="flex flex-col p-3 rounded-xl bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800"
                 >
-                  <span className="text-xs font-bold text-zinc-900 dark:text-zinc-100 mb-1">
+                  <span className="text-sm font-bold text-zinc-900 dark:text-zinc-100 mb-1">
                     {item.type}
                   </span>
-                  <span className="text-[10px] text-zinc-500 leading-normal">
+                  <span className="text-xs text-zinc-500 leading-normal">
                     {item.desc}
                   </span>
                 </div>
@@ -178,7 +177,7 @@ export default function GitCheatSheet() {
                     size={14}
                     className="text-emerald-500 shrink-0"
                   />
-                  <span className="text-[11px] text-zinc-600 dark:text-zinc-400">
+                  <span className="text-xs text-zinc-600 dark:text-zinc-400">
                     {tip}
                   </span>
                 </div>

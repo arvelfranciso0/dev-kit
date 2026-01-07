@@ -47,11 +47,11 @@ export function ActionPanel({
           headerBarClassname
         )}
       >
-        <span className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 flex items-center gap-2">
+        <span className="text-sm font-black uppercase tracking-[0.2em] text-zinc-400 flex items-center gap-2">
           {icon} {label}
         </span>
 
-        <div className="flex items-center gap-2 text-[10px] font-mono">
+        <div className="flex items-center gap-2 text-xs font-mono">
           {typeof count === "number" && (
             <span className="flex items-center gap-1.5 text-zinc-400">
               <Database size={12} /> {count}

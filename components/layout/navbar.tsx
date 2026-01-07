@@ -63,7 +63,7 @@ export default function Navbar() {
                     <NavigationMenuItem key={group.title}>
                       <NavigationMenuTrigger
                         className={cn(
-                          "h-9 px-4 text-[11px] font-bold uppercase transition-colors border-none bg-transparent",
+                          "h-9 px-4 text-xs font-bold uppercase transition-colors border-none bg-transparent",
                           "hover:bg-zinc-50 dark:hover:bg-zinc-900 focus:bg-transparent",
                           "data-[state=open]:bg-zinc-50 dark:data-[state=open]:bg-zinc-900",
                           // Active state for the Trigger
@@ -132,7 +132,7 @@ export default function Navbar() {
                   <div className="space-y-4">
                     {menuGroups.map((group) => (
                       <div key={group.title} className="space-y-2">
-                        <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-400">
+                        <h4 className="text-xs font-black uppercase tracking-widest text-zinc-400">
                           {group.title}
                         </h4>
                         <div className="flex flex-col gap-2 ml-2 border-l border-zinc-100 dark:border-zinc-800 pl-4">
@@ -160,7 +160,7 @@ export default function Navbar() {
                               >
                                 {item.title}
                                 {item.status === "soon" && (
-                                  <span className="text-[8px] opacity-50 uppercase">
+                                  <span className="text-xs opacity-50 uppercase">
                                     Soon
                                   </span>
                                 )}
@@ -210,7 +210,7 @@ const ListItem = React.forwardRef<React.ElementRef<"a">, ListItemProps>(
             <div className="flex items-center justify-between">
               <div
                 className={cn(
-                  "text-[11px] font-bold uppercase tracking-tight italic",
+                  "text-xs font-bold uppercase tracking-tight italic",
                   isActive
                     ? "text-amber-600 dark:text-amber-400"
                     : "text-zinc-900 dark:text-zinc-100"
@@ -229,7 +229,7 @@ const ListItem = React.forwardRef<React.ElementRef<"a">, ListItemProps>(
             </div>
             <p
               className={cn(
-                "line-clamp-1 text-[10px] font-mono leading-snug",
+                "line-clamp-1 text-xs font-mono leading-snug",
                 isActive
                   ? "text-amber-600/70 dark:text-amber-400/60"
                   : "text-zinc-400"

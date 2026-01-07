@@ -84,7 +84,7 @@ export default function ColorPalette() {
           <ActionPanel label="Seed Configuration">
             <div className="p-6 space-y-6">
               <div className="space-y-3">
-                <label className="text-[10px] font-black uppercase tracking-widest text-zinc-400">
+                <label className="text-xs font-black uppercase tracking-widest text-zinc-400">
                   Seed Color
                 </label>
                 <ColorPicker value={seedColor} onChange={setSeedColor} />
@@ -95,7 +95,7 @@ export default function ColorPalette() {
                   variant="outline"
                   size="sm"
                   onClick={generateRandom}
-                  className="gap-2 text-[10px] font-bold uppercase tracking-widest py-5"
+                  className="gap-2 text-xs font-bold uppercase tracking-widest py-5"
                 >
                   <Sparkles size={14} /> Random
                 </Button>
@@ -103,7 +103,7 @@ export default function ColorPalette() {
                   variant="outline"
                   size="sm"
                   onClick={() => setSeedColor("#3B82F6")}
-                  className="gap-2 text-[10px] font-bold uppercase tracking-widest py-5"
+                  className="gap-2 text-xs font-bold uppercase tracking-widest py-5"
                 >
                   <RotateCcw size={14} /> Reset
                 </Button>
@@ -137,7 +137,7 @@ export default function ColorPalette() {
 
           <div className="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-100 dark:border-zinc-800 flex gap-3">
             <Info className="text-zinc-400 shrink-0" size={16} />
-            <p className="text-[10px] text-zinc-500 leading-relaxed uppercase font-bold tracking-tight">
+            <p className="text-xs text-zinc-500 leading-relaxed uppercase font-bold tracking-tight">
               Scale generated using LCH interpolation. Clicking "Copy" on the
               panel header will copy all CSS variables.
             </p>

@@ -62,7 +62,7 @@ export default function AspectRatioTool() {
             <div className="p-6 space-y-8">
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-zinc-400 flex items-center gap-2">
+                  <label className="text-xs font-black uppercase tracking-widest text-zinc-400 flex items-center gap-2">
                     <UnfoldHorizontal size={12} /> Width
                   </label>
                   <Input
@@ -73,7 +73,7 @@ export default function AspectRatioTool() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-zinc-400 flex items-center gap-2">
+                  <label className="text-xs font-black uppercase tracking-widest text-zinc-400 flex items-center gap-2">
                     <UnfoldVertical size={12} /> Height
                   </label>
                   <Input
@@ -86,7 +86,7 @@ export default function AspectRatioTool() {
               </div>
 
               <div className="space-y-4">
-                <label className="text-[10px] font-black uppercase tracking-widest text-zinc-400">
+                <label className="text-xs font-black uppercase tracking-widest text-zinc-400">
                   Presets
                 </label>
                 <div className="grid grid-cols-3 gap-2">
@@ -128,7 +128,7 @@ export default function AspectRatioTool() {
 
               {/* Overlay info */}
               <div className="absolute inset-0 flex items-end justify-center p-4">
-                <span className="text-[10px] font-mono bg-zinc-100 dark:bg-zinc-800 px-2 py-1 rounded text-zinc-500">
+                <span className="text-xs font-mono bg-zinc-100 dark:bg-zinc-800 px-2 py-1 rounded text-zinc-500">
                   {width} : {height} ({legacyPercentage}%)
                 </span>
               </div>
