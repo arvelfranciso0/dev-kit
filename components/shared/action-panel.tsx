@@ -37,10 +37,13 @@ export function ActionPanel({
           : "border-zinc-200 dark:border-zinc-800 bg-zinc-50/30 dark:bg-zinc-900/10"
       )}
     >
+      {headerBarClassname && (
+        <div className="z-10 px-5 py-3 sticky top-14  bg-zinc-50/50 dark:bg-zinc-900/50 "></div>
+      )}
       {/* HEADER BAR */}
       <div
         className={cn(
-          "flex items-center justify-between px-5 py-3 bg-zinc-50/50 dark:bg-zinc-900/50 border-b border-zinc-100 dark:border-zinc-800",
+          "flex items-center rounded-t-2xl justify-between px-5 py-3 bg-zinc-50/50 dark:bg-zinc-900/50 border-b border-zinc-100 dark:border-zinc-800",
           headerBarClassname
         )}
       >
