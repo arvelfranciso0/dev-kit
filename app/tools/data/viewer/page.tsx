@@ -128,7 +128,7 @@ export default function DataViewer() {
               ) : (
                 <div className="h-full">
                   {activeTab === "tree" ? (
-                    <div className="font-mono text-sm custom-json-view">
+                    <div className="font-mono text-sm ">
                       <JsonView
                         data={parsedData}
                         shouldExpandNode={(level) => level < 2}

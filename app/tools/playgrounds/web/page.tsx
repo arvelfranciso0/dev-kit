@@ -29,6 +29,19 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import DesktopViewPlayground from "./_components/desktop-view";
+import MobileViewPlayground from "./_components/mobile-view";
+import PreviewArea from "./_components/preview-area";
+
+type PlaygroundProps = {
+  html: string;
+  css: string;
+  js: string;
+  setHtml: (v: string) => void;
+  setCss: (v: string) => void;
+  setJs: (v: string) => void;
+  handleReset: () => void;
+};
 
 export default function WebPlayground() {
   const [html, setHtml] = useState(
@@ -94,126 +107,30 @@ export default function WebPlayground() {
           icon={<Globe />}
         />
       </div>
+      <DesktopViewPlayground
+        html={html}
+        css={css}
+        js={js}
+        setHtml={setHtml}
+        setCss={setCss}
+        setJs={setJs}
+        handleReset={handleReset}
+        srcDoc={srcDoc}
+        previewRef={previewRef}
+        isFullscreen={isFullscreen}
+        toggleFullscreen={toggleFullscreen}
+      />
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        {/* LEFT SIDE: Editor */}
-        <div className="lg:col-span-4 space-y-6">
-          <ActionPanel
-            label="Editor"
-            icon={<Code2 size={14} />}
-            onReset={handleReset}
-          >
-            <div className="w-full h-160 flex flex-col rounded-b-2xl overflow-hidden ">
-              <Tabs
-                defaultValue="html"
-                className="flex-1 flex flex-col overflow-hidden"
-              >
-                <div className="px-4 py-2 border-b  flex items-center justify-between shrink-0">
-                  <TabsList className="bg-transparent border-none gap-4">
-                    <TabsTrigger
-                      value="html"
-                      className="text-zinc-400 data-[state=active]:text-amber-500"
-                    >
-                      <FileCode size={14} className="mr-2" /> HTML
-                    </TabsTrigger>
-                    <TabsTrigger
-                      value="css"
-                      className="text-zinc-400 data-[state=active]:text-sky-500"
-                    >
-                      <Layout size={14} className="mr-2" /> CSS
-                    </TabsTrigger>
-                    <TabsTrigger
-                      value="js"
-                      className="text-zinc-400 data-[state=active]:text-yellow-400"
-                    >
-                      <Type size={14} className="mr-2" /> JS
-                    </TabsTrigger>
-                  </TabsList>
-                </div>
-                <div className="flex-1 overflow-hidden">
-                  <TabsContent
-                    value="html"
-                    className="h-full m-0 data-[state=active]:flex flex-col overflow-hidden"
-                  >
-                    <CodeEditor
-                      value={html}
-                      onChange={(value) => setHtml(value)}
-                      containerClassName="h-full flex-1"
-                      editable
-                      mode={"html"}
-                    />
-                  </TabsContent>
-                  <TabsContent
-                    value="css"
-                    className="h-full m-0 data-[state=active]:flex flex-col overflow-hidden"
-                  >
-                    <CodeEditor
-                      value={css}
-                      onChange={(value) => setCss(value)}
-                      containerClassName="h-full flex-1"
-                      editable
-                      mode={"css"}
-                    />
-                  </TabsContent>
-                  <TabsContent
-                    value="js"
-                    className="h-full m-0 data-[state=active]:flex flex-col overflow-hidden"
-                  >
-                    <CodeEditor
-                      value={js}
-                      onChange={(value) => setJs(value)}
-                      containerClassName="h-full flex-1"
-                      editable
-                      mode={"javascript"}
-                    />
-                  </TabsContent>
-                </div>
-              </Tabs>
-            </div>
-          </ActionPanel>
-        </div>
-
-        {/* RIGHT SIDE: Preview */}
-        <PreviewContainer statusLabel="Live Preview">
-          <div
-            className="w-full h-150 rounded-b-2xl overflow-hidden relative "
-            ref={previewRef}
-          >
-            {/* MOVED BUTTON HERE */}
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={toggleFullscreen}
-                    className="absolute top-3 right-3 h-8 w-8 rounded-lg  backdrop-blur-md  text-zinc-900 hover:text-amber-500  transition-all duration-200 z-50"
-                  >
-                    {isFullscreen ? (
-                      <Minimize2 size={16} />
-                    ) : (
-                      <Maximize2 size={16} />
-                    )}
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent
-                  side="left"
-                  className="bg-zinc-900 border-zinc-800 text-xs text-white"
-                >
-                  {isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-
-            <iframe
-              srcDoc={srcDoc}
-              title="output"
-              sandbox="allow-scripts allow-modals"
-              className="w-full h-full border-none"
-            />
-          </div>
-        </PreviewContainer>
-      </div>
+      <MobileViewPlayground
+        html={html}
+        css={css}
+        js={js}
+        setHtml={setHtml}
+        setCss={setCss}
+        setJs={setJs}
+        handleReset={handleReset}
+        srcDoc={srcDoc}
+      />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-12 border-t border-zinc-100 dark:border-zinc-800 pt-12">
         <InfoSection
           title="Isolated Sandbox"

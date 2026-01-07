@@ -66,6 +66,7 @@
     "react-dom": "19.2.3",
     "react-json-view-lite": "^2.5.0",
     "react-markdown": "^10.1.0",
+    "react-resizable-panels": "^4.2.1",
     "rehype-autolink-headings": "^7.1.0",
     "rehype-highlight": "^7.0.2",
     "rehype-raw": "^7.0.0",
