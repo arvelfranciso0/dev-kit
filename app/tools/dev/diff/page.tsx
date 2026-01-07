@@ -89,7 +89,7 @@ export default function DiffViewer() {
             </div>
 
             {/* Diff Window */}
-            <div className="rounded-2xl border verflow-hidden shadow-sm">
+            <div className="rounded-2xl border overflow-hidden shadow-sm">
               {hasChanges ? (
                 <Diff
                   viewType={viewType}
