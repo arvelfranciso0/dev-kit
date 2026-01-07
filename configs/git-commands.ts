@@ -102,7 +102,7 @@ export const GIT_COMMANDS = [
 
   /* ===================== BRANCHING ===================== */
   {
-    category: "Branching",
+    category: "Branching & Merging",
     commands: [
       { cmd: "git branch", desc: "List local branches" },
       { cmd: "git branch -a", desc: "List all branches" },
