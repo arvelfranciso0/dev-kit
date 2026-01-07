@@ -53,7 +53,7 @@ function hello(name: string) {
           label="Markdown Input"
           onReset={() => setContent("")}
           copyValue={content}
-          headerBarClassname="sticky top-12 z-10  backdrop-blur-md "
+          headerBarClassname="sticky top-14 z-20 backdrop-blur-md   -mt-6"
         >
           <CodeEditor
             editable
