@@ -5,12 +5,12 @@ import { formatLines, diffLines } from "unidiff";
 import { parseDiff, Diff, Hunk } from "react-diff-view";
 import { ToolHeader } from "@/components/shared/tool-header";
 import { ActionPanel } from "@/components/shared/action-panel";
-import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { GitCompare, Columns, Rows, Check } from "lucide-react";
 import "react-diff-view/style/index.css";
 import { InfoSection } from "@/components/shared/info-section";
 import { CodeEditor } from "@/components/shared/code-mirror";
+import { cn } from "@/lib/utils";
 
 export default function DiffViewer() {
   const [oldCode, setOldCode] = useState("");
@@ -89,7 +89,7 @@ export default function DiffViewer() {
             </div>
 
             {/* Diff Window */}
-            <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 overflow-hidden bg-white dark:bg-zinc-950 shadow-sm">
+            <div className="rounded-2xl border verflow-hidden shadow-sm">
               {hasChanges ? (
                 <Diff
                   viewType={viewType}

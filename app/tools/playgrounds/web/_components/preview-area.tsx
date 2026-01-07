@@ -20,7 +20,7 @@ export default function PreviewArea({
 }: PreviewProps) {
   return (
     <div
-      className={(cn("w-full  overflow-hidden relative"), className)}
+      className={(cn("w-full  overflow-hidden "), className)}
       ref={previewRef}
     >
       {!isMobile && (

@@ -15,8 +15,6 @@ import {
   Layers,
   History,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 import { InfoSection } from "@/components/shared/info-section";
 import { PresetButton } from "@/components/shared/presets";
 

@@ -32,7 +32,7 @@ export default function DesktopViewPlayground({
           <ResizablePanelGroup orientation="horizontal">
             {/* HTML */}
             <ResizablePanel defaultSize={50}>
-              <div className="flex flex-col h-full bg-zinc-50/50">
+              <div className="flex flex-col h-full ">
                 <div className="flex items-center gap-2 px-4 py-2 text-amber-500 font-medium text-xs border-b border-zinc-200">
                   <FileCode size={14} /> HTML
                 </div>
@@ -50,7 +50,7 @@ export default function DesktopViewPlayground({
 
             {/* CSS */}
             <ResizablePanel defaultSize={50}>
-              <div className="flex flex-col h-full bg-zinc-50/50">
+              <div className="flex flex-col h-full ">
                 <div className="flex items-center gap-2 px-4 py-2 text-sky-500 font-medium text-xs border-b border-zinc-200">
                   <Layout size={14} /> CSS
                 </div>
@@ -68,7 +68,7 @@ export default function DesktopViewPlayground({
 
             {/* JS */}
             <ResizablePanel defaultSize={50}>
-              <div className="flex flex-col h-full bg-zinc-50/50">
+              <div className="flex flex-col h-full ">
                 <div className="flex items-center gap-2 px-4 py-2 text-yellow-400 font-medium text-xs border-b border-zinc-200">
                   <Type size={14} /> JavaScript
                 </div>
@@ -98,7 +98,7 @@ export default function DesktopViewPlayground({
             isFullscreen={isFullscreen}
             toggleFullscreen={toggleFullscreen}
             isMobile={false}
-            className="h-full border border-t-zinc-800 "
+            className="h-full border border-t-zinc-800 relative"
           />
         </ResizablePanel>
       </ResizablePanelGroup>

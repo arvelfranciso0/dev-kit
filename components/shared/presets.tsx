@@ -35,7 +35,7 @@ export function PresetButton({
       className={cn(
         "h-auto flex flex-col items-center justify-center p-3 rounded-xl border transition-all duration-200 group gap-1",
         isActive
-          ? "bg-zinc-900 border-zinc-900 text-white dark:bg-zinc-100 dark:border-zinc-100 dark:text-zinc-900 shadow-md"
+          ? "bg-zinc-900 border-zinc-900 text-white dark:hover:text-zinc-50 dark:bg-zinc-100 dark:border-zinc-100 dark:text-zinc-900 shadow-md"
           : "bg-white dark:bg-zinc-950 border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900"
       )}
     >

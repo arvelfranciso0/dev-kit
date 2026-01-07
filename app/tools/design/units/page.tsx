@@ -128,7 +128,7 @@ export default function MultiUnitConverter() {
                 type="number"
                 value={val}
                 onChange={(e) => setVal(e.target.value)}
-                className="text-5xl h-20 font-mono font-bold border-none bg-transparent focus-visible:ring-0 p-0 shadow-none"
+                className="text-5xl  h-20 font-mono font-bold border-none bg-transparent focus-visible:ring-0 p-2 shadow-none"
               />
               <Select value={sourceUnit} onValueChange={setSourceUnit}>
                 <SelectTrigger className="w-32 h-12 rounded-xl font-bold uppercase tracking-widest text-xs border-zinc-200">

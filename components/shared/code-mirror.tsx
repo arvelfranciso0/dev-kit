@@ -1,6 +1,9 @@
 "use client";
 
-import ReactCodeMirror, { ReactCodeMirrorProps } from "@uiw/react-codemirror";
+import ReactCodeMirror, {
+  EditorView,
+  ReactCodeMirrorProps,
+} from "@uiw/react-codemirror";
 import { json } from "@codemirror/lang-json";
 import { html } from "@codemirror/lang-html";
 import { xml } from "@codemirror/lang-xml";
@@ -12,6 +15,8 @@ import { css } from "@codemirror/lang-css";
 import { cn } from "@/lib/utils";
 import { transparentThemeCodeViewer } from "@/configs/themes";
 import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
+import SkeletonPanel from "./skeleton-panel";
 
 type EditorMode = "json" | "html" | "xml" | "javascript" | "css" | "text";
 
@@ -80,6 +85,11 @@ export function CodeEditor({
   ...props
 }: CodeEditorProps) {
   const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
   const resolvedMode = mode === "auto" ? detectLanguage(value) : mode;
 
   const extensions: Extension[] = [
@@ -87,13 +97,21 @@ export function CodeEditor({
     transparentThemeCodeViewer,
   ];
 
+  if (!mounted) {
+    return (
+      <div className={cn("w-full overflow-hidden", containerClassName)}>
+        <SkeletonPanel />
+      </div>
+    );
+  }
+
   return (
     <div className={cn("w-full overflow-hidden", containerClassName)}>
       <ReactCodeMirror
         value={value}
         height="100%"
-        className="h-full font-mono"
-        extensions={extensions}
+        className="h-full"
+        extensions={[extensions, EditorView.lineWrapping]}
         theme={resolvedTheme === "dark" ? oneDark : "light"}
         onChange={onChange}
         editable={false}
