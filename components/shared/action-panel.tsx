@@ -14,6 +14,7 @@ interface ActionPanelProps {
   variant?: "input" | "output";
   children: React.ReactNode;
   headers?: React.ReactNode;
+  headerBarClassname?: string;
 }
 
 export function ActionPanel({
@@ -25,18 +26,24 @@ export function ActionPanel({
   variant = "input",
   children,
   headers,
+  headerBarClassname,
 }: ActionPanelProps) {
   return (
     <div
       className={cn(
-        "group flex flex-col rounded-2xl border transition-all shadow-sm overflow-hidden",
+        "group flex flex-col rounded-2xl border transition-all shadow-sm ",
         variant === "input"
           ? "border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 focus-within:ring-2 focus-within:ring-zinc-400/20"
           : "border-zinc-200 dark:border-zinc-800 bg-zinc-50/30 dark:bg-zinc-900/10"
       )}
     >
       {/* HEADER BAR */}
-      <div className="flex items-center justify-between px-5 py-3 bg-zinc-50/50 dark:bg-zinc-900/50 border-b border-zinc-100 dark:border-zinc-800">
+      <div
+        className={cn(
+          "flex items-center justify-between px-5 py-3 bg-zinc-50/50 dark:bg-zinc-900/50 border-b border-zinc-100 dark:border-zinc-800",
+          headerBarClassname
+        )}
+      >
         <span className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 flex items-center gap-2">
           {icon} {label}
         </span>

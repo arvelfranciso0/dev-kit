@@ -38,7 +38,7 @@ function hello(name: string) {
   );
 
   return (
-    <div className="flex flex-col  p-4 lg:p-8 space-y-4 overflow-hidden">
+    <div className="flex flex-col  p-4 lg:p-8 space-y-4 ">
       <div className="flex items-center justify-between shrink-0">
         <ToolHeader
           title="Markdown Preview"
@@ -47,9 +47,14 @@ function hello(name: string) {
         />
       </div>
 
-      <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-2 overflow-hidden">
+      <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-2 ">
         {/* LEFT SIDE: Editor */}
-        <ActionPanel label="Markdown Input" onReset={() => setContent("")}>
+        <ActionPanel
+          label="Markdown Input"
+          onReset={() => setContent("")}
+          copyValue={content}
+          headerBarClassname="sticky top-12 z-10  backdrop-blur-md "
+        >
           <CodeEditor
             editable
             value={content}
@@ -58,7 +63,7 @@ function hello(name: string) {
         </ActionPanel>
 
         {/* RIGHT SIDE: Preview */}
-        <div className="flex flex-col h-full overflow-hidden">
+        <div className="flex flex-col h-full">
           <ActionPanel label="GitHub Preview" variant={"output"}>
             <div className="min-h-25">
               <article
