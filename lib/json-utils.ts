@@ -3,6 +3,28 @@ import { diffJson } from "diff";
 import { DiffResult } from "@/types/json";
 import { Parser } from "@json2csv/plainjs";
 import { flatten } from "@json2csv/transforms";
+import _ from "lodash";
+
+function nestWithLoadash(flatRow: any) {
+  const root = {};
+
+  Object.keys(flatRow).forEach((key) => {
+    let value = flatRow[key];
+
+    //check value if stringified JSON array/objects
+    if (
+      typeof value === "string" &&
+      (value.startsWith("[") || value.startsWith("{"))
+    ) {
+      try {
+        value = JSON.parse(value);
+      } catch (e) {}
+    }
+
+    _.set(root, key, value);
+  });
+  return root;
+}
 
 export function formatJSON(val: string, indent: number = 2): string {
   if (!val) return "";
@@ -57,7 +79,9 @@ export function csvToJson(csvInput: string) {
     throw new Error(result.errors[0].message);
   }
 
-  return JSON.stringify(result.data, null, 2);
+  const nestedData = result.data.map((row) => nestWithLoadash(row));
+
+  return JSON.stringify(nestedData, null, 2);
 }
 
 export function parseCsvFile(file: File): Promise<string> {
