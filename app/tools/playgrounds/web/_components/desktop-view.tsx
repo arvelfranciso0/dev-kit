@@ -23,11 +23,8 @@ export default function DesktopViewPlayground({
   toggleFullscreen,
 }: PlaygroundProps) {
   return (
-    <div className="">
-      <ResizablePanelGroup
-        orientation="vertical"
-        className="hidden md:block h-screen w-full border border-zinc-800 overflow-hidden"
-      >
+    <div className="hidden md:block h-screen w-full border border-zinc-800 overflow-hidden">
+      <ResizablePanelGroup orientation="vertical">
         <ResizablePanel defaultSize={100} minSize={20}>
           <ResizablePanelGroup orientation="horizontal">
             {/* HTML */}
