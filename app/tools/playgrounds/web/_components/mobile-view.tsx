@@ -95,7 +95,7 @@ export default function MobileViewPlayground({
           </div>
         </ActionPanel>
       </div>
-      <PreviewArea srcDoc={srcDoc} isMobile={true} />
+      <PreviewArea srcDoc={srcDoc} isMobile={true} className="h-162" />
     </div>
   );
 }
