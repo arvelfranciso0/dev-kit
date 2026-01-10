@@ -176,6 +176,12 @@ export const menuGroups = [
         description: "Interactive git reference.",
         status: "ready",
       },
+      {
+        title: "Database Architect",
+        href: "/database-visualize",
+        description: "Design and visualize database.",
+        status: "ready",
+      },
     ],
   },
 

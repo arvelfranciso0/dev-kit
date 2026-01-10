@@ -7,6 +7,7 @@ import ReactCodeMirror, {
 import { json } from "@codemirror/lang-json";
 import { html } from "@codemirror/lang-html";
 import { xml } from "@codemirror/lang-xml";
+import { sql } from "@codemirror/lang-sql";
 import { javascript } from "@codemirror/lang-javascript";
 import { oneDark } from "@codemirror/theme-one-dark";
 import { Extension } from "@codemirror/state";
@@ -18,7 +19,14 @@ import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import SkeletonPanel from "./skeleton-panel";
 
-type EditorMode = "json" | "html" | "xml" | "javascript" | "css" | "text";
+type EditorMode =
+  | "json"
+  | "html"
+  | "xml"
+  | "javascript"
+  | "css"
+  | "text"
+  | "sql";
 
 interface CodeEditorProps
   extends Omit<ReactCodeMirrorProps, "theme" | "extensions"> {
@@ -73,6 +81,7 @@ const languageMap: Record<EditorMode, Extension[]> = {
     }),
   ],
   css: [css()],
+  sql: [sql()],
   text: [],
 };
 

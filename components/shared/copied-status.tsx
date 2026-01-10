@@ -4,6 +4,7 @@ import { useCopy } from "@/hooks/use-copy";
 import { Check, Copy } from "lucide-react";
 import { cn } from "@/lib/utils"; // Import your utility
 import { ReactNode } from "react";
+import { Button } from "../ui/button";
 
 interface CopiedStatusProps {
   copyValue?: string;
@@ -21,10 +22,12 @@ export default function CopiedStatus({
   return (
     <>
       {copyValue && (
-        <button
+        <Button
+          variant="ghost"
+          size="sm"
           onClick={() => copy(copyValue)}
           className={cn(
-            "flex w-full items-center justify-between gap-4 font-bold  tracking-widest transition-all cursor-pointer", // Added w-full and items-center
+            "flex  items-center justify-between gap-4 font-bold  tracking-widest transition-all cursor-pointer", // Added w-full and items-center
             className
           )}
         >
@@ -41,7 +44,7 @@ export default function CopiedStatus({
               </div>
             )}
           </div>
-        </button>
+        </Button>
       )}
     </>
   );

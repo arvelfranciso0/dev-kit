@@ -4,6 +4,7 @@ import { Hash, RotateCcw, Copy, Check, Database } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useCopy } from "@/hooks/use-copy";
 import CopiedStatus from "./copied-status";
+import { Button } from "../ui/button";
 
 interface ActionPanelProps {
   label: string;
@@ -59,13 +60,15 @@ export function ActionPanel({
           )}
 
           {onReset && count !== 0 && (
-            <button
+            <Button
+              variant={"ghost"}
+              size={"sm"}
               onClick={onReset}
               className="hover:text-zinc-900 cursor-pointer dark:hover:text-zinc-100 text-zinc-400 transition-colors flex items-center gap-1.5 font-bold uppercase tracking-widest"
             >
               <RotateCcw size={12} />
               <span className="hidden sm:inline">Reset</span>
-            </button>
+            </Button>
           )}
 
           <CopiedStatus copyValue={copyValue} />
