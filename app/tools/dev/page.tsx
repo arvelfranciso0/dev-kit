@@ -1,6 +1,6 @@
 "use client";
 
-import { FileCode, GitCompare, GitBranch } from "lucide-react";
+import { FileCode, GitCompare, GitBranch, Table2 } from "lucide-react";
 import { ToolGrid } from "@/components/shared/tool-grid";
 import { Tool } from "@/types/tools";
 import Header from "@/components/shared/header";
@@ -25,6 +25,13 @@ const tools: Tool[] = [
     desc: "A comprehensive reference for advanced Git workflows, including conventional commits and branching strategies.",
     href: "/tools/dev/git",
     icon: <GitBranch size={18} />,
+    status: "ready",
+  },
+  {
+    title: "DB Architect",
+    desc: "Design and model database relationships using DBML with live visual feedback.",
+    href: "/tools/dev/database-visualize",
+    icon: <Table2 size={18} />,
     status: "ready",
   },
 ];

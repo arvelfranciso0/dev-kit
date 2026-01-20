@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
-import { ThemeProvider } from "@/components/theme-provider";
+import { ThemeProvider } from "@/provider/theme-provider";
 import { Geist, Geist_Mono } from "next/font/google";
 
 const geistSans = Geist({
@@ -28,14 +28,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable} font-sans`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${geistSans.variable} ${geistMono.variable} `}
+    >
+      <body>
+        <ThemeProvider attribute="class" enableSystem disableTransitionOnChange>
           <div className="flex flex-col min-h-screen">
             <Navbar />
             <main className="flex-1">{children}</main>
