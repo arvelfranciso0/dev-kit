@@ -51,7 +51,7 @@ const descriptionMap: Record<string, string> = {
 
 export default function Home() {
   return (
-    <main className="flex flex-col items-center px-6 py-24 md:py-32 space-y-24 bg-white dark:bg-zinc-950">
+    <div className="flex flex-col items-center px-6 py-24 md:py-32 space-y-24 bg-white dark:bg-zinc-950">
       {/* HERO SECTION */}
       <section className="max-w-4xl text-center space-y-8">
         <div className="space-y-4">
@@ -104,7 +104,7 @@ export default function Home() {
         <Zap size={14} className="text-zinc-500" />
         <div className="h-px flex-1 bg-zinc-400" />
       </div>
-    </main>
+    </div>
   );
 }
 

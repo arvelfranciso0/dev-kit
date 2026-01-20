@@ -1,83 +1,127 @@
-import { getBezierPath, Position, EdgeProps } from "@xyflow/react";
-import { CSSProperties } from "react";
-import React from "react";
-
-interface CrowFootEdgeProps extends EdgeProps {
-  markerStartType?: "one" | "many";
-  markerEndType?: "one" | "many";
-}
-interface CrowFootEdgeProps {
-  id: string;
-  sourceX: number;
-  sourceY: number;
-  targetX: number;
-  targetY: number;
-  sourcePosition: Position;
-  targetPosition: Position;
-  style?: CSSProperties;
-  markerStartType?: "one" | "many";
-  markerEndType?: "one" | "many";
-}
-
-export const CrowFootEdge: React.FC<CrowFootEdgeProps> = ({
-  id,
-  sourceX,
-  sourceY,
-  targetX,
-  targetY,
-  sourcePosition,
-  targetPosition,
-  style,
-  markerStartType = "one",
-  markerEndType = "many",
-}) => {
-  const [edgePath] = getBezierPath({
-    sourceX,
-    sourceY,
-    targetX,
-    targetY,
-    sourcePosition,
-    targetPosition,
-  });
-
+export default function SvgMarker() {
   return (
-    <>
+    <svg style={{ position: "absolute", width: 0, height: 0 }}>
       <defs>
+        {/* ===================== ZERO (●) ===================== */}
         <marker
-          id="crowfoot-many"
-          markerWidth="12"
-          markerHeight="12"
-          refX="10"
+          id="zero"
+          viewBox="0 0 12 12"
+          refX="12"
           refY="6"
-          orient="auto"
+          markerWidth="6"
+          markerHeight="6"
+          orient="auto-start-reverse"
+        >
+          <circle cx="6" cy="6" r="3" fill="currentColor" />
+        </marker>
+
+        {/* ===================== ONE (|) ===================== */}
+        <marker
+          id="one"
+          viewBox="0 0 12 12"
+          refX="12"
+          refY="6"
+          markerWidth="6"
+          markerHeight="8"
+          orient="auto-start-reverse"
+        >
+          <path d="M 6 0 L 6 12" stroke="currentColor" strokeWidth="1.5" />
+        </marker>
+
+        {/* ===================== MANY (<) ===================== */}
+        <marker
+          id="many"
+          viewBox="0 0 12 12"
+          refX="12"
+          refY="6"
+          markerWidth="8"
+          markerHeight="8"
+          orient="auto-start-reverse"
         >
           <path
-            d="M0,1 L10,6 L0,11 M10,1 L10,11"
+            d="M 0 6 L 8 0 M 0 6 L 8 6 M 0 6 L 8 12"
             fill="none"
-            stroke="#94a3b8"
+            stroke="currentColor"
             strokeWidth="1.5"
           />
         </marker>
+
+        {/* ===================== ONE AND ONLY ONE (||) ===================== */}
         <marker
-          id="crowfoot-one"
-          markerWidth="12"
-          markerHeight="12"
-          refX="5"
+          id="one-only"
+          viewBox="0 0 12 12"
+          refX="12"
           refY="6"
-          orient="auto"
+          markerWidth="8"
+          markerHeight="8"
+          orient="auto-start-reverse"
         >
-          <path d="M5,1 L5,11" fill="none" stroke="#94a3b8" strokeWidth="2" />
+          <path
+            d="M 4 0 L 4 12 M 8 0 L 8 12"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+          />
+        </marker>
+
+        {/* ===================== ZERO OR ONE (●|) ===================== */}
+        <marker
+          id="zero-or-one"
+          viewBox="0 0 18 12"
+          refX="18"
+          refY="6"
+          markerWidth="10"
+          markerHeight="8"
+          orient="auto-start-reverse"
+        >
+          {/* solid zero */}
+          <circle cx="4" cy="6" r="2" fill="currentColor" />
+          {/* one bar */}
+          <path d="M 8 0 L 8 12" stroke="currentColor" strokeWidth="1.5" />
+        </marker>
+
+        {/* ===================== ONE OR MANY (|<) ===================== */}
+        <marker
+          id="one-or-many"
+          viewBox="0 0 18 12"
+          refX="18"
+          refY="6"
+          markerWidth="10"
+          markerHeight="8"
+          orient="auto-start-reverse"
+        >
+          {/* one bar */}
+          <path d="M 4 0 L 4 12" stroke="currentColor" strokeWidth="1.5" />
+          {/* crow foot */}
+          <path
+            d="M 6 6 L 16 0 M 6 6 L 16 6 M 6 6 L 16 12"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+          />
+        </marker>
+
+        {/* ===================== ZERO OR MANY (●<) ===================== */}
+        <marker
+          id="zero-or-many"
+          viewBox="0 0 20 12"
+          refX="20"
+          refY="6"
+          markerWidth="12"
+          markerHeight="8"
+          orient="auto-start-reverse"
+        >
+          {/* solid zero */}
+          <circle cx="4" cy="6" r="2" fill="currentColor" />
+          {/* crow foot */}
+          <path
+            d="M 6 6 L 18 0 M 6 6 L 18 6 M 6 6 L 18 12"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+          />
         </marker>
       </defs>
-
-      <path
-        id={id}
-        className="react-flow__edge-path"
-        d={edgePath}
-        style={style}
-        markerStart={`url(#crowfoot-${markerStartType})`}
-        markerEnd={`url(#crowfoot-${markerEndType})`}
-      />
-    </>
+    </svg>
   );
-};
+}
