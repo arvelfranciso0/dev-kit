@@ -46,19 +46,23 @@ export default function ColorPalette() {
   }, [debouncedSeed]);
 
   const mainConversions = useMemo(() => {
-    const c = chroma(debouncedSeed);
-    return [
-      { label: "Hex", value: debouncedSeed.toUpperCase(), unit: "" },
-      { label: "RGB", value: c.css(), unit: "" },
-      {
-        label: "HSL",
-        value: `hsl(${c
-          .hsl()
-          .map((v) => Math.round(v || 0))
-          .join(", ")})`,
-        unit: "",
-      },
-    ];
+    try {
+      const c = chroma(debouncedSeed);
+      return [
+        { label: "Hex", value: debouncedSeed.toUpperCase(), unit: "" },
+        { label: "RGB", value: c.css(), unit: "" },
+        {
+          label: "HSL",
+          value: `hsl(${c
+            .hsl()
+            .map((v) => Math.round(v || 0))
+            .join(", ")})`,
+          unit: "",
+        },
+      ];
+    } catch (error) {
+      return [];
+    }
   }, [debouncedSeed]);
 
   const fullPaletteString = useMemo(() => {
@@ -124,14 +128,27 @@ export default function ColorPalette() {
             copyValue={fullPaletteString}
           >
             <div className="p-2 space-y-1">
-              {palette.map((swatch) => (
-                <PaletteRow
-                  key={swatch.name}
-                  name={swatch.name}
-                  hex={swatch.hex}
-                  isSeed={swatch.hex.toLowerCase() === seedColor.toLowerCase()}
-                />
-              ))}
+              {palette.length > 0 ? (
+                <>
+                  {palette.map((swatch) => (
+                    <PaletteRow
+                      key={swatch.name}
+                      name={swatch.name}
+                      hex={swatch.hex}
+                      isSeed={
+                        swatch.hex.toLowerCase() === seedColor.toLowerCase()
+                      }
+                    />
+                  ))}
+                </>
+              ) : (
+                <div className="h-full flex flex-col items-center justify-center text-zinc-300 opacity-50">
+                  <Palette size={40} strokeWidth={1} />
+                  <span className="text-xs font-black uppercase tracking-[0.2em] mt-4">
+                    Waiting for valid hex value
+                  </span>
+                </div>
+              )}
             </div>
           </ActionPanel>
 

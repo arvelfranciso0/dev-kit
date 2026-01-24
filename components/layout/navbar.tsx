@@ -52,7 +52,7 @@ export default function Navbar() {
             </span>
           </Link>
 
-          <div className="hidden md:flex">
+          <div className="hidden lg:flex">
             <NavigationMenu viewport={isMobile}>
               <NavigationMenuList className="flex-wrap">
                 {menuGroups.map((group) => {
@@ -113,7 +113,7 @@ export default function Navbar() {
             <Moon className="absolute h-4 w-4 scale-0 dark:scale-100 transition-all top-2 left-2" />
           </button>
 
-          <div className="md:hidden">
+          <div className=" lg:hidden">
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon" className="h-8 w-8">
