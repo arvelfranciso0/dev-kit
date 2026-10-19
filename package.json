@@ -1,12 +1,13 @@
 {
-  "name": "dev-kit",
+  "name": "toolet",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "seo:keywords": "node scripts/keyword-research.mjs"
   },
   "dependencies": {
     "@codemirror/lang-css": "^6.3.1",

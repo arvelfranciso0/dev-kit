@@ -1,5 +1,5 @@
-"use client";
-
+import { JsonLd } from "@/components/shared/json-ld";
+import { categorySchemas, getRouteMetadata } from "@/lib/seo";
 import { Key, FileText, Droplets, Palette } from "lucide-react";
 import { ToolGrid } from "@/components/shared/tool-grid";
 import { Tool } from "@/types/tools";
@@ -29,20 +29,25 @@ const tools: Tool[] = [
   },
   {
     title: "Color Palette",
-    desc: "Create harmonious and accessible color schemes with export support for Tailwind, CSS, and Figma.",
+    desc: "Generate an 11-step 50–950 color scale from one hex color and copy it as CSS custom properties.",
     href: "/tools/generate/colors",
     icon: <Palette size={18} />,
     status: "ready",
   },
 ];
 
+const path = "/tools/generate";
+
+export const metadata = getRouteMetadata(path);
+
 export default function GeneratorsHome() {
   return (
     <div className="p-8 space-y-12">
+      <JsonLd data={categorySchemas(path)} />
       <Header
         category="Generators"
         title="Generators & Builders"
-        description="Generate production-ready assets in seconds."
+        description="Generate secure passwords, README files, layered CSS box shadows, and color scales."
       />
       <ToolGrid tools={tools} columns={3} />
     </div>

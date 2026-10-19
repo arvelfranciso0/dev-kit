@@ -13,7 +13,7 @@ export default function Footer() {
         <div className=" py-12 px-6 border-t border-zinc-50 dark:border-zinc-900/50 flex flex-col sm:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-2">
             <span className="text-xs font-bold uppercase tracking-[0.2em] text-zinc-400">
-              © {currentYear} DevKit
+              © {currentYear} Toolet
             </span>
           </div>
 

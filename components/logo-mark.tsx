@@ -1,13 +1,21 @@
 import { cn } from "@/lib/utils";
 
-// DevKit "Bracket Slash" mark: [/] on a rounded tile.
+// Toolet "Bracket Slash" mark: [/] on a rounded tile.
 // Colors come from theme tokens so it flips with light/dark mode.
-export function LogoMark({ className }: { className?: string }) {
+// Pass `decorative` when the mark sits next to visible "Toolet" text.
+export function LogoMark({
+  className,
+  decorative = false,
+}: {
+  className?: string;
+  decorative?: boolean;
+}) {
   return (
     <svg
       viewBox="0 0 32 32"
-      role="img"
-      aria-label="DevKit logo"
+      {...(decorative
+        ? { "aria-hidden": true }
+        : { role: "img", "aria-label": "Toolet logo" })}
       className={cn("h-8 w-8", className)}
     >
       <rect width="32" height="32" rx="8" className="fill-foreground" />

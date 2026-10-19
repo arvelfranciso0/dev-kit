@@ -84,7 +84,12 @@ export default function Sidebar({
             <div className="lg:hidden">
               <Sheet open={isOpen} onOpenChange={setIsOpen}>
                 <SheetTrigger asChild>
-                  <Button variant="ghost" size="icon" className="h-8 w-8">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-8 w-8"
+                    aria-label="Open navigation"
+                  >
                     <Menu className="h-4 w-4" />
                   </Button>
                 </SheetTrigger>
@@ -150,9 +155,9 @@ export default function Sidebar({
 function Logo({ onClick }: { onClick?: () => void }) {
   return (
     <Link href="/" onClick={onClick} className="flex items-center gap-2 group">
-      <LogoMark className="h-[30px] w-[30px]" />
+      <LogoMark decorative className="h-[30px] w-[30px]" />
       <span className="font-bold tracking-tighter text-lg uppercase italic">
-        DevKit
+        Toolet
       </span>
     </Link>
   );
@@ -163,6 +168,8 @@ function ThemeToggle() {
 
   return (
     <button
+      type="button"
+      aria-label="Toggle theme"
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
       className="p-2 rounded-lg text-zinc-900 hover:text-amber-500 dark:text-zinc-50 dark:hover:text-zinc-100 transition-colors relative"
     >
@@ -298,7 +305,7 @@ function SidebarContent({
       </div>
 
       <ScrollArea className="flex-1 min-h-0 px-4 py-2">
-        <nav className="space-y-2">
+        <nav aria-label="Tools" className="space-y-2">
           {filteredGroups.map((group) => {
             const isGroupActive = pathname.startsWith(group.href);
             // Every matching group is expanded while searching

@@ -5,7 +5,7 @@ export const menuGroups = [
     status: "ready",
     items: [
       {
-        title: "Regex Validator",
+        title: "Regex Tester",
         href: "/regex",
         description: "Pattern matching and testing.",
         status: "ready",
@@ -49,7 +49,7 @@ export const menuGroups = [
         status: "ready",
       },
       {
-        title: "Data Viewer",
+        title: "JSON Viewer",
         href: "/viewer",
         description: "Explore structured data visually.",
         status: "ready",
@@ -95,7 +95,7 @@ export const menuGroups = [
       {
         title: "Color Palette",
         href: "/colors",
-        description: "Accessible color scales.",
+        description: "50–950 color scales.",
         status: "ready",
       },
     ],
@@ -129,7 +129,7 @@ export const menuGroups = [
       {
         title: "Unit Converter",
         href: "/units",
-        description: "PX, REM, VW, VH conversions.",
+        description: "PX, REM, VW, PT conversions.",
         status: "ready",
       },
       {
@@ -139,7 +139,7 @@ export const menuGroups = [
         status: "ready",
       },
       {
-        title: "Fluid Type Scale",
+        title: "Fluid Typography",
         href: "/typography",
         description: "Responsive clamp() typography.",
         status: "ready",
@@ -165,13 +165,13 @@ export const menuGroups = [
         status: "ready",
       },
       {
-        title: "Diff Viewer",
+        title: "Diff Checker",
         href: "/diff",
         description: "Side-by-side code comparison.",
         status: "ready",
       },
       {
-        title: "Git Commands",
+        title: "Git Cheat Sheet",
         href: "/git",
         description: "Interactive git reference.",
         status: "ready",
@@ -185,7 +185,7 @@ export const menuGroups = [
     status: "ready",
     items: [
       {
-        title: "JWT Debugger",
+        title: "JWT Decoder",
         href: "/jwt",
         description: "Decode and inspect JWTs.",
         status: "ready",
@@ -217,9 +217,9 @@ export const menuGroups = [
     status: "ready",
     items: [
       {
-        title: "Timestamp",
+        title: "Timestamp Converter",
         href: "/timestamp",
-        description: "onvert Unix timestamps to dates and back.",
+        description: "Convert Unix timestamps to dates and back.",
         status: "ready",
       },
     ],

@@ -33,7 +33,7 @@ export default function SlugGenerator() {
       <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-6">
         <ToolHeader
           title="Slug Generator"
-          subtitle="Sanitized URL Transformation"
+          subtitle="Turn any title into a clean URL slug"
           icon={<Link2 />}
         />
 
@@ -141,7 +141,7 @@ export default function SlugGenerator() {
         <InfoSection
           title="URL Normalization"
           icon={Globe}
-          description="Standardizing your slugs prevents duplicate content issues. It handles accents (diacritics), removes stop words, and enforces lowercase formatting to ensure consistent link structures across your entire platform."
+          description="Standardizing your slugs prevents duplicate content issues. It handles accents (diacritics), strips unsafe characters, and can enforce lowercase formatting to ensure consistent link structures across your entire platform."
         />
       </div>
     </div>

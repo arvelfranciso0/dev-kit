@@ -1,6 +1,6 @@
-# 🧰 DevKit
+# 🧰 Toolet
 
-A modern, developer-focused utility toolkit built with **Next.js**, **TypeScript**, **Tailwind CSS**, and **shadcn/ui**. DevKit provides fast, clean, and privacy‑friendly tools for working with **text**, **strings**, **JSON**, and **structured data** — all in one place.
+Free, browser-based developer tools built with **Next.js**, **TypeScript**, **Tailwind CSS**, and **shadcn/ui**. Toolet provides fast, clean, and privacy‑friendly tools for formatting, converting, generating, and debugging — all in one place, with everything running locally in your browser.
 
 ---
 
@@ -10,27 +10,25 @@ A modern, developer-focused utility toolkit built with **Next.js**, **TypeScript
 - 🎨 Modern UI using **shadcn/ui** + Tailwind CSS
 - 🌙 Dark mode ready
 - 🧩 Modular tool-based architecture
-- 🔐 Client-side processing (no data stored)
+- 🔐 Client-side processing (nothing is uploaded or stored)
+- 🔎 SEO-ready: per-page metadata, sitemap, robots, Open Graph images, and structured data
 - 📱 Fully responsive
 
 ---
 
-## 🛠️ Tool Categories
+## 🛠️ Tools
 
-### 📝 Text & String Tools
-
-- Text formatter
-- Regex tester & validator
-- Case converter
-- Whitespace & cleanup utilities
-
-### 🧾 JSON & Data Tools
-
-- JSON formatter (beautify / minify)
-- JSON validator
-- JSON ↔ CSV converter _(coming soon)_
-- JSON diff viewer _(coming soon)_
-- Structured data viewer _(coming soon)_
+| Category | Tools |
+|---|---|
+| 📝 **Text** | Regex Tester · Case Converter · Slug Generator · Base64 & URL Encoder |
+| 🧾 **Data** | JSON Formatter · JSON Diff · JSON Viewer · JSON → CSV · CSV → JSON |
+| ✨ **Generators** | Password Generator · README Generator · Box Shadow Generator · Color Palette Generator |
+| ⚡ **Optimization** | SVG Optimizer · HTML Sanitizer |
+| 🎨 **Design** | PX to REM Converter · Contrast Checker · Fluid Typography · Aspect Ratio Calculator |
+| 💻 **Developer** | Markdown Preview · Diff Checker · Git Cheat Sheet |
+| 🔐 **Security** | JWT Decoder · Bcrypt Hasher |
+| 🧪 **Playgrounds** | HTML/CSS/JS Playground |
+| 🔁 **Converters** | Timestamp Converter |
 
 ---
 
@@ -38,25 +36,29 @@ A modern, developer-focused utility toolkit built with **Next.js**, **TypeScript
 
 ```
 app/
-├─ (main)/
-│  ├─ text-string/
-│  │  └─ page.tsx
-│  ├─ json-data/
-│  │  └─ page.tsx
-│  └─ layout.tsx
-│
-├─ tools/
-│  ├─ regex-tester/
-│  ├─ json-formatter/
-│  └─ json-validator/
-│
-components/
-├─ ui/            # shadcn components
-├─ layout/        # navbar, footer
-└─ shared/
+├─ page.tsx                # Landing page
+├─ layout.tsx              # Root layout + site-wide metadata
+├─ robots.ts / sitemap.ts  # Generated from configs/seo-routes.ts
+├─ og/                     # Generated Open Graph images
+└─ tools/
+   └─ <category>/
+      ├─ page.tsx          # Category page
+      └─ <tool>/
+         ├─ layout.tsx     # Tool metadata + structured data
+         └─ page.tsx       # Tool UI
 
-public/
-└─ logo.svg
+components/
+├─ ui/       # shadcn components
+├─ layout/   # sidebar, footer
+└─ shared/   # reusable tool building blocks
+
+configs/
+├─ navigation.ts   # Sidebar and landing page menu
+├─ seo-routes.ts   # Title + description for every page
+└─ site.ts         # Site name, URL, and defaults
+
+scripts/
+└─ keyword-research.mjs   # Keyword research from autocomplete data
 ```
 
 ---
@@ -66,8 +68,8 @@ public/
 ### 1️⃣ Clone the repository
 
 ```bash
-git clone https://github.com/your-username/devkit.git
-cd devkit
+git clone https://github.com/arvelfranciso0/dev-kit.git
+cd dev-kit
 ```
 
 ### 2️⃣ Install dependencies
@@ -83,6 +85,15 @@ npm run dev
 ```
 
 Open **[http://localhost:3000](http://localhost:3000)** in your browser.
+
+---
+
+## 🔎 SEO
+
+- Set `NEXT_PUBLIC_SITE_URL` to the production domain (e.g. `https://toolet.dev`). On Netlify, the site's primary domain is used automatically when it isn't set.
+- Only Netlify production deploys are indexed; previews get `noindex`.
+- To add a tool: add it to `configs/navigation.ts` and `configs/seo-routes.ts`, then copy any existing tool `layout.tsx` and change its `path`.
+- Keyword research: `npm run seo:keywords` writes a report to `seo/` (git-ignored). Re-score after editing titles with `npm run seo:keywords -- --offline`.
 
 ---
 
@@ -110,7 +121,7 @@ Your data stays with you.
 
 ## 🧠 Design Philosophy
 
-DevKit focuses on:
+Toolet focuses on:
 
 - Simplicity over clutter
 - Developer-first UX
@@ -122,7 +133,6 @@ DevKit focuses on:
 
 ## 📌 Roadmap
 
-- [ ] Tool registry (auto-generated pages)
 - [ ] Drag & drop file support
 - [ ] JSON schema validation
 - [ ] Tool favorites

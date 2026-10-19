@@ -1,5 +1,5 @@
-"use client";
-
+import { JsonLd } from "@/components/shared/json-ld";
+import { categorySchemas, getRouteMetadata } from "@/lib/seo";
 import { Monitor, Code2, Globe, Cpu } from "lucide-react";
 import { ToolGrid } from "@/components/shared/tool-grid";
 import { Tool } from "@/types/tools";
@@ -15,13 +15,18 @@ const tools: Tool[] = [
   },
 ];
 
+const path = "/tools/playgrounds";
+
+export const metadata = getRouteMetadata(path);
+
 export default function PlaygroundsHome() {
   return (
     <div className="p-8 space-y-12">
+      <JsonLd data={categorySchemas(path)} />
       <Header
         category="Playgrounds"
-        title="Interactive Sandboxes"
-        description="Isolated environments for rapid prototyping and technical experimentation."
+        title="Code Playgrounds"
+        description="Isolated HTML, CSS and JavaScript sandboxes with a live preview."
       />
 
       <ToolGrid tools={tools} columns={3} />

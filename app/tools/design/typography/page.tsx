@@ -96,7 +96,7 @@ export default function FluidTypeScale() {
   return (
     <div className="p-4 md:p-8 space-y-8">
       <ToolHeader
-        title="Fluid Typography"
+        title="Fluid Typography Calculator"
         subtitle="Create responsive clamp() typography that scales smoothly between mobile and desktop."
         icon={<Type />}
       />

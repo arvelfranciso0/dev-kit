@@ -103,7 +103,7 @@ export default function RegexTester() {
     <div className="p-4 md:p-8 space-y-8">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <ToolHeader
-          title="Regex Debugger"
+          title="Regex Tester"
           subtitle="Real-time regular expression testing and visual match highlighting."
           icon={<Bug />}
         />
@@ -279,9 +279,9 @@ export default function RegexTester() {
           description="Regular expressions are powerful but fragile. Our validator provides real-time visual feedback, ensuring your patterns behave exactly as expected before deployment."
         />
         <InfoSection
-          title="Capture Group Insights"
+          title="Flags and Match Count"
           icon={Layers}
-          description="Beyond simple matches, this tool helps you visualize how complex regex extracts specific data fragments for parsing logic and transformation pipelines."
+          description="Toggle the g, i, m, s and u flags to see how each one changes what your pattern matches, with a live count of every match in the test string."
         />
       </div>
     </div>

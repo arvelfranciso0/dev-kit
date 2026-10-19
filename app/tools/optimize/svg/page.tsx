@@ -105,7 +105,7 @@ export default function SvgOptimizer() {
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <ToolHeader
           title="SVG Optimizer"
-          subtitle="Professional-grade SVGO tool with multiple encoding exports."
+          subtitle="Minify SVGs with SVGO and export as SVG, data URI, or Base64."
           icon={<FileCode />}
         />
 
