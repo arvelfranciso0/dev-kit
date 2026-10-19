@@ -2,6 +2,7 @@
 
 import { ActionPanel } from "@/components/shared/action-panel";
 import { CopyItem } from "@/components/shared/copy-item";
+import { InfoSection } from "@/components/shared/info-section";
 import { ToolHeader } from "@/components/shared/tool-header";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -564,6 +565,19 @@ export default function TimestampTool() {
             </div>
           </div>
         </ActionPanel>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 border-t border-zinc-100 dark:border-zinc-800 pt-12">
+        <InfoSection
+          title="What Is a Unix Timestamp?"
+          icon={Hash}
+          description="A Unix timestamp (epoch time) counts the seconds since 00:00:00 UTC on January 1, 1970. It has no time zone of its own, so the same timestamp always refers to the same instant and is shown here in whichever time zone you select."
+        />
+        <InfoSection
+          title="Seconds vs Milliseconds"
+          icon={TimerIcon}
+          description="Most Unix tools and APIs use seconds (10 digits today), while JavaScript's Date.now() and many databases use milliseconds (13 digits). Values with 12 or more digits are treated as milliseconds automatically."
+        />
       </div>
     </div>
   );

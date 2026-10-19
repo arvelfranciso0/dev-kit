@@ -51,7 +51,7 @@ export default function AspectRatioTool() {
   return (
     <div className="p-4 md:p-8 space-y-8">
       <ToolHeader
-        title="Aspect Ratio"
+        title="Aspect Ratio Calculator"
         subtitle="Calculate modern CSS aspect-ratio properties and legacy padding-top container hacks."
         icon={<Ratio />}
       />

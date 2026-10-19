@@ -116,7 +116,7 @@ export default function CaseConverter() {
         <InfoSection
           title="Naming Conventions"
           icon={CaseUpper}
-          description="Consistency is key in clean code. Whether you are switching a database schema to snake_case or a React component to PascalCase, this utility ensures your identifiers match your project standards."
+          description="Consistency is key in clean code. Whether you are switching a database column to snake_case or a JavaScript variable to camelCase, this utility ensures your identifiers match your project standards."
         />
         <InfoSection
           title="Refactoring Speed"

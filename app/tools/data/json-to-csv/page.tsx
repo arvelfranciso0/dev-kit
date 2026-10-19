@@ -43,7 +43,7 @@ export default function JsonCsv() {
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `devkit-export-${Date.now()}.csv`;
+    a.download = `toolet-export-${Date.now()}.csv`;
     a.click();
   };
 

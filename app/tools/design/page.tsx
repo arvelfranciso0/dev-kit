@@ -1,5 +1,5 @@
-"use client";
-
+import { JsonLd } from "@/components/shared/json-ld";
+import { categorySchemas, getRouteMetadata } from "@/lib/seo";
 import { Ruler, Contrast, Type, RectangleHorizontal } from "lucide-react";
 import { ToolGrid } from "@/components/shared/tool-grid";
 import { Tool } from "@/types/tools";
@@ -8,7 +8,7 @@ import Header from "@/components/shared/header";
 const tools: Tool[] = [
   {
     title: "Unit Converter",
-    desc: "Seamlessly convert between PX, REM, EM, and viewport units based on your project's root font size.",
+    desc: "Convert px, rem, vw, and pt values to every common CSS unit based on your project's root font size.",
     href: "/tools/design/units",
     icon: <Ruler size={18} />,
     status: "ready",
@@ -36,13 +36,18 @@ const tools: Tool[] = [
   },
 ];
 
+const path = "/tools/design";
+
+export const metadata = getRouteMetadata(path);
+
 export default function DesignHome() {
   return (
     <div className="p-8 space-y-12">
+      <JsonLd data={categorySchemas(path)} />
       <Header
         category="Design Utilities"
-        title="Design Utilities"
-        description="Precise tools for modern UI engineering."
+        title="CSS Design Utilities"
+        description="Convert CSS units, check WCAG color contrast, build fluid font sizes, and calculate aspect ratios."
       />
       <ToolGrid tools={tools} columns={3} />
     </div>

@@ -1,5 +1,7 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import { siteConfig } from "@/configs/site";
+import { ogImagePath } from "@/lib/seo";
 import Sidebar from "@/components/layout/sidebar";
 import Footer from "@/components/layout/footer";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -16,10 +18,40 @@ const geistMono = Geist_Mono({
   preload: false,
 });
 
+// Site-wide defaults. Each route sets its own title, description, canonical and
+// social tags via createMetadata() in lib/seo.ts; no canonical is set here because
+// child segments would inherit it.
 export const metadata: Metadata = {
-  title: "DevKit",
-  description:
-    "An all-in-one browser-based developer toolkit for regex testing, text transformation, encoding, and frontend utilities.",
+  metadataBase: new URL(siteConfig.url),
+  title: {
+    default: siteConfig.title,
+    template: `%s | ${siteConfig.name}`,
+  },
+  description: siteConfig.description,
+  applicationName: siteConfig.name,
+  openGraph: {
+    type: "website",
+    siteName: siteConfig.name,
+    locale: siteConfig.locale,
+    title: siteConfig.title,
+    description: siteConfig.description,
+    images: [{ url: ogImagePath("/"), width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteConfig.title,
+    description: siteConfig.description,
+    images: [ogImagePath("/")],
+  },
+  // Indexing is the default; only non-production deploys opt out
+  ...(!siteConfig.indexable && { robots: { index: false, follow: false } }),
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#09090b" },
+  ],
 };
 
 export default function RootLayout({

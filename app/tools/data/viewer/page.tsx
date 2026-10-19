@@ -45,7 +45,7 @@ export default function DataViewer() {
     <div className="p-4 md:p-8 space-y-8">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <ToolHeader
-          title="Data Viewer"
+          title="JSON Viewer"
           subtitle="Interactive Dataset Exploration"
           icon={<Eye />}
         />

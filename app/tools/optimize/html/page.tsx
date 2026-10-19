@@ -83,7 +83,7 @@ export default function HTMLSanitizer() {
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <ToolHeader
           title="HTML Sanitizer"
-          subtitle="Strip malicious scripts and normalize messy markup into clean HTML5"
+          subtitle="Strip scripts, event handlers, and unsafe tags from untrusted HTML"
           icon={<ShieldCheck />}
         />
 
