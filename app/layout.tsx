@@ -45,6 +45,13 @@ export const metadata: Metadata = {
   },
   // Indexing is the default; only non-production deploys opt out
   ...(!siteConfig.indexable && { robots: { index: false, follow: false } }),
+  // Search Console / Bing Webmaster "HTML tag" verification codes, set in Netlify env vars
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+    ...(process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION && {
+      other: { "msvalidate.01": process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION },
+    }),
+  },
 };
 
 export const viewport: Viewport = {
