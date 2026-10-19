@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Navbar from "@/components/layout/navbar";
+import Sidebar from "@/components/layout/sidebar";
 import Footer from "@/components/layout/footer";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Geist, Geist_Mono } from "next/font/google";
@@ -36,11 +36,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="flex flex-col min-h-screen">
-            <Navbar />
+          <Sidebar footer={<Footer />}>
             <main className="flex-1">{children}</main>
-            <Footer />
-          </div>
+          </Sidebar>
         </ThemeProvider>
       </body>
     </html>
