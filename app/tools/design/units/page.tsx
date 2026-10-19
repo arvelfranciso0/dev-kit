@@ -13,8 +13,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Ruler, Settings2, Monitor, Info, Smartphone } from "lucide-react";
+import { Ruler, Settings2, Monitor, Info } from "lucide-react";
 import { ConversionCard } from "@/components/shared/conversion-grid";
+import { toPx } from "@/lib/unit-utils";
 
 export default function MultiUnitConverter() {
   const [baseSize, setBaseSize] = useState([16]);
@@ -22,26 +23,9 @@ export default function MultiUnitConverter() {
   const [val, setVal] = useState<string>("16");
   const [sourceUnit, setSourceUnit] = useState<string>("px");
 
-  const toPx = (value: number, unit: string) => {
-    switch (unit) {
-      case "rem":
-        return value * baseSize[0];
-      case "em":
-        return value * baseSize[0];
-      case "vw":
-        return (value * viewportWidth[0]) / 100;
-      case "vh":
-        return (value * 1080) / 100;
-      case "pt":
-        return value * (96 / 72);
-      default:
-        return value;
-    }
-  };
-
   const conversions = useMemo(() => {
     const num = parseFloat(val) || 0;
-    const px = toPx(num, sourceUnit);
+    const px = toPx(num, sourceUnit,baseSize, viewportWidth);
 
     return [
       { label: "Absolute", unit: "px", value: px.toFixed(1) },
