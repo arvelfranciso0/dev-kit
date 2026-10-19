@@ -102,7 +102,7 @@ export default function WebPlayground() {
     <div className="flex flex-col p-4 lg:p-8 space-y-6">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <ToolHeader
-          title="Web Playground"
+          title="HTML/CSS/JS Playground"
           subtitle="Instant HTML, CSS, and JavaScript prototyping environment."
           icon={<Globe />}
         />

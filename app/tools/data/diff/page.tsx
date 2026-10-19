@@ -142,12 +142,12 @@ export default function JsonDiffTool() {
         <InfoSection
           title="Structural Comparison"
           icon={GitCompare}
-          description="Unlike standard text diffing, JSON Diff analyzes the underlying data structure. It identifies changes in keys, value types, and array order, ensuring that semantic differences are highlighted even if the formatting or white space varies."
+          description="Both inputs are parsed and re-indented before comparing, so differences in formatting or white space are ignored and only real changes to keys and values are highlighted."
         />
         <InfoSection
           title="Nested Object Tracking"
           icon={Layers}
-          description="Complex applications often deal with deeply nested responses. This engine recursively traverses through every level of your JSON objects to pinpoint exactly where a value was modified, added, or removed in a clear, hierarchical view."
+          description="Complex applications often deal with deeply nested responses. Because every level is pretty-printed on its own line, a change deep inside a nested object shows up as a precise line-level addition or removal."
         />
       </div>
     </div>

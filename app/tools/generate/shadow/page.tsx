@@ -138,7 +138,7 @@ export default function ShadowGenerator() {
     <div className="flex flex-col min-h-screen ">
       <div className="p-4 md:p-8 space-y-8 grow ">
         <ToolHeader
-          title="Shadow Generator"
+          title="Box Shadow Generator"
           subtitle="Create realistic, layered ambient shadows using smoothing curves."
           icon={<Layers />}
         />

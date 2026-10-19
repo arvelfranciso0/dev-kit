@@ -163,14 +163,14 @@ export default function ColorPalette() {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-12 border-t border-zinc-100 dark:border-zinc-800 pt-12">
         <InfoSection
-          title="Harmonious Color Logic"
+          title="Perceptual Color Scale"
           icon={Palette}
-          description="Generate mathematically consistent color scales based on color theory principles like monochromatic, analogous, and triadic relationships. This ensures that your UI remains visually balanced across primary, secondary, and accent surfaces."
+          description="Shades are interpolated in the LCH color space from white, through your seed color, to black. Working in a perceptual space keeps the steps between the 50–950 shades visually even, so the scale reads consistently across your UI."
         />
         <InfoSection
-          title="WCAG Accessibility"
+          title="Check Contrast Next"
           icon={ShieldCheck}
-          description="Color choice isn't just about aesthetics; it's about usability. The generator automatically validates contrast ratios against WCAG 2.1 standards, ensuring that your text remains legible for users with visual impairments across all generated shades."
+          description="Color choice isn't just about aesthetics; it's about usability. Once you've picked text and background shades from the scale, verify the pair against WCAG AA and AAA in the Contrast Checker."
         />
       </div>
     </div>

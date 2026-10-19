@@ -32,8 +32,8 @@ export default function JwtDebugger() {
       {/* HEADER & METRICS */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <ToolHeader
-          title="JWT Debugger"
-          subtitle="Inspect, decode, and validate JSON Web Tokens instantly."
+          title="JWT Decoder"
+          subtitle="Decode and inspect JSON Web Tokens instantly."
           icon={<ShieldCheck />}
         />
 

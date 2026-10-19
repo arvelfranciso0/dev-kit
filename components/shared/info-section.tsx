@@ -18,9 +18,9 @@ export function InfoSection({
     <div className="space-y-3">
       <div className="flex items-center gap-2">
         <Icon className={iconColor} size={18} />
-        <h4 className="text-sm font-bold uppercase tracking-tight text-zinc-900 dark:text-zinc-100">
+        <h2 className="text-sm font-bold uppercase tracking-tight text-zinc-900 dark:text-zinc-100">
           {title}
-        </h4>
+        </h2>
       </div>
       <p className="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">
         {description}

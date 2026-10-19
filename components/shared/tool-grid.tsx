@@ -62,9 +62,9 @@ export function ToolCard({ tool }: { tool: Tool }) {
           </div>
 
           <div>
-            <h3 className="font-bold text-sm tracking-tight text-zinc-900 dark:text-zinc-50">
+            <h2 className="font-bold text-sm tracking-tight text-zinc-900 dark:text-zinc-50">
               {tool.title}
-            </h3>
+            </h2>
             <p className="text-xs text-zinc-500 leading-normal mt-1.5 line-clamp-2">
               {tool.desc}
             </p>

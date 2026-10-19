@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# claude code (personal settings only)
+.claude/settings.local.json
+
+# generated keyword research (rebuild with: npm run seo:keywords)
+/seo/

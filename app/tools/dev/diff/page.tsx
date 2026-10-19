@@ -29,7 +29,7 @@ export default function DiffViewer() {
   return (
     <div className="p-4 md:p-8 space-y-8">
       <ToolHeader
-        title="Diff Viewer"
+        title="Diff Checker"
         subtitle="Compare code snippets side-by-side with high-precision highlighting."
         icon={<GitCompare />}
       />
