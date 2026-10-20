@@ -2,6 +2,12 @@
 
 Free, browser-based developer tools built with **Next.js**, **TypeScript**, **Tailwind CSS**, and **shadcn/ui**. Toolet provides fast, clean, and privacy‑friendly tools for formatting, converting, generating, and debugging — all in one place, with everything running locally in your browser.
 
+## 🌐 Live Website
+
+**👉 [toolet.netlify.app](https://toolet.netlify.app)**
+
+Free to use, no sign-up required. Open any tool and start working right away.
+
 ---
 
 ## ✨ Features
@@ -85,15 +91,6 @@ npm run dev
 ```
 
 Open **[http://localhost:3000](http://localhost:3000)** in your browser.
-
----
-
-## 🔎 SEO
-
-- Set `NEXT_PUBLIC_SITE_URL` to the production domain (e.g. `https://toolet.dev`). On Netlify, the site's primary domain is used automatically when it isn't set.
-- Only Netlify production deploys are indexed; previews get `noindex`.
-- To add a tool: add it to `configs/navigation.ts` and `configs/seo-routes.ts`, then copy any existing tool `layout.tsx` and change its `path`.
-- Keyword research: `npm run seo:keywords` writes a report to `seo/` (git-ignored). Re-score after editing titles with `npm run seo:keywords -- --offline`.
 
 ---
 
